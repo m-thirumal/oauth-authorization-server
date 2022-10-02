@@ -1,2 +1,14 @@
 server:
   port: 9000
+  shutdown: graceful
+logging:
+  level:
+    '[in.thirumal]': debug
+  file:
+    path: logs
+    name: logs/authorization-server.log
+  logback: 
+    rollingpolicy: 
+      max-history: 10
+      max-file-size: 100MB
+      total-size-cap: 1GB
