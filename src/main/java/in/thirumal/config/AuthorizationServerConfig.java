@@ -52,15 +52,15 @@ public class AuthorizationServerConfig {
 	@Bean
     public RegisteredClientRepository registeredClientRepository() {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-          .clientId("articles-client")
+          .clientId("client1")
           .clientSecret("{noop}secret")
           .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
           .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
           .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-          .redirectUri("http://127.0.0.1:8080/login/oauth2/code/articles-client-oidc")
-          .redirectUri("http://127.0.0.1:8080/authorized")
+          .redirectUri("http://127.0.0.1:9000/login/oauth2/code/users-client-oidc")
+          .redirectUri("http://127.0.0.1:9000")
           .scope(OidcScopes.OPENID)
-          .scope("articles.read")
+          .scope("read")
           .build();
         return new InMemoryRegisteredClientRepository(registeredClient);
     }
@@ -104,7 +104,7 @@ public class AuthorizationServerConfig {
     @Bean
     public ProviderSettings providerSettings() {
         return ProviderSettings.builder()
-          .issuer("http://127.0.0.1:9000")
+          .issuer("http://localhost:9000")
           .build();
     }
 	
