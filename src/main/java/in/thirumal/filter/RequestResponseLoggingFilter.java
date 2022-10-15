@@ -20,13 +20,12 @@ import org.springframework.stereotype.Component;
 @Order(2)
 public class RequestResponseLoggingFilter implements Filter {
 
-	private final static Logger LOG = LoggerFactory.getLogger(RequestResponseLoggingFilter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(RequestResponseLoggingFilter.class);
 
 	@Override
 	public void init(final FilterConfig filterConfig) throws ServletException {
 		LOG.info("Initializing filter :{}", this);
 	}
-
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
