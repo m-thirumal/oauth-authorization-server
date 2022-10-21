@@ -58,7 +58,7 @@ public class AuthorizationServerConfig {
           .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
           .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
           .redirectUri("http://127.0.0.1:9000/login/oauth2/code/users-client-oidc")
-          .redirectUri("http://127.0.0.1:9000")
+          .redirectUri("http://127.0.0.1:9000/authorized")
           .scope(OidcScopes.OPENID)
           .scope("read")
           .build();
