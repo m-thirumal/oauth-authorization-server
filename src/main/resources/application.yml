@@ -7,6 +7,16 @@ spring:
     banner-mode: console
   lifecycle:
     timeout-per-shutdown-phase: 60s
+  r2dbc:
+  #  name: payment
+    url: r2dbc:postgresql://3.6.239.198:5432/authorization-server
+    username: postgres
+    password: thirumal
+    pool:
+      enabled: true
+      initial-size: 1
+      max-size: 20
+      max-idle-time: 30m
 server:
   port: 9000
   shutdown: graceful
@@ -18,8 +28,8 @@ logging:
   level:
     root: INFO
     '[org.springframework.web]': INFO
-    '[org.springframework.security]': INFO
-    '[org.springframework.security.oauth2]': INFO
+    '[org.springframework.security]': debug
+    '[org.springframework.security.oauth2]': debug
     '[in.thirumal]': debug
   file:
     path: logs
