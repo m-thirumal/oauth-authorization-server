@@ -14,13 +14,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
@@ -50,7 +51,7 @@ public class AuthorizationServerConfig {
 	 * @return
 	 */
 	@Bean
-    public RegisteredClientRepository registeredClientRepository() {
+    public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
           .clientId("client1")
           .clientSecret("{noop}secret")
@@ -62,7 +63,12 @@ public class AuthorizationServerConfig {
           .scope(OidcScopes.OPENID)
           .scope("read")
           .build();
-        return new InMemoryRegisteredClientRepository(registeredClient);
+        JdbcRegisteredClientRepository registeredClientRepository =
+        	      new JdbcRegisteredClientRepository(jdbcTemplate);
+        	  registeredClientRepository.save(registeredClient);
+
+        return registeredClientRepository;
+      //  return new InMemoryRegisteredClientRepository(registeredClient);
     }
 	
 	@Bean

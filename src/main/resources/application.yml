@@ -7,16 +7,20 @@ spring:
     banner-mode: console
   lifecycle:
     timeout-per-shutdown-phase: 60s
-  r2dbc:
-  #  name: payment
-    url: r2dbc:postgresql://3.6.239.198:5432/authorization-server
+#  r2dbc:
+#  #  name: payment
+#    url: r2dbc:postgresql://3.6.239.198:5432/authorization-server
+#    username: postgres
+#    password: Enkindle@2013
+#    pool:
+#      enabled: true
+#      initial-size: 1
+#      max-size: 20
+#      max-idle-time: 30m
+  datasource:
+    url: jdbc:postgresql://3.6.239.198:5432/authorization
     username: postgres
-    password: thirumal
-    pool:
-      enabled: true
-      initial-size: 1
-      max-size: 20
-      max-idle-time: 30m
+    password: Enkindle@2013
 server:
   port: 9000
   shutdown: graceful
