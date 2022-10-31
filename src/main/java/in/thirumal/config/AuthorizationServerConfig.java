@@ -7,6 +7,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.time.Duration;
 import java.util.UUID;
 
 import org.springframework.context.annotation.Bean;
@@ -21,10 +22,12 @@ import org.springframework.security.config.annotation.web.configuration.OAuth2Au
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
+import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.nimbusds.jose.jwk.JWKSet;
@@ -55,13 +58,14 @@ public class AuthorizationServerConfig {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
           .clientId("client1")
           .clientSecret("{noop}secret")
-          .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-          .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+          .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+          .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
           .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
           .redirectUri("http://127.0.0.1:8000/login/oauth2/code/users-client-oidc")
           .redirectUri("http://127.0.0.1:8000/authorized")
           .scope(OidcScopes.OPENID)
           .scope("read")
+          .tokenSettings(tokenSettings())
           .build();
         JdbcRegisteredClientRepository registeredClientRepository =
         	      new JdbcRegisteredClientRepository(jdbcTemplate);
@@ -76,6 +80,11 @@ public class AuthorizationServerConfig {
 	public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
 	    OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 	    return http.formLogin(Customizer.withDefaults()).build();
+	}
+	
+	@Bean
+	public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+		return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
 	}
 	
 	@Bean
@@ -112,6 +121,15 @@ public class AuthorizationServerConfig {
         return ProviderSettings.builder()
           .issuer("http://localhost:9000")
           .build();
+    }
+    
+    @Bean
+    public TokenSettings tokenSettings() {
+      //@formatter:off
+      return TokenSettings.builder()
+          .accessTokenTimeToLive(Duration.ofMinutes(30L))
+          .build();
+      // @formatter:on
     }
 	
 }

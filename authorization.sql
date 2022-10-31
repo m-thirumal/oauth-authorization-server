@@ -7,11 +7,11 @@
 -- Database creation must be performed outside a multi lined SQL file. 
 -- These commands were put in this file only as a convenience.
 -- 
--- object: "authorization-resource-server" | type: DATABASE --
--- DROP DATABASE IF EXISTS "authorization-resource-server";
-CREATE DATABASE "authorization-resource-server";
+-- object: "authorization" | type: DATABASE --
+-- DROP DATABASE IF EXISTS "authorization";
+CREATE DATABASE "authorization";
 -- ddl-end --
-COMMENT ON DATABASE "authorization-resource-server" IS E'Created Thirumal';
+COMMENT ON DATABASE "authorization" IS E'Created Thirumal';
 -- ddl-end --
 
 
@@ -58,6 +58,34 @@ CREATE TABLE public.oauth2_authorization_consent (
 );
 -- ddl-end --
 ALTER TABLE public.oauth2_authorization_consent OWNER TO postgres;
+-- ddl-end --
+
+-- object: oauth2_authorization_consent_fk | type: CONSTRAINT --
+-- ALTER TABLE public.oauth2_authorization DROP CONSTRAINT IF EXISTS oauth2_authorization_consent_fk CASCADE;
+ALTER TABLE public.oauth2_authorization ADD CONSTRAINT oauth2_authorization_consent_fk FOREIGN KEY (registered_client_id,principal_name)
+REFERENCES public.oauth2_authorization_consent (registered_client_id,principal_name) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: public.oauth2_registered_client | type: TABLE --
+-- DROP TABLE IF EXISTS public.oauth2_registered_client CASCADE;
+CREATE TABLE public.oauth2_registered_client (
+	id varchar(100) NOT NULL,
+	client_id varchar(100) NOT NULL,
+	client_id_issued_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	client_secret varchar(200),
+	client_secret_expires_at timestamp,
+	client_name varchar(200) NOT NULL,
+	client_authentication_methods varchar(1000) NOT NULL,
+	authorization_grant_types varchar(1000) NOT NULL,
+	redirect_uris varchar,
+	scopes varchar(1000) NOT NULL,
+	client_settings varchar(2000) NOT NULL,
+	token_settings varchar(2000) NOT NULL,
+	CONSTRAINT oauth2_registered_client_pk PRIMARY KEY (id)
+);
+-- ddl-end --
+ALTER TABLE public.oauth2_registered_client OWNER TO postgres;
 -- ddl-end --
 
 
