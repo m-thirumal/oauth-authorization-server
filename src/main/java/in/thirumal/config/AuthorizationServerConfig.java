@@ -54,7 +54,7 @@ public class AuthorizationServerConfig {
 	 */
 	@Bean
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-        RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
+        RegisteredClient registeredClient = RegisteredClient.withId("Thirumal")
           .clientId("client1")
           .clientSecret("{noop}secret")
           .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
