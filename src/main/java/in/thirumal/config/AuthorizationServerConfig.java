@@ -38,7 +38,7 @@ import com.nimbusds.jose.proc.SecurityContext;
  * @author Thirumal
  *
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @Import(OAuth2AuthorizationServerConfiguration.class)
 public class AuthorizationServerConfig {
 
