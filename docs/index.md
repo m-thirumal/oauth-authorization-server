@@ -1,0 +1,1 @@
+= OAuth 2.1 Authorization server - Spring Boot 3 and  above
