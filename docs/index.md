@@ -10,10 +10,7 @@ OAuth 2 - Authorization Framework
 sequenceDiagram
   autonumber
   Resource Owner->>Client: Credentials
-  loop Healthcheck
-      John->>John: Fight against hypochondria
-  end
-  Client->>Authorization Server: Great!
+  Client->>Authorization Server: Credentials
   Authorization Server->>Client: Tokens
   Client-->>Resource Server: Bearer `token`
 
