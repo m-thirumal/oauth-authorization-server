@@ -13,7 +13,6 @@ sequenceDiagram
   loop Healthcheck
       John->>John: Fight against hypochondria
   end
-  Note right of John: Rational thoughts!
   client->>Authorization Server: Great!
   Authorization Server->>Client: Tokens
   Client-->>Resource Server: Bearer `token`
