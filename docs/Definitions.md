@@ -21,3 +21,12 @@ There are two types
 
   * Native Apps on user device
   * Single Page browser based app
+  
+
+## Access Token
+
+* Identity token
+* Self contained token
+
+## Grant Type
+
