@@ -31,7 +31,7 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-      format: !!python/name:pymdownx.superfences.fence_code_format
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
 repo_url: https://github.com/m-thirumal/oauth-authorization-server
 repo_name: m-thirumal/oauth-authorization-server
