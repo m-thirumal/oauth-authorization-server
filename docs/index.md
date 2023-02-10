@@ -1,4 +1,4 @@
-# OAuth 2.1 Authorization server - Spring Boot 3 and  above
+# OAuth 2 Authorization server
 
 ## What is OAuth 2?
 
