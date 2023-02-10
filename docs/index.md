@@ -12,6 +12,7 @@ sequenceDiagram
   Resource Owner->>Client: Credentials
   Client->>Authorization Server: Credentials
   Authorization Server->>Client: Tokens
-  Client-->>Resource Server: Bearer `token`
+  Client->>Resource Server: Bearer `token`
+  Resource Server->>Client: Resource
 
 ```
