@@ -29,13 +29,11 @@ There are two types
 
 * Self contained token
 
-## Grant Type
-
-- Way an application gets an access token
+## Grant Type - Way an application gets an access token
 
 
 | Client Type                | Grant Type                |                                      |
-| ---------------------------| -----------------------------------------------------------------|
+| ---------------------------| --------------------------|--------------------------------------|
 | Server Side Web App        | Authorization Code        | Password Grant                       |
 | Server Script with no UI   | Client Credentials        | -                                    |
 | JavaScript Single Page App | PKCE Enhanced Auth code   | Implicit Flow / Password Grant       |

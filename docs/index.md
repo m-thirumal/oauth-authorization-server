@@ -8,18 +8,20 @@ OAuth 2 - Authorization Framework
 
 ``` mermaid
 sequenceDiagram
+  actor O AS  Resource Owner
+  participant C AS Client
   autonumber
-  Resource Owner->>Client: Login URL
-  Client->>Authorization Server: http://localhost:9000/auth?client_id=resource-server-1&response_type=code&scope=openidprofile&redirect_url=http://localhost:9001/login-callback&state=sEdgkiEkpvnsj
+  O->>C: Login URL
+  C->>Authorization Server: http://localhost:9000/auth?client_id=resource-server-1&response_type=code&scope=openidprofile&redirect_url=http://localhost:9001/login-callback&state=sEdgkiEkpvnsj
   Authorization Server->>Resource Owner: Present user with Login page
-  Resource Owner->> Authorization Server: User logs in
-  Authorization Server->>Resource Owner: Present Consent page
+  O->> Authorization Server: User logs in
+  Authorization Server->>O: Present Consent page
   Resource Owner->> Authorization Server: User authorize client to access the resource server
-  Authorization Server->>Client: Authorization Code (Redirect to http://localhost:9001/callback?code=12ddassa-jk12nm32...)
-  Client->>Authorization Server: Exchange authorization code for an Access Token (http post/token + code + clientId + Client Secret)
-  Client->>Resource Server: Request data with (Bearer `token`)
+  Authorization Server->>C: Authorization Code (Redirect to http://localhost:9001/callback?code=12ddassa-jk12nm32...)
+  C->>Authorization Server: Exchange authorization code for an Access Token (http post/token + code + clientId + Client Secret)
+  C->>Resource Server: Request data with (Bearer `token`)
   Authorization Server ->>Resource Server: Validate Token
-  Resource Server->>Client: Resource
+  Resource Server->>C: Resource
 
 ```
 
