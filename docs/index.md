@@ -15,6 +15,7 @@ sequenceDiagram
   autonumber
   O->>C: Login URL
   C->>A: http://localhost:9000/auth?client_id=resource-server-1&response_type=code&scope=openid profile&redirect_url=http://localhost:9001/login-callback&state=sEdgkiEkpvnsj
+  Note right of A: code_challenge & method query param is required for PKCE
   A->>O: Present user with Login page
   O->>A: User logs in
   A->>O: Present Consent page
