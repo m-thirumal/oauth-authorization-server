@@ -29,7 +29,9 @@ There are two types
 
 * Self contained token
 
-## Grant Type - Way an application gets an access token
+## Grant Type 
+
+- Way an application gets an access token
 
 
 | Client Type                | Grant Type                |                                      |
@@ -39,6 +41,9 @@ There are two types
 | JavaScript Single Page App | PKCE Enhanced Auth code   | Implicit Flow / Password Grant       |
 | Mobile Native App          | PKCE Enhanced Auth code   | Implicit Flow / Password Grant       |
 | Device                     | Device Code               | Password Grant                       |
+
+
+* PKCE - Proof of Key for Code Exchange
 
 #### Refresh Token
 
