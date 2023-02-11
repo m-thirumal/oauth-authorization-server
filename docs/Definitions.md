@@ -104,4 +104,8 @@ Access Tokens
   [Refresh token](Refresh%20Token.md) grant type is used to exchange a refresh token for an access token
   
   
-  
+## Scope
+
+Limit user access on resource server
+
+##
