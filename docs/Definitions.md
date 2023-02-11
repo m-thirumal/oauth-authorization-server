@@ -67,6 +67,8 @@ http://localhost:9000/auth
 
 Exchange OAuth code for access token
 
+Grant types are 	`authorization_code, client_credentials` based on the type of clients
+
 ```
 http://localhost:9000/token
 
@@ -82,6 +84,18 @@ http://localhost:9000/token
 
 --data-urlencode 'code_verifier='
 
+```
+
+Access Tokens
+
+
+```
+{
+	"access_token": "",
+	"expires_in"  : "",
+	"token_type"  : "",
+	"scope"       : ""
+}
 ```
 
 
