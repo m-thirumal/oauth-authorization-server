@@ -45,6 +45,46 @@ There are two types
 
 * PKCE - Proof of Key for Code Exchange
 
+Request for OAuth code
+
+```
+http://localhost:9000/auth
+
+?client_id=""
+
+&response_type=code
+
+&scope=openid
+
+&redirect_uri=
+
+&state=
+
+&code_challenge=
+
+&code_challenge_method=S256
+```
+
+Exchange OAuth code for access token
+
+```
+http://localhost:9000/token
+
+--header 'Content-Type: application/x-www-form-urlencoded'
+
+--data-urlencode 'grant_type=authorization_code'
+
+--data-urlencode 'client_id=resource-server-1'
+
+--data-urlencode 'code='
+
+--data-urlencode 'redirect_uri='
+
+--data-urlencode 'code_verifier='
+
+```
+
+
 #### Refresh Token
 
   Refresh token grant type is used to exchange a refresh token for an access token
