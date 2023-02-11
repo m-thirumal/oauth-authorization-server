@@ -101,6 +101,7 @@ Access Tokens
 
 #### Refresh Token
 
-  Refresh token grant type is used to exchange a refresh token for an access token
+  [Refresh token](Refresh%20Token.md) grant type is used to exchange a refresh token for an access token
+  
   
   
