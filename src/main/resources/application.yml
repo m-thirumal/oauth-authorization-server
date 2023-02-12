@@ -32,8 +32,8 @@ logging:
   level:
     root: INFO
     '[org.springframework.web]': INFO
-    '[org.springframework.security]': debug
-    '[org.springframework.security.oauth2]': debug
+    '[org.springframework.security]': INFO
+    '[org.springframework.security.oauth2]': INFO
     '[in.thirumal]': debug
   file:
     path: logs
