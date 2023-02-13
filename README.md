@@ -1,5 +1,7 @@
 # OAuth (New - 2.1) Authorization server
 
+This repository full documentation can be found at [m-thirumal.github.io/oauth-authorization-server/](m-thirumal.github.io/oauth-authorization-server/)
+
 #### What is Authentication and Authorization?
 
 `Authentication` - "Who you are?", is the process of ascertaining that somebody really is who they claim to be.
@@ -21,7 +23,7 @@
 
 [](http://127.0.0.1:9000/oauth2/authorize?response_type=code&client_id=client1&redirect_uri=http://127.0.0.1:9000/authorized&scope=openid%20read)
 
-##Recovery Code
+## Recovery Code
 
 ## Multi factor authentication
 
