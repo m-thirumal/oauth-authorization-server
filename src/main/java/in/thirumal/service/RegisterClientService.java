@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.server.authorization.client.JdbcRegis
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.stereotype.Service;
 
+import in.thirumal.exception.ResourceNotFoundException;
 import in.thirumal.model.Oauth2RegisteredClient;
 
 /**
@@ -31,12 +32,15 @@ public class RegisterClientService {
 		return oauth2RegisteredClient;
 	}
 	
-	
 	public RegisteredClient get(String id) {
 		logger.debug("Finding registered client.... {}", id);
-		 JdbcRegisteredClientRepository registeredClientRepository =
-       	      new JdbcRegisteredClientRepository(jdbcTemplate);
-		return registeredClientRepository.findById(id);
+		JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
+		RegisteredClient registeredClient = registeredClientRepository.findById(id);
+		logger.debug("Client detail : {}", registeredClient);
+		if (registeredClient == null) {
+			throw new ResourceNotFoundException("The requested client is not found");
+		}
+		return registeredClient;
 	}
 	
 	
