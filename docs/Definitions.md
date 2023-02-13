@@ -15,12 +15,12 @@ There are two types
 
 * Confidentail Client - Can keep `Client Secret` safe
 
-  ** Secure app running on Server
+  * Secure app running on Server
 
 * Public Client - Cannot keep `Client Id & Secret` safe
 
-  ** Native Apps on user device
-  ** Single Page browser based app
+  * Native Apps on user device
+  * Single Page browser based app
   
 
 ## Access Token
