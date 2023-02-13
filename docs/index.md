@@ -2,9 +2,7 @@
 
 ## What is OAuth 2?
 
-OAuth means Open Authorization
-
-OAuth 2 - Authorization Framework
+OAuth means `Open Authorization` & OAuth 2 is an  `Authorization Framework`
 
 #### What is Authentication and Authorization?
 
