@@ -19,14 +19,15 @@ import lombok.ToString;
  */
 @Getter@Setter
 @NoArgsConstructor@AllArgsConstructor
-@ToString@Builder
-public class Password implements Serializable {
+@Builder@ToString
+public class Contact implements Serializable {
 
-	private static final long serialVersionUID = 2897050433726245292L;
+	private static final long serialVersionUID = -418096072327096724L;
 	
-	private Long passwordId;
+	private Long contactId;
 	private Long loginUserId;
-	private String secretKey;	
+	private Long contactCd;
+	private String loginId;
+	private OffsetDateTime endTime;
 	private OffsetDateTime rowCreatedOn;
-
 }

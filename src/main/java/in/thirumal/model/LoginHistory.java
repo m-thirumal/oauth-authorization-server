@@ -4,6 +4,7 @@
 package in.thirumal.model;
 
 import java.io.Serializable;
+import java.time.OffsetDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,4 +25,9 @@ public class LoginHistory implements Serializable {
 	private static final long serialVersionUID = 3285470174806684833L;
 
 	private Long loginHistoryId;
+	private Long loginUserId;
+	private Long contactId;
+	private boolean successLogin;
+	private OffsetDateTime rowCreatedOn; //Login Time
+	private OffsetDateTime logOutTime;
 }

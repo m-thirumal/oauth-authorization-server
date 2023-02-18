@@ -109,6 +109,9 @@ public class AuthorizationServerConfig {
 	@Order(2)
 	public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
 			throws Exception {
+		http.anonymous().disable();
+		http.authorizeHttpRequests()
+		.requestMatchers("/user/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico").permitAll();
 		http
 			.authorizeHttpRequests((authorize) -> authorize
 				.anyRequest().authenticated()
