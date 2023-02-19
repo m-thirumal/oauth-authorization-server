@@ -9,7 +9,7 @@ spring:
     timeout-per-shutdown-phase: 60s
 #  r2dbc:
 #  #  name: payment
-#    url: r2dbc:postgresql://3.6.239.198:5432/authorization-server
+#    url: r2dbc:postgresql://3.6.239.198:5432/authorization-server1
 #    username: postgres
 #    password: Enkindle@2013
 #    pool:
@@ -18,9 +18,13 @@ spring:
 #      max-size: 20
 #      max-idle-time: 30m
   datasource:
-    url: jdbc:postgresql://3.6.239.198:5432/authorization
+    url: jdbc:postgresql://3.6.239.198:5432/authorization-1
     username: postgres
     password: Enkindle@2013
+    jdbc-url: ${spring.datasource.url} # For hikari
+    hikari:
+      minimum-idle: 100
+      jdbc-url: ${spring.datasource.url} 
 server:
   port: 9000
   shutdown: graceful

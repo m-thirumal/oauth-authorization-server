@@ -1,4 +1,4 @@
-package in.thirumal.dao;
+package in.thirumal.repository.dao;
 
 import java.util.UUID;
 
