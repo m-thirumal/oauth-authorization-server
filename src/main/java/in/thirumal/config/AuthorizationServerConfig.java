@@ -111,15 +111,18 @@ public class AuthorizationServerConfig {
 			throws Exception {
 		http.anonymous().disable();
 		http.authorizeHttpRequests()
-		.requestMatchers("/user/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico").permitAll();
+		//.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
+		.requestMatchers("/user/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico").permitAll()
+		;
 		http
 			.authorizeHttpRequests((authorize) -> authorize
+				//	.requestMatchers(HttpMethod.POST, "/user/**").permitAll()
 				.anyRequest().authenticated()
 			)
 			// Form login handles the redirect to the login page from the
 			// authorization server filter chain
 			.formLogin(Customizer.withDefaults());
-
+		http.csrf().disable();
 		return http.build();
 	}
 
