@@ -24,6 +24,9 @@ public class Contact implements Serializable {
 
 	private static final long serialVersionUID = -418096072327096724L;
 	
+	public static final Long EMAIL = 1L;
+	public static final Long PHONE_NUMBER = 2L;
+	
 	private Long contactId;
 	private Long loginUserId;
 	private Long contactCd;

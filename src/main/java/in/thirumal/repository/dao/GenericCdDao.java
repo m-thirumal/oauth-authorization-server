@@ -25,8 +25,8 @@ public class GenericCdDao extends GenericDao implements GenericCdRepository {
 	
 	@Override
 	public List<GenericCd> list(String tableName, Long localeCd) {
+		logger.debug("Table name {}", tableName);
 		String sql = getSql("GenericCd.listByTableName").replace("{TABLE_NAME}", tableName);
-		System.out.println(sql);
 		return jdbcTemplate.query(sql, genericCodeCdRowMapper, localeCd);
 	}	
 	
@@ -42,8 +42,12 @@ public class GenericCdDao extends GenericDao implements GenericCdRepository {
 			logger.debug("");
 		}
 
+		genericCd.setCode(rs.getObject("code") != null ? rs.getString("code") : null);
+		
+		genericCd.setDescription(rs.getObject("description") != null ? rs.getString("description") : null);
+		
 		try {
-			genericCd.setDescription(rs.getObject("description") != null ? rs.getString("description") : null);
+			genericCd.setRegex(rs.getObject("regex") != null ? rs.getString("regex") : null);
 		} catch (Exception e) {
 			logger.debug("");
 		}
