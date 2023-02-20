@@ -1,5 +1,7 @@
 package in.thirumal.service;
 
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -17,10 +19,13 @@ import in.thirumal.model.Contact;
 import in.thirumal.model.GenericCd;
 import in.thirumal.model.LoginUser;
 import in.thirumal.model.LoginUserName;
+import in.thirumal.model.Password;
 import in.thirumal.model.UserResource;
+import in.thirumal.repository.ContactRepository;
 import in.thirumal.repository.GenericCdRepository;
 import in.thirumal.repository.LoginUserNameRepository;
 import in.thirumal.repository.LoginUserRepository;
+import in.thirumal.repository.PasswordRepository;
 
 /**
  * @author Thirumal
@@ -33,11 +38,14 @@ public class UserService {
 	
 	@Autowired
 	private GenericCdRepository genericCdRepository;
-	
+	@Autowired
+	private ContactRepository contactRepository;
 	@Autowired
 	private LoginUserRepository loginUserRepository;
 	@Autowired
 	private LoginUserNameRepository loginUserNameRepository;
+	@Autowired
+	private PasswordRepository passwordRepository;
 
 	/**
 	 * Create new account for the user
@@ -59,6 +67,14 @@ public class UserService {
 		// User Name
 		loginUserNameRepository.save(LoginUserName.builder().loginUserId(loginUserId)
 				.firstName(userResource.getFirstName()).middleName(userResource.getMiddleName()).lastName(userResource.getLastName()).build());
+		// Contact (i.e User ID to login)
+		var contacts = new ArrayList<Contact>();
+		contacts.add(Contact.builder().contactCd(Contact.EMAIL).loginUserId(loginUserId).loginId(userResource.getEmail()).build());
+		contacts.add(Contact.builder().contactCd(Contact.PHONE_NUMBER).loginUserId(loginUserId)
+				.loginId(userResource.getPhoneNumber()).build());
+		contactRepository.saveAll(contacts);
+		// Password
+		passwordRepository.save(Password.builder().loginUserId(loginUserId).secretKey(userResource.getPassword()).build());
 		
 		return get(loginUser.getLoginUuid());
 	}
@@ -91,11 +107,13 @@ public class UserService {
 			throw new ResourceNotFoundException("The requested user " + loginUuid + " is not available");
 		}
 		LoginUserName loginUserName = loginUserNameRepository.findByLoginUserId(loginUser.getLoginUserId());
-		return buildUserResource(loginUser, loginUserName);
+		// Contact
+		List<Contact> contacts = contactRepository.findAllByLoginUserId(loginUser.getLoginUserId());
+		return buildUserResource(loginUser, loginUserName, contacts);
 	}
 	
 
-	private UserResource buildUserResource(LoginUser loginUser, LoginUserName loginUserName) {
+	private UserResource buildUserResource(LoginUser loginUser, LoginUserName loginUserName, List<Contact> contacts) {
 		UserResource userResource = new UserResource();
 		// Login User
 		userResource.setLoginUuid(loginUser.getLoginUuid());
@@ -105,7 +123,18 @@ public class UserService {
 		userResource.setFirstName(loginUserName.getFirstName());
 		userResource.setMiddleName(loginUserName.getMiddleName());
 		userResource.setLastName(loginUserName.getLastName());
-		//
+		// Contact
+		for (Contact contact : contacts) {
+			if (contact.getEndTime().isBefore(OffsetDateTime.now())) {
+				continue;
+			}
+			if (Contact.EMAIL.equals(contact.getContactCd())) {
+				userResource.setEmail(contact.getLoginId());
+			}
+			if (Contact.PHONE_NUMBER.equals(contact.getContactCd())) {
+				userResource.setPhoneNumber(contact.getLoginId());
+			}
+		}
 		return userResource;
 	}
 
