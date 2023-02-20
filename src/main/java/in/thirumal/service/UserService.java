@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import in.thirumal.exception.BadRequestException;
@@ -47,6 +48,8 @@ public class UserService {
 	@Autowired
 	private PasswordRepository passwordRepository;
 
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	/**
 	 * Create new account for the user
 	 * @param userResource
@@ -74,8 +77,8 @@ public class UserService {
 				.loginId(userResource.getPhoneNumber()).build());
 		contactRepository.saveAll(contacts);
 		// Password
-		passwordRepository.save(Password.builder().loginUserId(loginUserId).secretKey(userResource.getPassword()).build());
-		
+		passwordRepository.save(Password.builder().loginUserId(loginUserId).secretKey(passwordEncoder.encode(userResource.getPassword())).build());
+		//
 		return get(loginUser.getLoginUuid());
 	}
 
