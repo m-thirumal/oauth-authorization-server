@@ -27,8 +27,12 @@ public class UserResource implements Serializable {
 	private static final long serialVersionUID = -7020619477594468968L;
 
 	private UUID loginUuid;
+	private String firstName;
+	private String middleName;
+	private String lastName;
 	private String email;
 	private String phoneNumber;
 	private OffsetDateTime dateOfBirth;
+	private OffsetDateTime accountCreatedOn;
 	
 }

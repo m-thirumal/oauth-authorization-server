@@ -1,15 +1,8 @@
 package in.thirumal.repository;
 
 import java.util.UUID;
-
 import org.springframework.lang.Nullable;
-
 import in.thirumal.model.LoginUser;
-
-/**
- * 
- */
-
 /**
  * @author Thirumal
  *

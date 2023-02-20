@@ -4,3 +4,8 @@ LoginUser = SELECT * FROM public.login_user WHERE
 LoginUser.create=INSERT INTO public.login_user(date_of_birth) VALUES (?)
 LoginUser.get=${LoginUser} login_user_id = ?
 LoginUser.getByUuid=${LoginUser} login_uuid = ?
+#-- Login User Name
+LoginUserName=SELECT * FROM public.login_user_name WHERE 
+LoginUserName.create=INSERT INTO public.login_user_name(login_user_id, first_name, middle_name, last_name) VALUES (?, ?, ?, ?)
+LoginUserName.get=${LoginUserName} login_user_name_id = ?
+LoginUserName.getByLoginUserId=${LoginUserName} login_user_id = ? 

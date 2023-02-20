@@ -18,15 +18,11 @@ import in.thirumal.model.LoginUser;
 import in.thirumal.repository.LoginUserRepository;
 
 /**
- * 
- */
-
-/**
  * @author Thirumal
  *
  */
 @Repository
-public class JdbcLoginUser extends GenericDao implements LoginUserRepository {
+public class LoginUserDao extends GenericDao implements LoginUserRepository {
 
 	private static final String PK = "login_user_id";
 	

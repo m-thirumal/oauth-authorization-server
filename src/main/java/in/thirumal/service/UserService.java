@@ -1,6 +1,7 @@
 package in.thirumal.service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -11,12 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import in.thirumal.exception.BadRequestException;
+import in.thirumal.exception.ResourceNotFoundException;
 import in.thirumal.model.Contact;
 import in.thirumal.model.GenericCd;
 import in.thirumal.model.LoginUser;
+import in.thirumal.model.LoginUserName;
 import in.thirumal.model.UserResource;
 import in.thirumal.repository.GenericCdRepository;
-import in.thirumal.repository.dao.JdbcLoginUser;
+import in.thirumal.repository.LoginUserNameRepository;
+import in.thirumal.repository.LoginUserRepository;
 
 /**
  * @author Thirumal
@@ -31,7 +35,9 @@ public class UserService {
 	private GenericCdRepository genericCdRepository;
 	
 	@Autowired
-	private JdbcLoginUser jdbcLoginUser;
+	private LoginUserRepository loginUserRepository;
+	@Autowired
+	private LoginUserNameRepository loginUserNameRepository;
 
 	/**
 	 * Create new account for the user
@@ -40,11 +46,20 @@ public class UserService {
 	 */
 	public UserResource createAccount(UserResource userResource) {
 		logger.debug("Creating new user.... {}", userResource);
+		// Validation
 		List<GenericCd> genericCds = genericCdRepository.list("contact", GenericCd.DEFAULT_LOCALE_CD);
 		validateEmailAndPhoneNumber(userResource, genericCds);
-		Long loginUserId = jdbcLoginUser.save(LoginUser.builder().dateOfBirth(userResource.getDateOfBirth()).build());
-		LoginUser loginUser = jdbcLoginUser.findById(loginUserId);
+		// Login user create
+		Long loginUserId = loginUserRepository.save(LoginUser.builder().dateOfBirth(userResource.getDateOfBirth()).build());
+		LoginUser loginUser = loginUserRepository.findById(loginUserId);
 		logger.debug("Created login user id {}", loginUser);
+		if (Objects.isNull(loginUser)) {
+			throw new ResourceNotFoundException("Not able create an account, Contact support");
+		}
+		// User Name
+		loginUserNameRepository.save(LoginUserName.builder().loginUserId(loginUserId)
+				.firstName(userResource.getFirstName()).middleName(userResource.getMiddleName()).lastName(userResource.getLastName()).build());
+		
 		return get(loginUser.getLoginUuid());
 	}
 
@@ -71,16 +86,25 @@ public class UserService {
 
 	public UserResource get(UUID loginUuid) {
 		logger.debug("Getting the user {}", loginUuid);
-		LoginUser loginUser = jdbcLoginUser.findByUuid(loginUuid);
-		return buildUserResource(loginUser);
+		LoginUser loginUser = loginUserRepository.findByUuid(loginUuid);
+		if (Objects.isNull(loginUser)) {
+			throw new ResourceNotFoundException("The requested user " + loginUuid + " is not available");
+		}
+		LoginUserName loginUserName = loginUserNameRepository.findByLoginUserId(loginUser.getLoginUserId());
+		return buildUserResource(loginUser, loginUserName);
 	}
 	
 
-	private UserResource buildUserResource(LoginUser loginUser) {
+	private UserResource buildUserResource(LoginUser loginUser, LoginUserName loginUserName) {
 		UserResource userResource = new UserResource();
 		// Login User
 		userResource.setLoginUuid(loginUser.getLoginUuid());
 		userResource.setDateOfBirth(loginUser.getDateOfBirth());
+		userResource.setAccountCreatedOn(loginUser.getRowCreatedOn());
+		// Login User Name
+		userResource.setFirstName(loginUserName.getFirstName());
+		userResource.setMiddleName(loginUserName.getMiddleName());
+		userResource.setLastName(loginUserName.getLastName());
 		//
 		return userResource;
 	}
