@@ -95,7 +95,7 @@ public class AuthorizationServerConfig {
 	    http
 		// Redirect to the login page when not authenticated from the
 		// authorization endpoint
-		.exceptionHandling((exceptions) -> exceptions
+		.exceptionHandling(exceptions -> exceptions
 			.authenticationEntryPoint(
 				new LoginUrlAuthenticationEntryPoint("/login"))
 		)
@@ -115,7 +115,7 @@ public class AuthorizationServerConfig {
 		.requestMatchers("/user/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico").permitAll()
 		;
 		http
-			.authorizeHttpRequests((authorize) -> authorize
+			.authorizeHttpRequests(authorize -> authorize
 				//	.requestMatchers(HttpMethod.POST, "/user/**").permitAll()
 				.anyRequest().authenticated()
 			)
