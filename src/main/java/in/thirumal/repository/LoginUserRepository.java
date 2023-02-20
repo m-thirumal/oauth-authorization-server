@@ -22,7 +22,7 @@ public interface LoginUserRepository {
 	 *
 	 * @param loginUser the {@link LoginUser}
 	 */
-	void save(LoginUser loginUser);
+	Long save(LoginUser loginUser);
 
 	/**
 	 * Returns the login user (Resource Owner) identified by the provided {@code id},
@@ -32,7 +32,7 @@ public interface LoginUserRepository {
 	 * @return the {@link LoginUser} if found, otherwise {@code null}
 	 */
 	@Nullable
-	LoginUser findById(String id);
+	LoginUser findById(Long id);
 	
 	
 	/**

@@ -24,6 +24,7 @@ public class GenericCd implements Serializable {
 
 	private static final long serialVersionUID = 1683183278504192415L;
 
+	public static final Long DEFAULT_LOCALE_CD = 1L;
 	public static final String CONTACT_LOCALE = "contact_locale";
 	
 	//Declarating fields

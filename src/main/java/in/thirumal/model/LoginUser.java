@@ -4,7 +4,6 @@
 package in.thirumal.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -28,7 +27,7 @@ public class LoginUser implements Serializable {
 	
 	private Long loginUserId;
 	private UUID loginUuid;
-	private LocalDateTime dateOfBirth;
+	private OffsetDateTime dateOfBirth;
 	private OffsetDateTime rowCreatedOn;
 
 }

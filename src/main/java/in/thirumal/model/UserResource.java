@@ -1,7 +1,7 @@
 package in.thirumal.model;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +27,6 @@ public class UserResource implements Serializable {
 
 	private String email;
 	private String phoneNumber;
-	private LocalDateTime dateOfBirth;
+	private OffsetDateTime dateOfBirth;
 	
 }

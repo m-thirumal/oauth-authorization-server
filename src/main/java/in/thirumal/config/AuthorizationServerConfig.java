@@ -35,7 +35,6 @@ import org.springframework.security.oauth2.server.authorization.settings.Authori
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -79,11 +78,9 @@ public class AuthorizationServerConfig {
           .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
           //.tokenSettings(tokenSettings()) 
           .build();
-        JdbcRegisteredClientRepository registeredClientRepository =
-        	      new JdbcRegisteredClientRepository(jdbcTemplate);
-        	  registeredClientRepository.save(registeredClient);
-
-        return registeredClientRepository;
+       JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
+       registeredClientRepository.save(registeredClient);
+       return registeredClientRepository;
     }
 	
 	@Bean
@@ -92,15 +89,14 @@ public class AuthorizationServerConfig {
 	    OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 	    http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
 	    	.oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
-	    http
-		// Redirect to the login page when not authenticated from the
+	   // Redirect to the login page when not authenticated from the
 		// authorization endpoint
-		.exceptionHandling(exceptions -> exceptions
-			.authenticationEntryPoint(
-				new LoginUrlAuthenticationEntryPoint("/login"))
-		)
+	//	http.exceptionHandling(exceptions -> exceptions
+	//		.authenticationEntryPoint(
+	//			new LoginUrlAuthenticationEntryPoint("/login"))
+	//	)
 		// Accept access tokens for User Info and/or Client Registration
-		.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+		http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 
 	    return http/*.formLogin(Customizer.withDefaults())*/.build();
 	}

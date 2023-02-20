@@ -5,8 +5,6 @@ package in.thirumal.repository.dao;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -20,9 +18,6 @@ import in.thirumal.repository.GenericCdRepository;
 @Repository
 public class GenericCdDao extends GenericDao implements GenericCdRepository {
 
-	Logger logger = LoggerFactory.getLogger(GenericCdDao.class);
-	
-	
 	@Override
 	public List<GenericCd> list(String tableName, Long localeCd) {
 		logger.debug("Table name {}", tableName);
