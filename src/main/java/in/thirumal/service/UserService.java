@@ -33,7 +33,11 @@ public class UserService {
 	@Autowired
 	private JdbcLoginUser jdbcLoginUser;
 
-	
+	/**
+	 * Create new account for the user
+	 * @param userResource
+	 * @return 
+	 */
 	public UserResource createAccount(UserResource userResource) {
 		logger.debug("Creating new user.... {}", userResource);
 		List<GenericCd> genericCds = genericCdRepository.list("contact", GenericCd.DEFAULT_LOCALE_CD);
@@ -41,7 +45,7 @@ public class UserService {
 		Long loginUserId = jdbcLoginUser.save(LoginUser.builder().dateOfBirth(userResource.getDateOfBirth()).build());
 		LoginUser loginUser = jdbcLoginUser.findById(loginUserId);
 		logger.debug("Created login user id {}", loginUser);
-		return userResource;
+		return get(loginUser.getLoginUuid());
 	}
 
 	private void validateEmailAndPhoneNumber(UserResource userResource, List<GenericCd> genericCds) {
@@ -67,9 +71,19 @@ public class UserService {
 
 	public UserResource get(UUID loginUuid) {
 		logger.debug("Getting the user {}", loginUuid);
-		return null;
+		LoginUser loginUser = jdbcLoginUser.findByUuid(loginUuid);
+		return buildUserResource(loginUser);
 	}
 	
+
+	private UserResource buildUserResource(LoginUser loginUser) {
+		UserResource userResource = new UserResource();
+		// Login User
+		userResource.setLoginUuid(loginUser.getLoginUuid());
+		userResource.setDateOfBirth(loginUser.getDateOfBirth());
+		//
+		return userResource;
+	}
 
 	public boolean changePassword() {
 		return false;

@@ -2,6 +2,7 @@ package in.thirumal.model;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class UserResource implements Serializable {
 
 	private static final long serialVersionUID = -7020619477594468968L;
 
+	private UUID loginUuid;
 	private String email;
 	private String phoneNumber;
 	private OffsetDateTime dateOfBirth;
