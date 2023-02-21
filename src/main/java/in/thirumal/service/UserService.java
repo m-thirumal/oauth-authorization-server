@@ -18,6 +18,7 @@ import in.thirumal.exception.BadRequestException;
 import in.thirumal.exception.ResourceNotFoundException;
 import in.thirumal.model.Contact;
 import in.thirumal.model.GenericCd;
+import in.thirumal.model.Login;
 import in.thirumal.model.LoginUser;
 import in.thirumal.model.LoginUserName;
 import in.thirumal.model.Password;
@@ -27,6 +28,7 @@ import in.thirumal.repository.GenericCdRepository;
 import in.thirumal.repository.LoginUserNameRepository;
 import in.thirumal.repository.LoginUserRepository;
 import in.thirumal.repository.PasswordRepository;
+import jakarta.validation.Valid;
 
 /**
  * @author Thirumal
@@ -146,6 +148,11 @@ public class UserService {
 
 	public boolean changePassword() {
 		return false;
+	}
+
+	public Object login(@Valid Login login) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
