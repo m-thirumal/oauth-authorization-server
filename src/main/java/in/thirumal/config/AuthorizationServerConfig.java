@@ -108,7 +108,7 @@ public class AuthorizationServerConfig {
 		http.anonymous().disable();
 		http.authorizeHttpRequests()
 		//.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
-		.requestMatchers("/user/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico").permitAll()
+		.requestMatchers("/user/**", "/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico").permitAll()
 		;
 		http
 			.authorizeHttpRequests(authorize -> authorize

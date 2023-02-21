@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Service;
 
 import in.thirumal.exception.ResourceNotFoundException;
-import in.thirumal.model.Oauth2RegisteredClient;
 
 /**
  * @author Thirumal
@@ -26,10 +26,14 @@ public class RegisterClientService {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	@Autowired
+	RegisteredClientRepository registeredClientRepository;
 	
-	public Oauth2RegisteredClient register(Oauth2RegisteredClient oauth2RegisteredClient) {
-		logger.debug("Registering the client {}", oauth2RegisteredClient);
-		return oauth2RegisteredClient;
+	
+	public RegisteredClient register(RegisteredClient registeredClient) {
+		logger.debug("Registering the client {}", registeredClient);
+		registeredClientRepository.save(null);
+		return registeredClient;
 	}
 	
 	public RegisteredClient get(String id) {

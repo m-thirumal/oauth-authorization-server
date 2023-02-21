@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import in.thirumal.model.Oauth2RegisteredClient;
 import in.thirumal.service.RegisterClientService;
 
 /**
@@ -32,8 +31,8 @@ public class RegisterClientController {
 	
 	
 	@PostMapping("/register")
-	public Oauth2RegisteredClient register(@RequestBody Oauth2RegisteredClient oauth2RegisteredClient) {
-		return registerClientService.register(oauth2RegisteredClient);
+	public RegisteredClient register(@RequestBody RegisteredClient registeredClient) {
+		return registerClientService.register(registeredClient);
 	}
 		
 	@GetMapping(value = "/{id}")
