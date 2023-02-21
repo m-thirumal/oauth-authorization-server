@@ -32,7 +32,7 @@ public class RegisterClientService {
 	
 	public RegisteredClient register(RegisteredClient registeredClient) {
 		logger.debug("Registering the client {}", registeredClient);
-		registeredClientRepository.save(null);
+		registeredClientRepository.save(registeredClient);
 		return registeredClient;
 	}
 	
