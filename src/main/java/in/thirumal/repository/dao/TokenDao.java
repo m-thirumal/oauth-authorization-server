@@ -1,0 +1,106 @@
+/**
+ * 
+ */
+package in.thirumal.repository.dao;
+
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+
+import in.thirumal.exception.BadRequestException;
+import in.thirumal.exception.ResourceNotFoundException;
+import in.thirumal.model.Token;
+import in.thirumal.repository.TokenRepository;
+
+/**
+ * @author Thirumal
+ *
+ */
+@Repository
+public class TokenDao extends GenericDao implements TokenRepository {
+
+	private static final String PK                   = "token_id";
+	
+	private static final String CREATE               = "Token.create";
+	private static final String GET                  = "Token.get";
+	private static final String LIST                 = "Token.list";
+	private static final String GETBY_LOGIN_USER_ID  = GET + "ByLoginUserId";
+	private static final String LISTBY_LOGIN_USER_ID = LIST + "ByLoginUserId";
+	
+	@Override
+	public Long save(Token token) {
+		KeyHolder holder = new GeneratedKeyHolder();
+        try {
+            jdbcTemplate.update(con -> setPreparedStatement(token, con.prepareStatement(getSql(CREATE),
+                    new String[] { PK })), holder);
+            return Optional.ofNullable(holder.getKey())
+                    .orElseThrow(()->new ResourceNotFoundException(primaryKeyErr)).longValue();
+        } catch (DataIntegrityViolationException e) {
+           logger.error("Login user name insert exception: {}", e.getMessage());
+           throw new BadRequestException("Login user name is not added, Contact admin");
+        }       
+	}
+
+	private PreparedStatement setPreparedStatement(Token token, PreparedStatement ps) throws SQLException {
+		if(token.getContactId() == null) {
+            ps.setObject(1, null);
+        } else {
+            ps.setLong(1, token.getContactId());
+        }
+		if(token.getOtp() == null) {
+            ps.setObject(2, null);
+        } else {
+            ps.setString(2, token.getOtp());
+        }
+		if(token.getExpiresOn() == null) {
+            ps.setObject(3, null);
+        } else {
+            ps.setObject(3, token.getExpiresOn());
+        }
+		return ps;
+	}
+
+	@Override
+	public Token findById(Long id) {
+		logger.debug("Finding token by Id {}", id);
+		return jdbcTemplate.queryForObject(getSql(GET), tokenRowMapper, id);
+	}
+
+	@Override
+	public Token findByContactId(Long contactId) {
+		logger.debug("Finding token by contact Id {}", contactId);
+		return jdbcTemplate.queryForObject(getSql(GETBY_LOGIN_USER_ID), tokenRowMapper, contactId);
+	}
+	
+	@Override
+	public List<Token> findAllByLoginUserId(Long id) {
+		logger.debug("Finding contact by loginUserId {}", id);
+		return jdbcTemplate.query(getSql(LISTBY_LOGIN_USER_ID), tokenRowMapper, id);
+	}
+
+	RowMapper<Token> tokenRowMapper = (rs, rowNum) -> {
+
+		Token token = new Token();
+
+		token.setTokenId(rs.getObject(PK) != null ? rs.getLong(PK) : null);
+
+		token.setContactId(rs.getObject("contact_id") != null ? rs.getLong("contact_id") : null);
+		
+		token.setOtp(rs.getObject("otp") != null ? rs.getString("otp") : null);
+
+		token.setRowCreatedOn(rs.getObject("expires_on") != null ? rs.getObject("expires_on", OffsetDateTime.class) : null);
+		
+		token.setRowCreatedOn(rs.getObject("row_created_on") != null ? rs.getObject("row_created_on", OffsetDateTime.class) : null);
+ 
+		return token;
+	};
+
+}

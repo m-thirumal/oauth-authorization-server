@@ -47,6 +47,8 @@ public class UserService {
 	private LoginUserNameRepository loginUserNameRepository;
 	@Autowired
 	private PasswordRepository passwordRepository;
+	//@Autowired
+	//private TokenRepository tokenRepository;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -78,7 +80,8 @@ public class UserService {
 		contactRepository.saveAll(contacts);
 		// Password
 		passwordRepository.save(Password.builder().loginUserId(loginUserId).secretKey(passwordEncoder.encode(userResource.getPassword())).build());
-		//
+		// Token - 
+		//tokenRepository.save(Token.builder().build());
 		return get(loginUser.getLoginUuid());
 	}
 

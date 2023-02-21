@@ -119,6 +119,8 @@ public class ContactDao extends GenericDao implements ContactRepository {
 		
 		contact.setLoginId(rs.getObject("login_id") != null ? rs.getString("login_id") : null);
 		
+		contact.setVerifiedOn(rs.getObject("verified_on") != null ? rs.getObject("verified_on", OffsetDateTime.class) : null);
+		
 		contact.setEndTime(rs.getObject("end_time") != null ? rs.getObject("end_time", OffsetDateTime.class) : null);
 
 		contact.setRowCreatedOn(rs.getObject("row_created_on") != null ? rs.getObject("row_created_on", OffsetDateTime.class) : null);

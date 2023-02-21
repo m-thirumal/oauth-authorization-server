@@ -31,6 +31,7 @@ public class Contact implements Serializable {
 	private Long loginUserId;
 	private Long contactCd;
 	private String loginId;
+	private OffsetDateTime verifiedOn;
 	private OffsetDateTime endTime;
 	private OffsetDateTime rowCreatedOn;
 }

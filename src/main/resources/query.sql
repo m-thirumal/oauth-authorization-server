@@ -21,3 +21,9 @@ Password.create=INSERT INTO public.password(login_user_id, secret_key) VALUES (?
 Password.get=${Password} password_id = ?
 Password.getByLoginUserId=${Password} login_user_id = ?  ORDER BY password_id DESC LIMIT 1
 Password.listByLoginUserId=${Password} login_user_id = ? 
+#-- Token
+Token=SELECT * FROM public.token WHERE
+Token.create=INSERT INTO public.token(contact_id, otp, expires_on) VALUES (?, ?, ?)
+Token.get=${Token} token_id = ?
+Token.getByContactId= ${Token} contact_id = ? ORDER BY token_id DESC LIMIT 1
+Token.listByContactId= ${Token} contact_id = ? 
