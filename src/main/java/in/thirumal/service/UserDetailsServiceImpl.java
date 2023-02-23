@@ -27,6 +27,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private PasswordEncoder encoder;
 	
+	//private 
+	
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		logger.debug("The user {} accessing at {}", username, LocalDateTime.now());

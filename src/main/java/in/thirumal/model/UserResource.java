@@ -2,7 +2,10 @@ package in.thirumal.model;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+import java.util.Set;
 import java.util.UUID;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,10 +13,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-/**
- * 
- */
 
 /**
  * @author Thirumal
@@ -35,5 +34,9 @@ public class UserResource implements Serializable {
 	private String password;
 	private OffsetDateTime dateOfBirth;
 	private OffsetDateTime accountCreatedOn;
+	
+	// Registered Client details
+	private String registeredClientId;
+	private Set<SimpleGrantedAuthority> authorities;
 	
 }

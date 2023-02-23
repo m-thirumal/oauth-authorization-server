@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.stereotype.Service;
 
 import in.thirumal.exception.BadRequestException;
@@ -38,7 +40,10 @@ import jakarta.validation.Valid;
 public class UserService {
 	
 	Logger logger = LoggerFactory.getLogger(UserService.class);
-	
+	//
+	@Autowired
+	private OAuth2AuthorizationConsentService oAuth2AuthorizationConsentService;
+	//
 	@Autowired
 	private GenericCdRepository genericCdRepository;
 	@Autowired
@@ -71,6 +76,12 @@ public class UserService {
 		if (Objects.isNull(loginUser)) {
 			throw new ResourceNotFoundException("Not able create an account, Contact support");
 		}
+		// 
+		System.out.println(userResource.getAuthorities());
+		oAuth2AuthorizationConsentService.save(OAuth2AuthorizationConsent
+				.withId(userResource.getRegisteredClientId(), loginUser.getLoginUuid().toString())
+				.authorities(t->t.addAll(userResource.getAuthorities()))
+				.build());
 		// User Name
 		loginUserNameRepository.save(LoginUserName.builder().loginUserId(loginUserId)
 				.firstName(userResource.getFirstName()).middleName(userResource.getMiddleName()).lastName(userResource.getLastName()).build());
