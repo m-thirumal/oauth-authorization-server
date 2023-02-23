@@ -3,16 +3,19 @@
  */
 package in.thirumal.service;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.stereotype.Service;
 
 import in.thirumal.exception.ResourceNotFoundException;
+import in.thirumal.model.Client;
 
 /**
  * @author Thirumal
@@ -29,16 +32,42 @@ public class RegisterClientService {
 	@Autowired
 	RegisteredClientRepository registeredClientRepository;
 	
-	
-	public RegisteredClient register(RegisteredClient registeredClient) {
-		logger.debug("Registering the client {}", registeredClient);
+	public RegisteredClient register(Client client) {
+		logger.debug("Registering the client {}", client);
+		
+		System.out.println();
+		String clientPrimaryKey = UUID.randomUUID().toString();	
+		//Client
+		RegisteredClient registeredClient =
+				RegisteredClient
+				.withId(clientPrimaryKey)
+				.clientId(UUID.randomUUID().toString())
+		        .clientSecret("{noop}"+ UUID.randomUUID().toString())
+		        .clientAuthenticationMethods(t -> client.getClientAuthenticationMethods())
+		      //   . clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+		        .authorizationGrantTypes(t -> client.getAuthorizationGrantTypes())
+		       //   .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+		        //  .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+		          //.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+		        .redirectUris(r -> client.getRedirectUris()) 
+		      //  .redirectUri("http://127.0.0.1:8000/login/oauth2/code/users-client-oidc")
+		         // .redirectUri("http://127.0.0.1:8000/authorized")
+		        .scopes(s -> client.getScopes())
+		          //.scope(OidcScopes.OPENID)
+		          //.scope(OidcScopes.PROFILE)
+		          //.scope("read")
+		          .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+		          //.tokenSettings(tokenSettings()) 
+				.build();		
+		logger.debug("----");
+		System.out.println(registeredClient);
+		System.out.println("-----");
 		registeredClientRepository.save(registeredClient);
-		return registeredClient;
+		return get(clientPrimaryKey);
 	}
 	
 	public RegisteredClient get(String id) {
 		logger.debug("Finding registered client.... {}", id);
-		JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
 		RegisteredClient registeredClient = registeredClientRepository.findById(id);
 		logger.debug("Client detail : {}", registeredClient);
 		if (registeredClient == null) {
@@ -46,6 +75,5 @@ public class RegisterClientService {
 		}
 		return registeredClient;
 	}
-	
-	
+
 }
