@@ -30,6 +30,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -98,10 +99,12 @@ public class AuthorizationServerConfig {
 	    	.oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
 	   // Redirect to the login page when not authenticated from the
 		// authorization endpoint
-	//	http.exceptionHandling(exceptions -> exceptions
-	//		.authenticationEntryPoint(
-	//			new LoginUrlAuthenticationEntryPoint("/login"))
-	//	)
+		http.exceptionHandling(exceptions -> {
+			exceptions.authenticationEntryPoint(
+					new LoginUrlAuthenticationEntryPoint("/login"));
+		}
+			
+		);
 		// Accept access tokens for User Info and/or Client Registration
 		http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 

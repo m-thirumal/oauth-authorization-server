@@ -15,6 +15,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import in.thirumal.repository.ContactRepository;
+import in.thirumal.repository.LoginUserRepository;
+
 /**
  * @author Thirumal
  *
@@ -27,13 +30,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private PasswordEncoder encoder;
 	
-	//private 
+	@Autowired
+	private LoginUserRepository loginUserRepository;
+	@Autowired
+	private ContactRepository contactRepository;
 	
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		logger.debug("The user {} accessing at {}", username, LocalDateTime.now());
-		//PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		//contactRepository.
 		UserDetails user = User.withUsername("admin").password(encoder.encode("password")).roles("ADMIN").build();
 		return user;
 	}
