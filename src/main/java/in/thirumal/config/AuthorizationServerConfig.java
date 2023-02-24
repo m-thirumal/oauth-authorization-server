@@ -109,9 +109,7 @@ public class AuthorizationServerConfig {
 		http.exceptionHandling(exceptions -> {
 			exceptions.authenticationEntryPoint(
 					new LoginUrlAuthenticationEntryPoint("/login"));
-		}
-			
-		);
+		});
 		// Accept access tokens for User Info and/or Client Registration
 		http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 

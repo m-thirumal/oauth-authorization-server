@@ -22,5 +22,7 @@ public interface ContactRepository {
 	Contact findByLoginUserId(Long id);
 	
 	List<Contact> findAllByLoginUserId(Long id);
+
+	Contact findActiveLoginIdByLoginId(String username);
 	
 }

@@ -5,6 +5,7 @@ Contact.create=INSERT INTO public.contact(login_user_id, contact_cd, login_id) V
 Contact.get=${Contact} contact_id = ?
 Contact.getByLoginUserId=${Contact} login_user_id = ? ORDER BY contact_id DESC LIMIT 1
 Contact.listByLoginUserId=${Contact} login_user_id = ?
+Contact.listByLoginId=${Contact} login_id = ? AND end_time = 'infinity'
 #-- Login User
 LoginUser = SELECT * FROM public.login_user WHERE 
 LoginUser.create=INSERT INTO public.login_user(date_of_birth) VALUES (?)

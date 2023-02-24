@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -34,6 +35,7 @@ public class ContactDao extends GenericDao implements ContactRepository {
 	private static final String GET                  = "Contact.get";
 	private static final String LIST                 = "Contact.list";
 	private static final String GETBY_LOGIN_USER_ID  = GET + "ByLoginUserId";
+	private static final String LISTBY_LOGIN_ID      = LIST + "ByLoginId";
 	private static final String LISTBY_LOGIN_USER_ID = LIST + "ByLoginUserId";
 	
 	@Override
@@ -106,6 +108,19 @@ public class ContactDao extends GenericDao implements ContactRepository {
 		return jdbcTemplate.query(getSql(LISTBY_LOGIN_USER_ID), contactRowMapper, id);
 	}
 	
+	/**
+	 * Retrieve active login by @param loginId
+	 * return {@link Contact }
+	 */
+	@Override
+	public Contact findActiveLoginIdByLoginId(String loginId) {
+		logger.debug("Finding contact by loginId {}", loginId);
+		try {
+			return jdbcTemplate.queryForObject(getSql(LISTBY_LOGIN_ID), contactRowMapper, loginId);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
+	}
 	
 	RowMapper<Contact> contactRowMapper = (rs, rowNum) -> {
 
@@ -128,5 +143,5 @@ public class ContactDao extends GenericDao implements ContactRepository {
 		return contact;
 	};
 
-
+	
 }

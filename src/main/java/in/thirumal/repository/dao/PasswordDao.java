@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -73,7 +74,11 @@ public class PasswordDao extends GenericDao implements PasswordRepository {
 	@Override
 	public Password findByLoginUserId(Long loginUserId) {
 		logger.debug("Finding password by login user id {}", loginUserId);
-		return jdbcTemplate.queryForObject(getSql(GETBY_LOGIN_USER_ID), passwordRowMapper, loginUserId);
+		try {
+			return jdbcTemplate.queryForObject(getSql(GETBY_LOGIN_USER_ID), passwordRowMapper, loginUserId);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 
 	@Override
