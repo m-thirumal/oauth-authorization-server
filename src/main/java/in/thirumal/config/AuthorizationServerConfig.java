@@ -149,10 +149,7 @@ public class AuthorizationServerConfig {
         KeyPair keyPair = generateRsaKey();
         RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
         RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-        return new RSAKey.Builder(publicKey)
-          .privateKey(privateKey)
-          .keyID(UUID.randomUUID().toString())
-          .build();
+        return new RSAKey.Builder(publicKey).privateKey(privateKey).keyID(UUID.randomUUID().toString()).build();
     }
 
     private static KeyPair generateRsaKey() {
