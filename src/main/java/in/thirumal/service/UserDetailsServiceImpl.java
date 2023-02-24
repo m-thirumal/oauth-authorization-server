@@ -56,7 +56,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UnAuthorizedException("Login id is not available");
 		}
 		// Password
-		//TODO Expiry Date
+		//TODO Verify Expire Date
 		Password password = passwordRepository.findByLoginUserId(contact.getLoginUserId());
 		if (password == null) {
 			throw new UnAuthorizedException("Password is not set/found.");
