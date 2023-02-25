@@ -1,19 +1,35 @@
 -- Database generated with pgModeler (PostgreSQL Database Modeler).
--- pgModeler version: 1.0.0
+-- pgModeler version: 1.0.1
 -- PostgreSQL version: 15.0
 -- Project Site: pgmodeler.io
--- Model Author: Thirumal
+-- Model Author: ---
 
 -- Database creation must be performed outside a multi lined SQL file. 
 -- These commands were put in this file only as a convenience.
 -- 
--- object: "authorization" | type: DATABASE --
--- DROP DATABASE IF EXISTS "authorization";
-CREATE DATABASE "authorization";
+-- object: "authorization-1" | type: DATABASE --
+-- DROP DATABASE IF EXISTS "authorization-1";
+CREATE DATABASE "authorization-1";
 -- ddl-end --
-COMMENT ON DATABASE "authorization" IS E'Created Thirumal';
+COMMENT ON DATABASE "authorization-1" IS E'Created Thirumal';
 -- ddl-end --
 
+
+-- object: lookup | type: SCHEMA --
+-- DROP SCHEMA IF EXISTS lookup CASCADE;
+CREATE SCHEMA lookup;
+-- ddl-end --
+ALTER SCHEMA lookup OWNER TO postgres;
+-- ddl-end --
+
+SET search_path TO pg_catalog,public,lookup;
+-- ddl-end --
+
+-- object: "uuid-ossp" | type: EXTENSION --
+-- DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
+CREATE EXTENSION "uuid-ossp"
+WITH SCHEMA public;
+-- ddl-end --
 
 -- object: public.oauth2_authorization | type: TABLE --
 -- DROP TABLE IF EXISTS public.oauth2_authorization CASCADE;
@@ -61,6 +77,9 @@ CREATE TABLE public.oauth2_authorization_consent (
 ALTER TABLE public.oauth2_authorization_consent OWNER TO postgres;
 -- ddl-end --
 
+INSERT INTO public.oauth2_authorization_consent (registered_client_id, principal_name, authorities) VALUES (E'Thirumal', E'admin', E'SCOPE_read,user');
+-- ddl-end --
+
 -- object: oauth2_authorization_consent_fk | type: CONSTRAINT --
 -- ALTER TABLE public.oauth2_authorization DROP CONSTRAINT IF EXISTS oauth2_authorization_consent_fk CASCADE;
 ALTER TABLE public.oauth2_authorization ADD CONSTRAINT oauth2_authorization_consent_fk FOREIGN KEY (registered_client_id,principal_name)
@@ -87,6 +106,377 @@ CREATE TABLE public.oauth2_registered_client (
 );
 -- ddl-end --
 ALTER TABLE public.oauth2_registered_client OWNER TO postgres;
+-- ddl-end --
+
+INSERT INTO public.oauth2_registered_client (id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name, client_authentication_methods, authorization_grant_types, redirect_uris, scopes, client_settings, token_settings) VALUES (E'Thirumal', E'1', DEFAULT, E'$2a$10$M0D7JM8IErxNfdNCRccHgOR3ImXzr/nV5NQO1kRZZCIaaDM.YhA5e', DEFAULT, E'Thirumal', E'client_secret_basic,client_secret_post', E'refresh_token,client_credentials,authorization_code', E'http://127.0.0.1:8000/authorized,http://127.0.0.1:8000/login/oauth2/code/users-client-oidc', E'read,openid,profile', E'{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":true}', E'{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",300.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}');
+-- ddl-end --
+
+-- object: public.login_user_name_login_user_name_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.login_user_name_login_user_name_id_seq CASCADE;
+CREATE SEQUENCE public.login_user_name_login_user_name_id_seq
+	INCREMENT BY 1
+	MINVALUE -9223372036854775808
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+
+-- ddl-end --
+
+-- object: public.contact_contact_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.contact_contact_id_seq CASCADE;
+CREATE SEQUENCE public.contact_contact_id_seq
+	INCREMENT BY 1
+	MINVALUE -9223372036854775808
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+
+-- ddl-end --
+
+-- object: lookup.contact_cd_contact_cd_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS lookup.contact_cd_contact_cd_seq CASCADE;
+CREATE SEQUENCE lookup.contact_cd_contact_cd_seq
+	INCREMENT BY 1
+	MINVALUE -32768
+	MAXVALUE 32767
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+
+-- ddl-end --
+
+-- object: lookup.contact_locale | type: TABLE --
+-- DROP TABLE IF EXISTS lookup.contact_locale CASCADE;
+CREATE TABLE lookup.contact_locale (
+	contact_cd smallint NOT NULL,
+	locale_cd integer NOT NULL,
+	description varchar(100) NOT NULL,
+	start_time timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	end_time timestamptz NOT NULL DEFAULT 'infinity'::timestamp,
+	row_created_on timestamptz NOT NULL DEFAULT current_timestamp,
+	row_created_by varchar(50) NOT NULL DEFAULT 'Thirumal',
+	row_updated_on timestamptz NOT NULL DEFAULT current_timestamp,
+	row_updated_by varchar(50) NOT NULL DEFAULT 'Thirumal',
+	row_update_info text
+
+);
+-- ddl-end --
+ALTER TABLE lookup.contact_locale OWNER TO postgres;
+-- ddl-end --
+
+INSERT INTO lookup.contact_locale (contact_cd, locale_cd, description, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'1', E'1', E'E-Mail', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+INSERT INTO lookup.contact_locale (contact_cd, locale_cd, description, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'2', E'1', E'Phone Number', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+
+-- object: public.login_user_login_user_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.login_user_login_user_id_seq CASCADE;
+CREATE SEQUENCE public.login_user_login_user_id_seq
+	INCREMENT BY 1
+	MINVALUE -9223372036854775808
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+
+-- ddl-end --
+
+-- object: public.contact | type: TABLE --
+-- DROP TABLE IF EXISTS public.contact CASCADE;
+CREATE TABLE public.contact (
+	contact_id bigint NOT NULL DEFAULT nextval('public.contact_contact_id_seq'::regclass),
+	login_user_id bigint NOT NULL,
+	contact_cd smallint NOT NULL,
+	login_id varchar(200) NOT NULL,
+	verified_on timestamptz,
+	end_time timestamp NOT NULL DEFAULT 'infinity'::timestamp,
+	row_created_on timestamptz NOT NULL DEFAULT current_timestamp,
+	CONSTRAINT contact_pk PRIMARY KEY (contact_id)
+);
+-- ddl-end --
+ALTER TABLE public.contact OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.login_user | type: TABLE --
+-- DROP TABLE IF EXISTS public.login_user CASCADE;
+CREATE TABLE public.login_user (
+	login_user_id bigint NOT NULL DEFAULT nextval('public.login_user_login_user_id_seq'::regclass),
+	login_uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+	date_of_birth timestamptz,
+	row_created_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT user_pk PRIMARY KEY (login_user_id)
+);
+-- ddl-end --
+ALTER TABLE public.login_user OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.login_user_name | type: TABLE --
+-- DROP TABLE IF EXISTS public.login_user_name CASCADE;
+CREATE TABLE public.login_user_name (
+	login_user_name_id bigint NOT NULL DEFAULT nextval('public.login_user_name_login_user_name_id_seq'::regclass),
+	login_user_id bigint NOT NULL,
+	first_name varchar(200) NOT NULL,
+	middle_name varchar(100),
+	last_name varchar(200),
+	row_created_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT user_name_pk PRIMARY KEY (login_user_name_id)
+);
+-- ddl-end --
+ALTER TABLE public.login_user_name OWNER TO postgres;
+-- ddl-end --
+
+-- object: lookup.contact_cd | type: TABLE --
+-- DROP TABLE IF EXISTS lookup.contact_cd CASCADE;
+CREATE TABLE lookup.contact_cd (
+	contact_cd smallint NOT NULL DEFAULT nextval('lookup.contact_cd_contact_cd_seq'::regclass),
+	code varchar(50) NOT NULL,
+	regex varchar(500),
+	start_time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	end_time timestamp NOT NULL DEFAULT 'infinity'::TIMESTAMP,
+	row_created_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	row_created_by varchar(50) NOT NULL DEFAULT 'Thirumal',
+	row_updated_on timestamptz NOT NULL DEFAULT 'infinity'::timestamp,
+	row_updated_by varchar(50) NOT NULL DEFAULT 'Thirumal',
+	row_update_info text,
+	CONSTRAINT contact_cd_pk PRIMARY KEY (contact_cd)
+);
+-- ddl-end --
+COMMENT ON COLUMN lookup.contact_cd.regex IS E'REGEX to Validate';
+-- ddl-end --
+ALTER TABLE lookup.contact_cd OWNER TO postgres;
+-- ddl-end --
+
+INSERT INTO lookup.contact_cd (contact_cd, code, regex, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'1', E'E-Mail', E'^[a-zA-Z0-9_!#$%&''*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+INSERT INTO lookup.contact_cd (contact_cd, code, regex, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'2', E'Phone Number', E'^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+
+-- object: lookup.locale_cd_locale_cd_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS lookup.locale_cd_locale_cd_seq CASCADE;
+CREATE SEQUENCE lookup.locale_cd_locale_cd_seq
+	INCREMENT BY 1
+	MINVALUE -2147483648
+	MAXVALUE 2147483647
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+
+-- ddl-end --
+
+-- object: lookup.locale_cd | type: TABLE --
+-- DROP TABLE IF EXISTS lookup.locale_cd CASCADE;
+CREATE TABLE lookup.locale_cd (
+	locale_cd integer NOT NULL DEFAULT nextval('lookup.locale_cd_locale_cd_seq'::regclass),
+	code varchar(100) NOT NULL,
+	start_time timestamptz NOT NULL DEFAULT current_timestamp,
+	end_time timestamptz NOT NULL DEFAULT 'infinity'::timestamp,
+	row_created_by varchar(100) NOT NULL DEFAULT 'Thirumal',
+	row_updated_by varchar(100) NOT NULL DEFAULT 'Thirumal',
+	row_created_on timestamptz NOT NULL DEFAULT current_timestamp,
+	row_updated_on timestamptz NOT NULL DEFAULT current_timestamp,
+	row_update_info text,
+	CONSTRAINT locale_cd_pk PRIMARY KEY (locale_cd)
+);
+-- ddl-end --
+ALTER TABLE lookup.locale_cd OWNER TO postgres;
+-- ddl-end --
+
+INSERT INTO lookup.locale_cd (locale_cd, code, start_time, end_time, row_created_by, row_updated_by, row_created_on, row_updated_on, row_update_info) VALUES (E'1', E'en_IN', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+INSERT INTO lookup.locale_cd (locale_cd, code, start_time, end_time, row_created_by, row_updated_by, row_created_on, row_updated_on, row_update_info) VALUES (E'2', E'ta_IN', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+
+-- object: contact_cd_fk | type: CONSTRAINT --
+-- ALTER TABLE lookup.contact_locale DROP CONSTRAINT IF EXISTS contact_cd_fk CASCADE;
+ALTER TABLE lookup.contact_locale ADD CONSTRAINT contact_cd_fk FOREIGN KEY (contact_cd)
+REFERENCES lookup.contact_cd (contact_cd) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: locale_cd_fk | type: CONSTRAINT --
+-- ALTER TABLE lookup.contact_locale DROP CONSTRAINT IF EXISTS locale_cd_fk CASCADE;
+ALTER TABLE lookup.contact_locale ADD CONSTRAINT locale_cd_fk FOREIGN KEY (locale_cd)
+REFERENCES lookup.locale_cd (locale_cd) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: contact_cd_fk | type: CONSTRAINT --
+-- ALTER TABLE public.contact DROP CONSTRAINT IF EXISTS contact_cd_fk CASCADE;
+ALTER TABLE public.contact ADD CONSTRAINT contact_cd_fk FOREIGN KEY (contact_cd)
+REFERENCES lookup.contact_cd (contact_cd) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: public.password_password_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.password_password_id_seq CASCADE;
+CREATE SEQUENCE public.password_password_id_seq
+	INCREMENT BY 1
+	MINVALUE -9223372036854775808
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+
+-- ddl-end --
+
+-- object: public.password | type: TABLE --
+-- DROP TABLE IF EXISTS public.password CASCADE;
+CREATE TABLE public.password (
+	password_id bigint NOT NULL DEFAULT nextval('public.password_password_id_seq'::regclass),
+	login_user_id bigint NOT NULL,
+	secret_key varchar(300) NOT NULL,
+	row_created_on timestamptz NOT NULL DEFAULT current_timestamp,
+	CONSTRAINT password_pk PRIMARY KEY (password_id)
+);
+-- ddl-end --
+ALTER TABLE public.password OWNER TO postgres;
+-- ddl-end --
+
+-- object: public.login_history | type: TABLE --
+-- DROP TABLE IF EXISTS public.login_history CASCADE;
+CREATE TABLE public.login_history (
+	login_history_id bigserial NOT NULL,
+	login_user_id bigint NOT NULL,
+	contact_id bigint NOT NULL,
+	success_login boolean NOT NULL,
+	row_created_on timestamptz NOT NULL DEFAULT current_timestamp,
+	logout_time timestamptz
+
+);
+-- ddl-end --
+COMMENT ON COLUMN public.login_history.success_login IS E'The login is success';
+-- ddl-end --
+COMMENT ON COLUMN public.login_history.row_created_on IS E'login time';
+-- ddl-end --
+ALTER TABLE public.login_history OWNER TO postgres;
+-- ddl-end --
+
+-- object: login_user_fk | type: CONSTRAINT --
+-- ALTER TABLE public.password DROP CONSTRAINT IF EXISTS login_user_fk CASCADE;
+ALTER TABLE public.password ADD CONSTRAINT login_user_fk FOREIGN KEY (login_user_id)
+REFERENCES public.login_user (login_user_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: login_user_fk | type: CONSTRAINT --
+-- ALTER TABLE public.contact DROP CONSTRAINT IF EXISTS login_user_fk CASCADE;
+ALTER TABLE public.contact ADD CONSTRAINT login_user_fk FOREIGN KEY (login_user_id)
+REFERENCES public.login_user (login_user_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: btree_gist | type: EXTENSION --
+-- DROP EXTENSION IF EXISTS btree_gist CASCADE;
+CREATE EXTENSION btree_gist
+WITH SCHEMA public;
+-- ddl-end --
+
+-- object: login_user_fk | type: CONSTRAINT --
+-- ALTER TABLE public.login_history DROP CONSTRAINT IF EXISTS login_user_fk CASCADE;
+ALTER TABLE public.login_history ADD CONSTRAINT login_user_fk FOREIGN KEY (login_user_id)
+REFERENCES public.login_user (login_user_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: contact_fk | type: CONSTRAINT --
+-- ALTER TABLE public.login_history DROP CONSTRAINT IF EXISTS contact_fk CASCADE;
+ALTER TABLE public.login_history ADD CONSTRAINT contact_fk FOREIGN KEY (contact_id)
+REFERENCES public.contact (contact_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: login_user_fk | type: CONSTRAINT --
+-- ALTER TABLE public.login_user_name DROP CONSTRAINT IF EXISTS login_user_fk CASCADE;
+ALTER TABLE public.login_user_name ADD CONSTRAINT login_user_fk FOREIGN KEY (login_user_id)
+REFERENCES public.login_user (login_user_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: public.token_token_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.token_token_id_seq CASCADE;
+CREATE SEQUENCE public.token_token_id_seq
+	INCREMENT BY 1
+	MINVALUE -9223372036854775808
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+
+-- ddl-end --
+
+-- object: public.token | type: TABLE --
+-- DROP TABLE IF EXISTS public.token CASCADE;
+CREATE TABLE public.token (
+	token_id bigint NOT NULL DEFAULT nextval('public.token_token_id_seq'::regclass),
+	contact_id bigint NOT NULL,
+	otp varchar(200) NOT NULL,
+	expires_on timestamptz NOT NULL,
+	row_created_on timestamptz NOT NULL DEFAULT current_timestamp,
+	CONSTRAINT token_pk PRIMARY KEY (token_id)
+);
+-- ddl-end --
+ALTER TABLE public.token OWNER TO postgres;
+-- ddl-end --
+
+-- object: contact_fk | type: CONSTRAINT --
+-- ALTER TABLE public.token DROP CONSTRAINT IF EXISTS contact_fk CASCADE;
+ALTER TABLE public.token ADD CONSTRAINT contact_fk FOREIGN KEY (contact_id)
+REFERENCES public.contact (contact_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: ixfk_token_contact_id | type: INDEX --
+-- DROP INDEX IF EXISTS public.ixfk_token_contact_id CASCADE;
+CREATE INDEX ixfk_token_contact_id ON public.token
+USING btree
+(
+	contact_id DESC NULLS LAST
+);
+-- ddl-end --
+
+-- object: ixfk_contact_login_user_id | type: INDEX --
+-- DROP INDEX IF EXISTS public.ixfk_contact_login_user_id CASCADE;
+CREATE INDEX ixfk_contact_login_user_id ON public.contact
+USING btree
+(
+	login_user_id DESC NULLS LAST
+);
+-- ddl-end --
+
+-- object: ixfk_login_user_name_login_user_id | type: INDEX --
+-- DROP INDEX IF EXISTS public.ixfk_login_user_name_login_user_id CASCADE;
+CREATE INDEX ixfk_login_user_name_login_user_id ON public.login_user_name
+USING btree
+(
+	login_user_id DESC NULLS LAST
+);
+-- ddl-end --
+
+-- object: ixfk_password_login_user_id | type: INDEX --
+-- DROP INDEX IF EXISTS public.ixfk_password_login_user_id CASCADE;
+CREATE INDEX ixfk_password_login_user_id ON public.password
+USING btree
+(
+	login_user_id DESC NULLS LAST
+);
+-- ddl-end --
+
+-- object: ix_login_user_login_uuid | type: INDEX --
+-- DROP INDEX IF EXISTS public.ix_login_user_login_uuid CASCADE;
+CREATE INDEX ix_login_user_login_uuid ON public.login_user
+USING btree
+(
+	login_uuid
+);
 -- ddl-end --
 
 
