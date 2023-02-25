@@ -10,6 +10,13 @@ OAuth means `Open Authorization` & OAuth 2 is an  `Authorization Framework`
 
 `Authorization` refers to rules that determine who is allowed to do what. E.g. Thirumal may be authorized to create and delete databases, while Jesicca is only authorized to read.
 
+#### Data dictionary 
+
+[Data Dictionary](./data dictionary.html)
+
+### Data Model
+
+![Data Model](../docs/data-model.svg)
 
 #### There are many ways of authentication, few of which are worth discussing here:
 
