@@ -3,11 +3,6 @@ package in.thirumal.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author Thirumal
@@ -17,7 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public class AuthorizationServerErrorController implements ErrorController {
 
 	Logger logger = LoggerFactory.getLogger(AuthorizationServerErrorController.class);
-	
+	/*
 	@GetMapping("/error")
     public String handleError(HttpServletRequest request) {
 		logger.error("Error => {}", request);
@@ -33,6 +28,6 @@ public class AuthorizationServerErrorController implements ErrorController {
 	        }
 	    }
 	    return "error";
-    }
+    }*/
 	
 }

@@ -14,12 +14,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -31,13 +30,11 @@ import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.client.JdbcRegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -49,8 +46,8 @@ import com.nimbusds.jose.proc.SecurityContext;
  * @author Thirumal
  *
  */
-@Configuration(proxyBeanMethods = false)
-@Import(OAuth2AuthorizationServerConfiguration.class)
+@Configuration//(proxyBeanMethods = false)
+//@Import(OAuth2AuthorizationServerConfiguration.class)
 public class AuthorizationServerConfig {
 
 	/**
@@ -99,28 +96,28 @@ public class AuthorizationServerConfig {
 	}
 	
 	@Bean
-	@Order(1)
+	 @Order(Ordered.HIGHEST_PRECEDENCE)
 	public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
 	    OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-	    http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-	    	.oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
+	 //   http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+	   // 	.oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
 	   // Redirect to the login page when not authenticated from the
 		// authorization endpoint
-		http.exceptionHandling(exceptions -> {
-			exceptions.authenticationEntryPoint(
-					new LoginUrlAuthenticationEntryPoint("/login"));
-		});
+//		http.exceptionHandling(exceptions -> {
+//			exceptions.authenticationEntryPoint(
+//					new LoginUrlAuthenticationEntryPoint("/login"));
+//		});
 		// Accept access tokens for User Info and/or Client Registration
-		http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+		//http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 
-	    return http/*.formLogin(Customizer.withDefaults())*/.build();
+	    return http.formLogin(Customizer.withDefaults()).build();
 	}
 	
 	@Bean 
-	@Order(2)
-	public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
+	//@Order(2)
+	public SecurityFilterChain configureSecurityFilterChain(HttpSecurity http)
 			throws Exception {
-		http.anonymous().disable();
+		//http.anonymous().disable();
 		http.authorizeHttpRequests()
 		//.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
 		.requestMatchers("/user/**", "/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico").permitAll()
@@ -133,7 +130,7 @@ public class AuthorizationServerConfig {
 			// Form login handles the redirect to the login page from the
 			// authorization server filter chain
 			.formLogin(Customizer.withDefaults());
-		http.csrf().disable();
+	//	http.csrf().disable();
 		return http.build();
 	}
 
