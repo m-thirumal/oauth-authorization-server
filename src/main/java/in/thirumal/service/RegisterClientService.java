@@ -38,8 +38,6 @@ public class RegisterClientService {
 	
 	public RegisteredClient register(Client client) {
 		logger.debug("Registering the client {}", client);
-		
-		System.out.println();
 		String clientPrimaryKey = UUID.randomUUID().toString();	
 		//Client
 		RegisteredClient registeredClient =
@@ -63,10 +61,7 @@ public class RegisterClientService {
 		          //.scope("read")
 		          .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
 		          //.tokenSettings(tokenSettings()) 
-				.build();		
-		logger.debug("----");
-		System.out.println(registeredClient);
-		System.out.println("-----");
+				.build();	
 		registeredClientRepository.save(registeredClient);
 		return get(clientPrimaryKey);
 	}

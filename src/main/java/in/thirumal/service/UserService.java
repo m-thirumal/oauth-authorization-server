@@ -1,5 +1,7 @@
 package in.thirumal.service;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +28,14 @@ import in.thirumal.model.Login;
 import in.thirumal.model.LoginUser;
 import in.thirumal.model.LoginUserName;
 import in.thirumal.model.Password;
+import in.thirumal.model.Token;
 import in.thirumal.model.UserResource;
 import in.thirumal.repository.ContactRepository;
 import in.thirumal.repository.GenericCdRepository;
 import in.thirumal.repository.LoginUserNameRepository;
 import in.thirumal.repository.LoginUserRepository;
 import in.thirumal.repository.PasswordRepository;
+import in.thirumal.repository.TokenRepository;
 import jakarta.validation.Valid;
 
 /**
@@ -56,8 +60,8 @@ public class UserService {
 	private LoginUserNameRepository loginUserNameRepository;
 	@Autowired
 	private PasswordRepository passwordRepository;
-	//@Autowired
-	//private TokenRepository tokenRepository;
+	@Autowired
+	private TokenRepository tokenRepository;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -78,8 +82,7 @@ public class UserService {
 		if (Objects.isNull(loginUser)) {
 			throw new ResourceNotFoundException("Not able create an account, Contact support");
 		}
-		// 
-		
+		// Consent		
 		oAuth2AuthorizationConsentService.save(OAuth2AuthorizationConsent
 				.withId(userResource.getRegisteredClientId(), loginUser.getLoginUuid().toString())
 				.authorities(t->t.addAll(userResource.getAuthorities()))
@@ -96,7 +99,10 @@ public class UserService {
 		// Password
 		passwordRepository.save(Password.builder().loginUserId(loginUserId).secretKey(passwordEncoder.encode(userResource.getPassword())).build());
 		// Token - 
-		//tokenRepository.save(Token.builder().build());
+		for (Contact contact : contactRepository.findByLoginId(Set.of(userResource.getEmail(), userResource.getPhoneNumber()))) {
+			tokenRepository.save(Token.builder().contactId(contact.getContactId()).otp(passwordEncoder.encode(generateOtp(6)))
+					.expiresOn(OffsetDateTime.now().plusMinutes(5)).build());
+		}
 		return get(loginUser.getLoginUuid());
 	}
 
@@ -181,6 +187,29 @@ public class UserService {
 		return null;
 	}
 
-	
+	/**
+	 * Generate OTP
+	 * @param otpLength
+	 * @return OTP
+	 */
+	private String generateOtp(int otpLength) {
+		StringBuilder generatedOTP = new StringBuilder();
+		SecureRandom secureRandom = new SecureRandom();
+		try {
+		    secureRandom = SecureRandom.getInstance(secureRandom.getAlgorithm());
+		    for (int i = 0; i < otpLength; i++) {
+		        generatedOTP.append(secureRandom.nextInt(9));
+		    }
+		} catch (NoSuchAlgorithmException e) {
+		    e.printStackTrace();
+		}
+		logger.debug("Generated OTP {}", generatedOTP);
+		return generatedOTP.toString();
+	}
+
+	public boolean verifyAccount(UserResource userResource) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

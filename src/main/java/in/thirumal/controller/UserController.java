@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +43,13 @@ public class UserController {
 	public UserResource createAccount(@RequestBody UserResource userResource) {
 		return userService.createAccount(userResource);
 	}
+	
+	
+	@PatchMapping("/verify")
+	public boolean verify(@RequestBody UserResource userResource) {
+		return userService.verifyAccount(userResource);
+	}
+	
 	
 	@PostMapping(value = "/login", consumes = { MediaType.APPLICATION_JSON_VALUE })
 	@ResponseStatus(value = HttpStatus.CREATED)
