@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -36,6 +37,7 @@ public class ContactDao extends GenericDao implements ContactRepository {
 	private static final String LIST                 = "Contact.list";
 	private static final String GETBY_LOGIN_USER_ID  = GET + "ByLoginUserId";
 	private static final String LISTBY_LOGIN_ID      = LIST + "ByLoginId";
+	private static final String LIST_IN_LOGIN_ID      = LIST + "InLoginId";
 	private static final String LISTBY_LOGIN_USER_ID = LIST + "ByLoginUserId";
 	
 	@Override
@@ -120,6 +122,12 @@ public class ContactDao extends GenericDao implements ContactRepository {
 		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
+	}
+	
+	@Override
+	public List<Contact> findByLoginId(Set<String> loginIds) {
+		String sql = getSql(LIST_IN_LOGIN_ID);
+		return jdbcTemplate.query(setInvalues(sql, "?", loginIds), contactRowMapper);
 	}
 	
 	RowMapper<Contact> contactRowMapper = (rs, rowNum) -> {

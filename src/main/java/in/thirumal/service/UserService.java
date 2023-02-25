@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +79,7 @@ public class UserService {
 			throw new ResourceNotFoundException("Not able create an account, Contact support");
 		}
 		// 
-		System.out.println(userResource.getAuthorities());
+		
 		oAuth2AuthorizationConsentService.save(OAuth2AuthorizationConsent
 				.withId(userResource.getRegisteredClientId(), loginUser.getLoginUuid().toString())
 				.authorities(t->t.addAll(userResource.getAuthorities()))
@@ -98,12 +100,25 @@ public class UserService {
 		return get(loginUser.getLoginUuid());
 	}
 
+	/**
+	 * Validation 
+	 * 	-	REGEX
+	 *  -	User Duplication 
+	 * @param userResource
+	 * @param genericCds
+	 */
 	private void validateEmailAndPhoneNumber(UserResource userResource, List<GenericCd> genericCds) {
 		logger.debug("E-mail and phone number validation");
 		// E-mail validation
 		validateWithRegex(genericCds, Contact.EMAIL, userResource.getEmail(), "The Requested E-Mail is not vaild");
 		//Phone Number validation
-		validateWithRegex(genericCds, Contact.PHONE_NUMBER, userResource.getPhoneNumber(), "The Requested Phone Number is not vaild");		
+		validateWithRegex(genericCds, Contact.PHONE_NUMBER, userResource.getPhoneNumber(), "The Requested Phone Number is not vaild");	
+		// User Duplication
+		List<Contact> contacts = contactRepository.findByLoginId(Set.of(userResource.getEmail(), userResource.getPhoneNumber()));
+		if (!contacts.isEmpty()) {
+			String contact = contacts.stream().map(Contact::getLoginId).collect(Collectors.joining(", "));
+			throw new BadRequestException("Account for " + contact + " is already available, please login or use forgot password");
+		}
 	}
 	
 	private void validateWithRegex(List<GenericCd> genericCds, Long codeCd, String value, String errorMessage) {

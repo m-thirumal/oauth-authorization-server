@@ -4,6 +4,7 @@
 package in.thirumal.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import in.thirumal.model.Contact;
 
@@ -24,5 +25,7 @@ public interface ContactRepository {
 	List<Contact> findAllByLoginUserId(Long id);
 
 	Contact findActiveLoginIdByLoginId(String username);
+
+	List<Contact> findByLoginId(Set<String> of);
 	
 }
