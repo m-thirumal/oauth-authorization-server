@@ -19,8 +19,8 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
-	public void onApplicationEvent(AuthenticationSuccessEvent event) { //This may not required at all. Since 
-		logger.debug("{}", event);
+	public void onApplicationEvent(AuthenticationSuccessEvent event) {  
+		logger.debug("Login Success event : {}", event);
 	}
 
 	

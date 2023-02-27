@@ -127,13 +127,12 @@ public class AuthorizationServerConfig {
 		http.anonymous().disable();
 		http.cors().and().authorizeHttpRequests()
 		//.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
-		.requestMatchers("/user/**", "/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico").permitAll()
-		;
+		.requestMatchers("/user/**", "/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico")
+		.permitAll();
 		http
 			.authorizeHttpRequests(authorize -> authorize
 				//	.requestMatchers(HttpMethod.POST, "/user/**").permitAll()
-				.anyRequest().authenticated()
-			)
+				.anyRequest().authenticated())
 			// Form login handles the redirect to the login page from the
 			// authorization server filter chain
 			.formLogin(Customizer.withDefaults());
