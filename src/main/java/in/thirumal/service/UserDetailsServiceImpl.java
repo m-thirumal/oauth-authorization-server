@@ -48,6 +48,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			String errorMessage = "The requested username : " + username + " is not available in the system";
 			logger.debug(errorMessage);
 			throw new UnAuthorizedException(errorMessage);
+		} else if (contact.getVerifiedOn() == null) {
+			String errorMessage = "Your account {} : " + username + " is not verified...";
+			logger.debug(errorMessage);
+			//throw new UnAuthorizedException(errorMessage);
 		}
 		// Login User
 		LoginUser loginUser = loginUserRepository.findById(contact.getLoginUserId());

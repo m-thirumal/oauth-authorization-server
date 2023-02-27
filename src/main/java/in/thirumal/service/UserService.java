@@ -208,7 +208,7 @@ public class UserService {
 	}
 
 	public boolean verifyAccount(UserResource userResource) {
-		// TODO Auto-generated method stub
+		logger.debug("Verifying account {}");
 		return false;
 	}
 	
