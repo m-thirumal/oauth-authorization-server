@@ -49,7 +49,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			logger.debug(errorMessage);
 			throw new UnAuthorizedException(errorMessage);
 		} else if (contact.getVerifiedOn() == null) {
-			String errorMessage = "Your account {} : " + username + " is not verified...";
+			String errorMessage = "Your account: " + username + " is not verified...";
 			logger.debug(errorMessage);
 			//throw new UnAuthorizedException(errorMessage);
 		}

@@ -4,6 +4,7 @@ spring:
   profiles: 
     active: DEV
   main:
+    #allow-bean-definition-overriding: true
     banner-mode: console
   lifecycle:
     timeout-per-shutdown-phase: 60s
@@ -17,16 +18,16 @@ spring:
 #      initial-size: 1
 #      max-size: 20
 #      max-idle-time: 30m
-  datasource:
-    url: jdbc:postgresql://localhost:5432/authorization-1
-    username: postgres
-    password: thirumal
-    jdbc-url: ${spring.datasource.url} # For hikari
-    hikari:
-      minimum-idle: 100
-      jdbc-url: ${spring.datasource.url} 
+#  datasource:
+#    url: jdbc:postgresql://3.6.239.198:5432/authorization-1
+#    username: postgres
+#    password: Enkindle@2013
+#    jdbc-url: ${spring.datasource.url} # For hikari
+#    hikari:
+#      minimum-idle: 100
+#      jdbc-url: ${spring.datasource.url} 
 server:
-  port: 9000
+#  port: 9000
   shutdown: graceful
   error:
     path: /error
@@ -47,6 +48,24 @@ logging:
       max-history: 10
       max-file-size: 100MB
       total-size-cap: 1GB
+---
+eureka:
+  instance:
+    instanceId: ${spring.cloud.client.hostname}:${spring.application.name}:${random.int[1,999999]}
+    leaseRenewalIntervalInSeconds: 10
+    preferIpAddress: true
+    health-check-url-path: /actuator/health
+    metadata-map:
+      startup: ${random.int}    #needed to trigger info and endpoint update after restart
+      user:
+        name: "thirumal"
+        password: "thirumal"
+  client:
+    region: default
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    registryFetchIntervalSeconds: 5
 #Actuator
 management:
   endpoint:
