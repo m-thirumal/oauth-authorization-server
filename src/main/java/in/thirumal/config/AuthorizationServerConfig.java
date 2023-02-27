@@ -8,6 +8,7 @@ import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -38,6 +39,9 @@ import org.springframework.security.oauth2.server.authorization.token.JwtEncodin
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -121,7 +125,7 @@ public class AuthorizationServerConfig {
 	public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
 			throws Exception {
 		http.anonymous().disable();
-		http.authorizeHttpRequests()
+		http.cors().and().authorizeHttpRequests()
 		//.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
 		.requestMatchers("/user/**", "/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico").permitAll()
 		;
@@ -202,6 +206,18 @@ public class AuthorizationServerConfig {
                 context.getClaims().claim("roles", authorities);
             }
         };
+    }
+    
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+    	CorsConfiguration corsConfiguration = new CorsConfiguration();
+    	corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+    	corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST"));
+    	corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
+    	//
+    	UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+    	urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+    	return urlBasedCorsConfigurationSource;
     }
 
 }
