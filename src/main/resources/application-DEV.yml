@@ -14,3 +14,9 @@ eureka:
   client:
     service-url:
       defaultZone: http://thirumal:thirumal@localhost:8761/eureka/
+google:
+  recaptcha:
+    key:
+      site: 6LcTncEkAAAAACymEdK_QG-
+      secret: 6LcTncEkAAAAAOmE5T
+      threshold: 0.5

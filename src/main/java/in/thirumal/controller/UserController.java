@@ -3,6 +3,8 @@
  */
 package in.thirumal.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -17,11 +19,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.thirumal.model.Login;
 import in.thirumal.model.UserResource;
+import in.thirumal.security.captcha.CaptchaService;
 import in.thirumal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -39,12 +43,45 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private CaptchaService captchaService;
+	
+	/**
+	 * Create account without re-captcha 
+	 * WARNING - Don't use it for production
+	 * @param userResource
+	 * @return
+	 */
 	@PostMapping("/create-account")
 	public UserResource createAccount(@RequestBody UserResource userResource) {
 		return userService.createAccount(userResource);
 	}
 	
+	/**
+	 * Create account with re-captcha challenge
+	 * @param userResource
+	 * @return
+	 */
+	@PostMapping("/create-account-with-captcha")
+	public UserResource createAccountWithCaptcha(@RequestBody UserResource userResource, 
+			@RequestParam(name="recaptcha") String recaptchaResponse, HttpServletRequest request) {
+		logger.debug("Recaptcha {}", recaptchaResponse);
+		verifyCaptcha(recaptchaResponse, request);
+		return userService.createAccount(userResource);
+	}	
 	
+	private ResponseEntity<?> verifyCaptcha(String recaptchaResponse, HttpServletRequest request) {
+		String ip = request.getRemoteAddr();
+		String captchaVerifyMessage = captchaService.verifyRecaptcha(ip, recaptchaResponse);
+		if (org.apache.commons.lang3.StringUtils.isNotEmpty(captchaVerifyMessage)) {
+			Map<String, Object> response = new HashMap<>();
+			response.put("message", captchaVerifyMessage);
+			return ResponseEntity.badRequest().body(response);
+		}
+		return ResponseEntity.badRequest().body(Boolean.TRUE);
+	}
+
+
 	@PatchMapping("/verify")
 	public boolean verify(@RequestBody UserResource userResource) {
 		return userService.verifyAccount(userResource);

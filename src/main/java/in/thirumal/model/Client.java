@@ -4,6 +4,7 @@
 package in.thirumal.model;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -25,7 +26,7 @@ public class Client implements Serializable {
 	private Set<AuthorizationGrantType> authorizationGrantTypes;
 	private Set<String> redirectUris;
 	private Set<String> scopes;
-//	private ClientSettings clientSettings;
+	private Map<String, Object> clientSettings;
 //	private TokenSettings tokenSettings;
 	
 	
@@ -95,5 +96,17 @@ public class Client implements Serializable {
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	/**
+	 * @return the clientSettings
+	 */
+	public Map<String, Object> getClientSettings() {
+		return clientSettings;
+	}
+	/**
+	 * @param clientSettings the clientSettings to set
+	 */
+	public void setClientSettings(Map<String, Object> clientSettings) {
+		this.clientSettings = clientSettings;
 	}
 }

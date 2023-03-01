@@ -208,7 +208,8 @@ public class UserService {
 	}
 
 	public boolean verifyAccount(UserResource userResource) {
-		logger.debug("Verifying account {}");
+		logger.debug("Verifying account {}", userResource);
+		
 		return false;
 	}
 	

@@ -59,7 +59,8 @@ public class RegisterClientService {
 		          //.scope(OidcScopes.OPENID)
 		          //.scope(OidcScopes.PROFILE)
 		          //.scope("read")
-		          .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+		         //  .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
+		        .clientSettings(ClientSettings.withSettings(client.getClientSettings()).build())
 		          //.tokenSettings(tokenSettings()) 
 				.build();	
 		registeredClientRepository.save(registeredClient);

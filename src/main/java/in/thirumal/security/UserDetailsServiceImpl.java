@@ -1,7 +1,7 @@
 /**
  * 
  */
-package in.thirumal.service;
+package in.thirumal.security;
 
 import java.time.LocalDateTime;
 
