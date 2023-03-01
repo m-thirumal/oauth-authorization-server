@@ -19,10 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import in.thirumal.exception.BadRequestException;
 import in.thirumal.exception.ResourceNotFoundException;
 import in.thirumal.model.Contact;
+import in.thirumal.model.ContactVerify;
 import in.thirumal.model.GenericCd;
 import in.thirumal.model.Login;
 import in.thirumal.model.LoginUser;
@@ -65,11 +67,13 @@ public class UserService {
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
 	/**
 	 * Create new account for the user
 	 * @param userResource
 	 * @return 
 	 */
+	@Transactional
 	public UserResource createAccount(UserResource userResource) {
 		logger.debug("Creating new user.... {}", userResource);
 		// Validation
@@ -207,10 +211,29 @@ public class UserService {
 		return generatedOTP.toString();
 	}
 
-	public boolean verifyAccount(UserResource userResource) {
-		logger.debug("Verifying account {}", userResource);
-		
-		return false;
+	@Transactional
+	public boolean verifyContact(ContactVerify contactVerify) {
+		logger.debug("Verifying contact account {}", contactVerify);
+		Contact contact = contactRepository.findActiveLoginIdByLoginId(contactVerify.getContact());
+		if (Objects.isNull(contact)) {
+			logger.debug("The requested contact {} is not available in the database", contactVerify.getContact());
+			return false; //Throw exception instead of boolean
+		} else if (Objects.nonNull(contact.getVerifiedOn())) {
+			logger.debug("The requested contact {} is already Verified on {}", contact.getLoginId(), contact.getVerifiedOn());
+			return false;
+		}
+		// Check the OTP
+		Token token = tokenRepository.findByContactId(contact.getContactId());
+		if (Objects.isNull(token)) {
+			logger.debug("The requested contact {} has not requested OTP / it's expired", contactVerify.getContact());
+			return false; //Throw exception instead of boolean
+		}
+		if (!passwordEncoder.matches(contactVerify.getOtp(), token.getOtp())) {
+			logger.debug("OTP is not matched");
+			return false;
+		}
+		contact.setVerifiedOn(OffsetDateTime.now());
+		return contactRepository.verify(contact) == 1;
 	}
 	
 }

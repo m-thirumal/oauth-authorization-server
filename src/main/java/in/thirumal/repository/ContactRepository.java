@@ -27,5 +27,10 @@ public interface ContactRepository {
 	Contact findActiveLoginIdByLoginId(String username);
 
 	List<Contact> findByLoginId(Set<String> of);
+	/**
+	 * Verify contact with OTP
+	 * @param contact
+	 */
+	int verify(Contact contact);
 	
 }

@@ -2,6 +2,7 @@ GenericCd.listByTableName=SELECT * FROM lookup.{TABLE_NAME}_cd AS c LEFT JOIN lo
 #-- Contact
 Contact=SELECT * FROM public.contact WHERE
 Contact.create=INSERT INTO public.contact(login_user_id, contact_cd, login_id) VALUES (?, ?, ?)
+Contact.verify=UPDATE public.contact SET verified_on = ? WHERE  contact_id = ?
 Contact.get=${Contact} contact_id = ?
 Contact.getByLoginUserId=${Contact} login_user_id = ? ORDER BY contact_id DESC LIMIT 1
 Contact.listByLoginUserId=${Contact} login_user_id = ?

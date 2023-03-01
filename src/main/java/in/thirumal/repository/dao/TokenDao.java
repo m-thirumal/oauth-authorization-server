@@ -32,8 +32,8 @@ public class TokenDao extends GenericDao implements TokenRepository {
 	private static final String CREATE               = "Token.create";
 	private static final String GET                  = "Token.get";
 	private static final String LIST                 = "Token.list";
-	private static final String GETBY_LOGIN_USER_ID  = GET + "ByLoginUserId";
-	private static final String LISTBY_LOGIN_USER_ID = LIST + "ByLoginUserId";
+	private static final String GET_BY_CONTACT_ID  = GET + "ByContactId";
+	private static final String LIST_BY_CONTACT_ID = LIST + "ByContactId";
 	
 	@Override
 	public Long save(Token token) {
@@ -77,13 +77,13 @@ public class TokenDao extends GenericDao implements TokenRepository {
 	@Override
 	public Token findByContactId(Long contactId) {
 		logger.debug("Finding token by contact Id {}", contactId);
-		return jdbcTemplate.queryForObject(getSql(GETBY_LOGIN_USER_ID), tokenRowMapper, contactId);
+		return jdbcTemplate.queryForObject(getSql(GET_BY_CONTACT_ID), tokenRowMapper, contactId);
 	}
 	
 	@Override
 	public List<Token> findAllByLoginUserId(Long id) {
 		logger.debug("Finding contact by loginUserId {}", id);
-		return jdbcTemplate.query(getSql(LISTBY_LOGIN_USER_ID), tokenRowMapper, id);
+		return jdbcTemplate.query(getSql(LIST_BY_CONTACT_ID), tokenRowMapper, id);
 	}
 
 	RowMapper<Token> tokenRowMapper = (rs, rowNum) -> {
