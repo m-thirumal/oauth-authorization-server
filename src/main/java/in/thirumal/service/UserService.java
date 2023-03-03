@@ -2,6 +2,7 @@ package in.thirumal.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.ToLongFunction;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -245,25 +247,67 @@ public class UserService {
 	public boolean verifyContact(ContactVerify contactVerify) {
 		logger.debug("Verifying contact account {}", contactVerify);
 		Contact contact = contactRepository.findActiveLoginIdByLoginId(contactVerify.getContact());
+		String errorMessage = "The requested login ID ";
 		if (Objects.isNull(contact)) {
-			logger.debug("The requested contact {} is not available in the database", contactVerify.getContact());
-			return false; //Throw exception instead of boolean
+			errorMessage += contactVerify.getContact() + " is not available in the database";
+			logger.debug(errorMessage);
+			throw new ResourceNotFoundException(errorMessage);
 		} else if (Objects.nonNull(contact.getVerifiedOn())) {
-			logger.debug("The requested contact {} is already Verified on {}", contact.getLoginId(), contact.getVerifiedOn());
-			return false;
+			errorMessage += contact.getLoginId() + " is already Verified on " + contact.getVerifiedOn();
+			logger.debug(errorMessage);
+			throw new BadRequestException(errorMessage);
 		}
 		// Check the OTP
 		Token token = tokenRepository.findByContactId(contact.getContactId());
 		if (Objects.isNull(token)) {
-			logger.debug("The requested contact {} has not requested OTP / it's expired", contactVerify.getContact());
-			return false; //Throw exception instead of boolean
+			errorMessage += contactVerify.getContact() + " has not requested OTP / it's expired";
+			logger.debug(errorMessage);
+			throw new BadRequestException(errorMessage);
 		}
 		if (!passwordEncoder.matches(contactVerify.getOtp(), token.getOtp())) {
-			logger.debug("OTP is not matched");
-			return false;
+			errorMessage = "OTP is not matched";
+			logger.debug(errorMessage);
+			throw new BadRequestException(errorMessage);
 		}
 		contact.setVerifiedOn(OffsetDateTime.now());
 		return contactRepository.verify(contact) == 1;
 	}
+
+	/**
+	 * First time OTP request 
+	 * Used in Forgot password 1st OTP request & change user id
+	 * @param emailId
+	 * @param otp
+	 * @return OTP
+	 */
+	@Transactional
+	public boolean requestOtp(String loginId) {
+		logger.debug("The {} requested for OTP", loginId);
+		Contact contact = contactRepository.findActiveLoginIdByLoginId(loginId);
+		if (contact == null) {
+			logger.debug("The requested contact  login ID is not available in the system {}", loginId);
+			throw new ResourceNotFoundException(".....");
+			//return false;
+		}
+		Token existToken = tokenRepository.findByContactId(contact.getContactId());
+		if (existToken != null) {
+			lastActiveTokenValidTime.applyAsLong(existToken);
+		}
+		String otp = generateOtp(5);
+		tokenRepository.save(Token.builder().contactId(contact.getContactId()).otp(passwordEncoder.encode(otp))
+				.expiresOn(OffsetDateTime.now().plusMinutes(5)).build());
+		return true;
+	}
+	
+	ToLongFunction<Token> lastActiveTokenValidTime = token -> {
+		Duration duration = Duration.between(OffsetDateTime.now().toLocalDateTime(), token.getRowCreatedOn().toLocalDateTime());
+		
+		if (duration.getSeconds() > 30) {
+			logger.debug("The last token requested at {}", token.getRowCreatedOn());
+			//throw new IcmsException(ErrorFactory.RESOURCE_FAILED_VALIDATION, "Too many request in few minutes");
+		}
+		return duration.getSeconds();		
+	};
+	
 	
 }

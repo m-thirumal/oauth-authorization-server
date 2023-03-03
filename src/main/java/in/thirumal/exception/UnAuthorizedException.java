@@ -31,4 +31,9 @@ public class UnAuthorizedException extends RuntimeException {
         super(cause);
     }
     
+    @Override
+    public synchronized Throwable fillInStackTrace() {
+        return this;
+    }
+    
 }

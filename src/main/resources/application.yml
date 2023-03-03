@@ -30,6 +30,7 @@ server:
 #  port: 9000
   shutdown: graceful
   error:
+    include-stacktrace: never
     path: /error
     whitelabel:
       enabled: false

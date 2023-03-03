@@ -30,4 +30,9 @@ public class ResourceNotFoundException extends RuntimeException{
     public ResourceNotFoundException(final Throwable cause) {
         super(cause);
     }
+    
+    @Override
+    public synchronized Throwable fillInStackTrace() {
+        return this;
+    }
 }

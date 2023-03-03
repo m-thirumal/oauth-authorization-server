@@ -30,4 +30,9 @@ public class BadRequestException extends RuntimeException {
     public BadRequestException(final Throwable cause) {
         super(cause);
     }
+    
+    @Override
+    public synchronized Throwable fillInStackTrace() {
+        return this;
+    }
 }

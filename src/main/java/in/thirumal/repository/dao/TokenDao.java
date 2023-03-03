@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -77,7 +78,11 @@ public class TokenDao extends GenericDao implements TokenRepository {
 	@Override
 	public Token findByContactId(Long contactId) {
 		logger.debug("Finding token by contact Id {}", contactId);
-		return jdbcTemplate.queryForObject(getSql(GET_BY_CONTACT_ID), tokenRowMapper, contactId);
+		try {
+			return jdbcTemplate.queryForObject(getSql(GET_BY_CONTACT_ID), tokenRowMapper, contactId);
+		} catch(EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 	
 	@Override

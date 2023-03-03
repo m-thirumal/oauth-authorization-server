@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -88,7 +89,19 @@ public class UserController {
 	}
 	
 	
-	//TODO FORGOT PASSWORD
+	/**
+	 * @param payload (email)
+	 * @return
+	 */
+	@PatchMapping(value = "/request-otp", consumes = { MediaType.APPLICATION_JSON_VALUE })
+	public ResponseEntity<?> requestOtp(@RequestParam(name="recaptcha") String recaptchaResponse, HttpServletRequest request,
+			@RequestBody Map<String, Object> payload) {
+		logger.debug("Requested OTP for the ");
+		//Start of Verify reCaptcha
+		// verifyCaptcha(recaptchaResponse, request);
+		//End of reCaptcha
+		return new ResponseEntity<>(userService.requestOtp(payload.get("loginId").toString()), HttpStatus.OK);
+	}
 	
 	
 	@PostMapping(value = "/login", consumes = { MediaType.APPLICATION_JSON_VALUE })
