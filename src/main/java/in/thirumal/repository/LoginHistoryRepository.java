@@ -23,13 +23,13 @@ public interface LoginHistoryRepository {
 	 * @param loginId
 	 * @return
 	 */
-	Long saveLogout(Long loginId);
+	int saveLogout(Long loginUserId);
 	
 	/**
 	 * List login histories
 	 * @param loginId
 	 * @return
 	 */
-	List<LoginHistory> list(Long loginId);
+	List<LoginHistory> list(Long loginUserId, int limit, int offset);
 
 }

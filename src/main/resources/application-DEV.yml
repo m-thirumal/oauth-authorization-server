@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/authorization-1
+    url: jdbc:postgresql://3.6.239.198:5432/authorization-1
     username: postgres
     password: Thirumal
     jdbc-url: ${spring.datasource.url} # For hikari
@@ -13,10 +13,15 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://thirumal:thirumal@localhost:8761/eureka/
+      defaultZone: http://thirumal:thirumal@3.6.239.198:8761/eureka/
 google:
   recaptcha:
     key:
-      site: 6LcTncEkAAAAACymEdK_QG-
-      secret: 6LcTncEkAAAAAOmE5T
+      site: 6LcTncEkAAAAACymE
+      secret: 6LcTncEkAAAAAOmE5T8e
       threshold: 0.5
+notification: 
+  email:
+    sender: no-reply@gmail.com
+  sms: 
+    sender: THIRU

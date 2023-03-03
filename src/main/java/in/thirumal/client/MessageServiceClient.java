@@ -14,14 +14,14 @@ import in.thirumal.model.Message;
  * @author Thirumal
  *
  */
-@FeignClient(name = "message-service", configuration = MessageServiceConfig.class, fallback =  MessageServiceFallback.class)
+@FeignClient(name = "message-service", url="http://3.6.239.198:44157", configuration = MessageServiceConfig.class, fallback =  MessageServiceFallback.class)
 public interface MessageServiceClient {
 	
-	@PostMapping(value = "/sms/2")
+	@PostMapping(value = "/sms/3")
 	Message send(@RequestBody Message message);
 
 	
-	@PostMapping(value = "/email/2")
+	@PostMapping(value = "/email/3")
 	Email send(@RequestBody Email email);
 	
 }

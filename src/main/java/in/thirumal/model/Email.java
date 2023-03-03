@@ -39,27 +39,7 @@ public class Email extends Message implements Serializable {
 	private List<byte[]> attachments;
 	private InformationDetail informationDetail;
 	
-	public static final String AUCTION_CREATE_BY_AUCTIONEER = "auctionCreateByAuctioneer";
-	public static final String AUCTION_CREATE_BY_SUPPORT = "auctionCreateBySupport";
-	public static final String AUCTION_CANCEL_BY_AUCTIONEER = "auctionCancelByAuctioneer";
-	public static final String AUCTION_CANCEL_BY_SUPPORT = "auctionCancelBySupport";
-	public static final String DATE_MODIFICATION = "auctionDateModification";
-	public static final String AUCTION_END = "auctionEnd";
-	public static final String AUCTION_END_REMINDER = "auctionEndReminder";
-	public static final String AUCTION_START_REMINDER = "auctionStartReminder";
-	public static final String BIDDER_INVITATION = "bidderInvitation";
-	public static final String AUCTION_BID_REQUSET_STATUS = "auctionBidRequestStatus";
-	public static final String AUCTION_BID_REQUSET_SUBMITTED = "auctionBidRequestSubmitted";
-	public static final String AUCTION_BID_ACKNOWLEDGEMENT = "auctionBidAcknowledgement";
-	public static final String NEW_BIDS_NOTIFICATION = "auctionBidAcknowledgement";
-	public static final String ROLE_ASSIGN = "auctionRoleAssign";
-	public static final String ROLE_REVOKE = "auctionRoleRevoke";
-	public static final String RESCHEDULE = "auctionReschedule";
-	public static final String NEW_BIDS_ALERT = "newBidsNotificationForAuctioneer";
-	public static final String AUTHREP_INVITATION = "authRepInvitation";
-	public static final String AUCTION_PUBLISH = "auctionPublishNotification";
-	public static final String BULK_UPLOAD = "auctionBulkUpload";
-	public static final String AUTH_REP_REVOKE = "authRepRevokeNotification";
+	public static final String SIGNUP_FTL_TEMPLATE = "signup";
 	
 	public Email(Message m) {
 		this.messageId = m.getMessageId();

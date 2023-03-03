@@ -5,6 +5,7 @@ import java.security.SecureRandom;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -15,20 +16,24 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import in.thirumal.client.MessageServiceClient;
 import in.thirumal.exception.BadRequestException;
 import in.thirumal.exception.ResourceNotFoundException;
 import in.thirumal.model.Contact;
 import in.thirumal.model.ContactVerify;
+import in.thirumal.model.Email;
 import in.thirumal.model.GenericCd;
 import in.thirumal.model.Login;
 import in.thirumal.model.LoginUser;
 import in.thirumal.model.LoginUserName;
+import in.thirumal.model.Message;
 import in.thirumal.model.Password;
 import in.thirumal.model.Token;
 import in.thirumal.model.UserResource;
@@ -64,10 +69,17 @@ public class UserService {
 	private PasswordRepository passwordRepository;
 	@Autowired
 	private TokenRepository tokenRepository;
-
+	@Autowired
+	private MessageServiceClient messageServiceClient;
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
+	//
+	@Value("${notification.email.sender}")
+	String emailSender;
+	@Value("${notification.sms.sender}")
+	String smsSender;
+	//
 	/**
 	 * Create new account for the user
 	 * @param userResource
@@ -104,10 +116,28 @@ public class UserService {
 		passwordRepository.save(Password.builder().loginUserId(loginUserId).secretKey(passwordEncoder.encode(userResource.getPassword())).build());
 		// Token - 
 		for (Contact contact : contactRepository.findByLoginId(Set.of(userResource.getEmail(), userResource.getPhoneNumber()))) {
-			tokenRepository.save(Token.builder().contactId(contact.getContactId()).otp(passwordEncoder.encode(generateOtp(6)))
+			String otp = generateOtp(6);
+			sendOtp(userResource, contact, otp);
+			tokenRepository.save(Token.builder().contactId(contact.getContactId()).otp(passwordEncoder.encode(otp))
 					.expiresOn(OffsetDateTime.now().plusMinutes(5)).build());
+			
 		}
 		return get(loginUser.getLoginUuid());
+	}
+
+	private void sendOtp(UserResource userResource, Contact contact, String otp) {
+		logger.debug("Sending OTP {} to {}", otp, contact.getLoginId());
+		Message status = null ;
+		if (Contact.PHONE_NUMBER.equals(contact.getContactCd())) {
+			String message = "Dear " + userResource.getFirstName() + ", Your OTP to SignUp is " + otp 
+					+ " and valid for 5 minutes. Do not disclose it to anyone for security reasons.";
+			status = messageServiceClient.send(Message.builder().sender(smsSender).receiver(Set.of(contact.getLoginId()))
+					.information(message).messageOf(contact.getLoginUserId()).build());
+		} else if (Contact.EMAIL.equals(contact.getContactCd())) {
+			status = messageServiceClient.send(new Email(emailSender, Set.of(contact.getLoginId()), Email.SIGNUP_FTL_TEMPLATE, 
+				Map.of("name", userResource.getFirstName(), "otp", otp), "OTP to verify your account",  contact.getLoginUserId()));
+		} 
+		logger.debug("Email/SMS status {}", status);
 	}
 
 	/**

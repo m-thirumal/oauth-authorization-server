@@ -18,6 +18,11 @@ LoginUserName=SELECT * FROM public.login_user_name WHERE
 LoginUserName.create=INSERT INTO public.login_user_name(login_user_id, first_name, middle_name, last_name) VALUES (?, ?, ?, ?)
 LoginUserName.get=${LoginUserName} login_user_name_id = ?
 LoginUserName.getByLoginUserId=${LoginUserName} login_user_id = ? ORDER BY login_user_name_id DESC LIMIT 1
+# ---- Login History -----
+LoginHistory=SELECT * FROM public.login_history WHERE
+LoginHistory.create=INSERT INTO public.login_history(login_user_id, contact_id, success_login) VALUES (?, ?, ?)
+LoginHistory.logout=UPDATE public.login_history SET logout_time = now() WHERE login_id = ? ORDER BY login_user_id DESC LIMIT 1
+LoginHistory.listByLoginUserId=${LoginHistory} login_user_id = ? LIMIT ? OFFSET ?
 #-- Password
 Password=SELECT * FROM public.password WHERE 
 Password.create=INSERT INTO public.password(login_user_id, secret_key) VALUES (?, ?)

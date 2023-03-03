@@ -20,3 +20,8 @@ google:
       site: 6LcTncEkAAAAACymEdK_QG-
       secret: 6LcTncEkAAAAAOmE5T
       threshold: 0.5
+notification: 
+  email:
+    sender: no-reply@gamil.com
+  sms: 
+    sender: THIRU

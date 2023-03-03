@@ -1,5 +1,27 @@
-{"properties": [{
-  "name": "spring.datasource.jdbc-url",
-  "type": "java.lang.String",
-  "description": "A description for 'spring.datasource.jdbc-url'"
-}]}
+{"properties": [
+  {
+    "name": "spring.datasource.jdbc-url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.jdbc-url'"
+  },
+  {
+    "name": "notification.email.sender",
+    "type": "java.lang.String",
+    "description": "A description for 'notification.email.sender'"
+  },
+  {
+    "name": "notification.email.activated",
+    "type": "java.lang.String",
+    "description": "A description for 'notification.email.activated'"
+  },
+  {
+    "name": "notification.sms.sender",
+    "type": "java.lang.String",
+    "description": "A description for 'notification.sms.sender'"
+  },
+  {
+    "name": "notification.sms.activated",
+    "type": "java.lang.String",
+    "description": "A description for 'notification.sms.activated'"
+  }
+]}
