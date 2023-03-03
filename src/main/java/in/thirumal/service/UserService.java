@@ -135,7 +135,7 @@ public class UserService {
 					.information(message).messageOf(contact.getLoginUserId()).build());
 		} else if (Contact.EMAIL.equals(contact.getContactCd())) {
 			status = messageServiceClient.send(new Email(emailSender, Set.of(contact.getLoginId()), Email.SIGNUP_FTL_TEMPLATE, 
-				Map.of("name", userResource.getFirstName(), "otp", otp), "OTP to verify your account",  contact.getLoginUserId()));
+				Map.of("name", userResource.getFirstName(), "otp", otp), "Account Verification OTP " + otp,  contact.getLoginUserId()));
 		} 
 		logger.debug("Email/SMS status {}", status);
 	}
