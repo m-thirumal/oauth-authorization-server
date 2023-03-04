@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -58,7 +59,11 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
 	@Override
 	public LoginUser findByUuid(UUID uuid) {
 		logger.debug("Finding login user by UUID {}", uuid);
-		return jdbcTemplate.queryForObject(getSql(GETBY_UUID), loginUserRowMapper, uuid);
+		try {
+			return jdbcTemplate.queryForObject(getSql(GETBY_UUID), loginUserRowMapper, uuid);
+		} catch (EmptyResultDataAccessException e) {
+			return null;
+		}
 	}
 	
 	

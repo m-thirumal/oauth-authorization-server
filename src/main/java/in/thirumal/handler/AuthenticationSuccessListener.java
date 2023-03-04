@@ -46,7 +46,8 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
 		}
 		LoginUser loginUser = loginUserRepository.findByUuid(loginId);
 		if (Objects.isNull(loginUser)) {
-			logger.error("Login User {} is not found on successful login ", userName);
+			logger.debug("It's client id login.....Ignoring.....");
+			return;
 		} 
 		loginHistoryRepository.save(LoginHistory.builder().loginUserId(loginUser.getLoginUserId()).successLogin(true).build());
 	}

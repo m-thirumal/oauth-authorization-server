@@ -4,6 +4,7 @@
 package in.thirumal.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,6 +28,7 @@ import in.thirumal.exception.NotImplementedException;
 import in.thirumal.model.ContactVerify;
 import in.thirumal.model.Email;
 import in.thirumal.model.Login;
+import in.thirumal.model.LoginHistory;
 import in.thirumal.model.UserResource;
 import in.thirumal.security.captcha.CaptchaService;
 import in.thirumal.service.UserService;
@@ -138,6 +140,13 @@ public class UserController {
 	@GetMapping("/get-account/{loginUuid}")
 	public UserResource createAccount(@PathVariable("loginUuid") UUID loginUuid) {
 		return userService.get(loginUuid);
+	}
+	 
+	@GetMapping("/login-histories/{loginUuid}")
+	public List<LoginHistory> loginHistories(@PathVariable("loginUuid") UUID loginUuid,
+			@RequestParam(value = "page", required = false, defaultValue = "20") int page, 
+			@RequestParam(value = "size", required = false, defaultValue = "0") int size) {
+		return userService.loginHistories(loginUuid, page, size);
 	}
 		
 }

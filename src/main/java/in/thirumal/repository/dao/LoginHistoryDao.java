@@ -72,7 +72,7 @@ public class LoginHistoryDao extends GenericDao implements LoginHistoryRepositor
 
 		LoginHistory loginHistory = new LoginHistory();
 
-		loginHistory.setLoginUserId(rs.getObject(PK) != null ? rs.getLong(PK) : null);
+		loginHistory.setLoginHistoryId(rs.getObject(PK) != null ? rs.getLong(PK) : null);
 
 		loginHistory.setLoginUserId(rs.getObject("login_user_id") != null ? rs.getLong("login_user_id") : null);
 		

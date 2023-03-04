@@ -26,7 +26,6 @@ public class LoginHistory implements Serializable {
 
 	private Long loginHistoryId;
 	private Long loginUserId;
-	private Long contactId;
 	private boolean successLogin;
 	private OffsetDateTime rowCreatedOn; //Login Time
 	private OffsetDateTime logoutTime;

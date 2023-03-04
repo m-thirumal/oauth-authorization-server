@@ -34,6 +34,7 @@ import in.thirumal.model.ContactVerify;
 import in.thirumal.model.Email;
 import in.thirumal.model.GenericCd;
 import in.thirumal.model.Login;
+import in.thirumal.model.LoginHistory;
 import in.thirumal.model.LoginUser;
 import in.thirumal.model.LoginUserName;
 import in.thirumal.model.Message;
@@ -42,6 +43,7 @@ import in.thirumal.model.Token;
 import in.thirumal.model.UserResource;
 import in.thirumal.repository.ContactRepository;
 import in.thirumal.repository.GenericCdRepository;
+import in.thirumal.repository.LoginHistoryRepository;
 import in.thirumal.repository.LoginUserNameRepository;
 import in.thirumal.repository.LoginUserRepository;
 import in.thirumal.repository.PasswordRepository;
@@ -68,6 +70,8 @@ public class UserService {
 	private LoginUserRepository loginUserRepository;
 	@Autowired
 	private LoginUserNameRepository loginUserNameRepository;
+	@Autowired
+	private LoginHistoryRepository loginHistoryRepository;
 	@Autowired
 	private PasswordRepository passwordRepository;
 	@Autowired
@@ -312,6 +316,16 @@ public class UserService {
 		}
 		return duration.getSeconds();		
 	};
+	
+	
+	public List<LoginHistory> loginHistories(UUID loginUuid, int page, int size) {
+		logger.debug("Listing login histories {} from page {} to {}", loginUuid, page, size);
+		LoginUser loginUser = loginUserRepository.findByUuid(loginUuid);
+		if (Objects.isNull(loginUser) ) {
+			throw new ResourceNotFoundException("The reuested user is not present in the database");
+		}
+		return loginHistoryRepository.list(loginUser.getLoginUserId(), size, ((page - 1) * size));
+	}
 	
 	
 }
