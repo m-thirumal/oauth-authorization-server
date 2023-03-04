@@ -42,7 +42,7 @@ public class LoginHistoryDao extends GenericDao implements LoginHistoryRepositor
             return Optional.ofNullable(holder.getKey())
                     .orElseThrow(()->new ResourceNotFoundException(primaryKeyErr)).longValue();
         } catch (DataIntegrityViolationException e) {
-           logger.error("Password insert exception: {}", e.getMessage());
+           logger.error("Login histories insert exception: {}", e.getMessage());
            throw new BadRequestException("Login details are not added, Contact admin");
         }       
 	}
@@ -53,12 +53,7 @@ public class LoginHistoryDao extends GenericDao implements LoginHistoryRepositor
         } else {
             ps.setLong(1, loginHistory.getLoginUserId());
         }
-		if(loginHistory.getContactId() == null) {
-            ps.setObject(2, null);
-        } else {
-            ps.setLong(2, loginHistory.getContactId());
-        }
-		 ps.setBoolean(3, loginHistory.isSuccessLogin());		 
+		ps.setBoolean(2, loginHistory.isSuccessLogin());		 
 		return ps;
 	}
 	
@@ -80,8 +75,6 @@ public class LoginHistoryDao extends GenericDao implements LoginHistoryRepositor
 		loginHistory.setLoginUserId(rs.getObject(PK) != null ? rs.getLong(PK) : null);
 
 		loginHistory.setLoginUserId(rs.getObject("login_user_id") != null ? rs.getLong("login_user_id") : null);
-		
-		loginHistory.setContactId(rs.getObject("contact_id") != null ? rs.getLong("contact_id") : null);
 		
 		loginHistory.setSuccessLogin((rs.getObject("success_login") != null ? rs.getBoolean("success_login") : null));
 		
