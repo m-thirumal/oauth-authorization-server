@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.thirumal.exception.NotImplementedException;
 import in.thirumal.model.ContactVerify;
+import in.thirumal.model.Email;
 import in.thirumal.model.Login;
 import in.thirumal.model.UserResource;
 import in.thirumal.security.captcha.CaptchaService;
@@ -87,20 +89,27 @@ public class UserController {
 	public boolean verify(@RequestBody ContactVerify contactVerify) {
 		return userService.verifyContact(contactVerify);
 	}
-	
+
 	
 	/**
 	 * @param payload (email)
 	 * @return
 	 */
 	@PatchMapping(value = "/request-otp", consumes = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<?> requestOtp(@RequestParam(name="recaptcha") String recaptchaResponse, HttpServletRequest request,
+	public ResponseEntity<?> requestOtpToVerifyAccount(@RequestParam(name="purpose") String purpose, 
+			@RequestParam(name="recaptcha") String recaptchaResponse, HttpServletRequest request,
 			@RequestBody Map<String, Object> payload) {
 		logger.debug("Requested OTP for the ");
 		//Start of Verify reCaptcha
 		// verifyCaptcha(recaptchaResponse, request);
 		//End of reCaptcha
-		return new ResponseEntity<>(userService.requestOtp(payload.get("loginId").toString()), HttpStatus.OK);
+		String template;
+		if (purpose.equalsIgnoreCase("verify-signup")) {
+			template = Email.ACCOUNT_VERIFY_FTL_TEMPLATE;
+		} else {
+			throw new NotImplementedException("The OTP purpose " + purpose + " is not implemented!");
+		}
+		return new ResponseEntity<>(userService.requestOtp(payload.get("loginId").toString(), template), HttpStatus.OK);
 	}
 	
 	

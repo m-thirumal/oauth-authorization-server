@@ -101,7 +101,7 @@ public class TokenDao extends GenericDao implements TokenRepository {
 		
 		token.setOtp(rs.getObject("otp") != null ? rs.getString("otp") : null);
 
-		token.setRowCreatedOn(rs.getObject("expires_on") != null ? rs.getObject("expires_on", OffsetDateTime.class) : null);
+		token.setExpiresOn(rs.getObject("expires_on") != null ? rs.getObject("expires_on", OffsetDateTime.class) : null);
 		
 		token.setRowCreatedOn(rs.getObject("row_created_on") != null ? rs.getObject("row_created_on", OffsetDateTime.class) : null);
  

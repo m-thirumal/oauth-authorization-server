@@ -24,6 +24,8 @@ public class Token implements Serializable {
 
 	private static final long serialVersionUID = 2867928104023783643L;
 	
+	public static final int EXPIRY_TIME_IN_MINUTES = 5;
+	
 	private Long tokenId;
 	private Long contactId;
 	private String otp;

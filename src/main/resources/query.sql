@@ -33,5 +33,5 @@ Password.listByLoginUserId=${Password} login_user_id = ?
 Token=SELECT * FROM public.token WHERE
 Token.create=INSERT INTO public.token(contact_id, otp, expires_on) VALUES (?, ?, ?)
 Token.get=${Token} token_id = ?
-Token.getByContactId= ${Token} contact_id = ? ORDER BY token_id DESC LIMIT 1
+Token.getByContactId= ${Token} contact_id = ? AND expires_on > now() ORDER BY token_id DESC LIMIT 1
 Token.listByContactId= ${Token} contact_id = ? 

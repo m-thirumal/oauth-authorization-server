@@ -40,6 +40,7 @@ public class Email extends Message implements Serializable {
 	private InformationDetail informationDetail;
 	
 	public static final String SIGNUP_FTL_TEMPLATE = "signup";
+	public static final String ACCOUNT_VERIFY_FTL_TEMPLATE = "accountVerify";
 	
 	public Email(Message m) {
 		this.messageId = m.getMessageId();

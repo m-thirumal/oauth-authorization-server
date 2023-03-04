@@ -2,6 +2,7 @@ package in.thirumal.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.time.Clock;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -119,7 +120,7 @@ public class UserService {
 		// Token - 
 		for (Contact contact : contactRepository.findByLoginId(Set.of(userResource.getEmail(), userResource.getPhoneNumber()))) {
 			String otp = generateOtp(6);
-			sendOtp(userResource, contact, otp);
+			sendOtp(userResource.getFirstName(), contact, otp, Email.SIGNUP_FTL_TEMPLATE);
 			tokenRepository.save(Token.builder().contactId(contact.getContactId()).otp(passwordEncoder.encode(otp))
 					.expiresOn(OffsetDateTime.now().plusMinutes(5)).build());
 			
@@ -127,17 +128,17 @@ public class UserService {
 		return get(loginUser.getLoginUuid());
 	}
 
-	private void sendOtp(UserResource userResource, Contact contact, String otp) {
+	private void sendOtp(String name, Contact contact, String otp, String template) {
 		logger.debug("Sending OTP {} to {}", otp, contact.getLoginId());
 		Message status = null ;
 		if (Contact.PHONE_NUMBER.equals(contact.getContactCd())) {
-			String message = "Dear " + userResource.getFirstName() + ", Your OTP to SignUp is " + otp 
+			String message = "Dear " + name + ", Your OTP to SignUp is " + otp 
 					+ " and valid for 5 minutes. Do not disclose it to anyone for security reasons.";
 			status = messageServiceClient.send(Message.builder().sender(smsSender).receiver(Set.of(contact.getLoginId()))
 					.information(message).messageOf(contact.getLoginUserId()).build());
 		} else if (Contact.EMAIL.equals(contact.getContactCd())) {
-			status = messageServiceClient.send(new Email(emailSender, Set.of(contact.getLoginId()), Email.SIGNUP_FTL_TEMPLATE, 
-				Map.of("name", userResource.getFirstName(), "otp", otp), "Account Verification OTP " + otp,  contact.getLoginUserId()));
+			status = messageServiceClient.send(new Email(emailSender, Set.of(contact.getLoginId()), template, 
+				Map.of("name", name, "otp", otp), "Account Verification OTP " + otp,  contact.getLoginUserId()));
 		} 
 		logger.debug("Email/SMS status {}", status);
 	}
@@ -281,13 +282,14 @@ public class UserService {
 	 * @return OTP
 	 */
 	@Transactional
-	public boolean requestOtp(String loginId) {
+	public boolean requestOtp(String loginId, String template) {
 		logger.debug("The {} requested for OTP", loginId);
 		Contact contact = contactRepository.findActiveLoginIdByLoginId(loginId);
+		String errorMessage;
 		if (contact == null) {
-			logger.debug("The requested contact  login ID is not available in the system {}", loginId);
-			throw new ResourceNotFoundException(".....");
-			//return false;
+			errorMessage = "The requested contact  login ID is not available in the system " + loginId;
+			logger.debug(errorMessage);
+			throw new ResourceNotFoundException(errorMessage);
 		}
 		Token existToken = tokenRepository.findByContactId(contact.getContactId());
 		if (existToken != null) {
@@ -295,16 +297,18 @@ public class UserService {
 		}
 		String otp = generateOtp(5);
 		tokenRepository.save(Token.builder().contactId(contact.getContactId()).otp(passwordEncoder.encode(otp))
-				.expiresOn(OffsetDateTime.now().plusMinutes(5)).build());
+				.expiresOn(OffsetDateTime.now().plusMinutes(Token.EXPIRY_TIME_IN_MINUTES)).build());
+		LoginUserName loginUserName = loginUserNameRepository.findByLoginUserId(contact.getLoginUserId());
+		sendOtp(loginUserName.getFirstName(), contact, otp, template);
 		return true;
 	}
 	
 	ToLongFunction<Token> lastActiveTokenValidTime = token -> {
-		Duration duration = Duration.between(OffsetDateTime.now().toLocalDateTime(), token.getRowCreatedOn().toLocalDateTime());
-		
-		if (duration.getSeconds() > 30) {
-			logger.debug("The last token requested at {}", token.getRowCreatedOn());
-			//throw new IcmsException(ErrorFactory.RESOURCE_FAILED_VALIDATION, "Too many request in few minutes");
+		Duration duration = Duration.between(token.getExpiresOn().toLocalDateTime(), OffsetDateTime.now(Clock.systemUTC()).toLocalDateTime());
+		if (duration.getSeconds() < 0) {
+			String errorMessage = "Too many request in few minutes, the last token issued on " + token.getRowCreatedOn();
+			logger.debug(errorMessage);
+			throw new BadRequestException(errorMessage);
 		}
 		return duration.getSeconds();		
 	};

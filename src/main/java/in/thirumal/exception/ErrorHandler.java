@@ -33,4 +33,10 @@ public class ErrorHandler {
         return unAuthorizedException;
     }
 	
+	@ExceptionHandler(NotImplementedException.class)
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    public NotImplementedException handleResourceNotImplementedException(NotImplementedException notImplementedException) {
+        return notImplementedException;
+    }
+	
 }
