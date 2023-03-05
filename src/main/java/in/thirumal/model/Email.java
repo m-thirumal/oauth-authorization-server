@@ -42,6 +42,7 @@ public class Email extends Message implements Serializable {
 	public static final String SIGNUP_FTL_TEMPLATE = "signup";
 	public static final String ACCOUNT_VERIFY_FTL_TEMPLATE = "accountVerify";
 	public static final String RESET_PASSWORD_FTL_TEMPLATE = "resetPassword";
+	public static final String RESET_PASSWORD_SUCCESS_FTL = "resetPasswordSuccess";
 	
 	public Email(Message m) {
 		this.messageId = m.getMessageId();

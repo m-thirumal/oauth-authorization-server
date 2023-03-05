@@ -35,6 +35,7 @@ public class PasswordDao extends GenericDao implements PasswordRepository {
 	private static final String LIST      = "Password.list";
 	private static final String GETBY_LOGIN_USER_ID = GET + "ByLoginUserId";
 	private static final String LISTBY_LOGIN_USER_ID = LIST + "ByLoginUserId";
+	private static final String LIST_LAST_N_ROW_BY_LOGIN_USER_ID = LIST + "LastNRowByLoginUserId";
 	
 	
 	@Override
@@ -87,6 +88,14 @@ public class PasswordDao extends GenericDao implements PasswordRepository {
 		return jdbcTemplate.query(getSql(LISTBY_LOGIN_USER_ID), passwordRowMapper, loginUserId);
 	}
 	
+
+	@Override
+	public List<Password> findAllByLastNRowLoginUserId(Long loginUserId, int lastNRow) {
+		logger.debug("Finding all password by login user id {} with limit {}", loginUserId, lastNRow);
+		return jdbcTemplate.query(getSql(LIST_LAST_N_ROW_BY_LOGIN_USER_ID), passwordRowMapper, loginUserId, lastNRow);
+	}
+
+	
 	RowMapper<Password> passwordRowMapper = (rs, rowNum) -> {
 
 		Password password = new Password();
@@ -101,5 +110,6 @@ public class PasswordDao extends GenericDao implements PasswordRepository {
  
 		return password;
 	};
+
 
 }

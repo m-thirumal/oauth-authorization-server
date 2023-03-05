@@ -23,6 +23,7 @@ public interface PasswordRepository {
 	@Nullable
 	Password findByLoginUserId(Long loginUserId);
 	
-	
 	List<Password> findAllByLoginUserId(Long loginUserId);
+	
+	List<Password> findAllByLastNRowLoginUserId(Long loginUserId, int lastNRow);
 }

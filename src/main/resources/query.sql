@@ -27,8 +27,9 @@ LoginHistory.listByLoginUserId=${LoginHistory} login_user_id = ? LIMIT ? OFFSET 
 Password=SELECT * FROM public.password WHERE 
 Password.create=INSERT INTO public.password(login_user_id, secret_key) VALUES (?, ?)
 Password.get=${Password} password_id = ?
-Password.getByLoginUserId=${Password} login_user_id = ?  ORDER BY password_id DESC LIMIT 1
-Password.listByLoginUserId=${Password} login_user_id = ? 
+Password.getByLoginUserId=${Password} login_user_id = ? ORDER BY password_id DESC LIMIT 1
+Password.listByLoginUserId=${Password} login_user_id = ?
+Password.listLastNRowByLoginUserId=${Password} login_user_id = ? ORDER BY password_id DESC LIMIT ?
 #-- Token
 Token=SELECT * FROM public.token WHERE
 Token.create=INSERT INTO public.token(contact_id, otp, expires_on) VALUES (?, ?, ?)

@@ -24,11 +24,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import in.thirumal.exception.NotImplementedException;
 import in.thirumal.model.ContactVerify;
-import in.thirumal.model.Email;
 import in.thirumal.model.Login;
 import in.thirumal.model.LoginHistory;
+import in.thirumal.model.ResetPassword;
 import in.thirumal.model.UserResource;
 import in.thirumal.security.captcha.CaptchaService;
 import in.thirumal.service.UserService;
@@ -105,15 +104,14 @@ public class UserController {
 		//Start of Verify reCaptcha
 		// verifyCaptcha(recaptchaResponse, request);
 		//End of reCaptcha
-		String template;
-		if (purpose.equalsIgnoreCase("verify-signup")) {
-			template = Email.ACCOUNT_VERIFY_FTL_TEMPLATE;
-		} else if (purpose.equalsIgnoreCase("reset-password")) { 
-			template = Email.RESET_PASSWORD_FTL_TEMPLATE;
-		} else {
-			throw new NotImplementedException("The OTP purpose " + purpose + " is not implemented!");
-		}
-		return new ResponseEntity<>(userService.requestOtp(payload.get("loginId").toString(), template), HttpStatus.OK);
+		return new ResponseEntity<>(userService.requestOtp(payload.get("loginId").toString(), purpose), HttpStatus.OK);
+	}
+	
+	
+	@PatchMapping(value = "/reset-password", consumes = { MediaType.APPLICATION_JSON_VALUE })
+	public boolean resetPassword(@RequestBody ResetPassword resetPassword) {
+		logger.debug("Reset password ");
+		return userService.resetPassword(resetPassword);
 	}
 	
 	

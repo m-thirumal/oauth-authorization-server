@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import in.thirumal.client.MessageServiceClient;
 import in.thirumal.exception.BadRequestException;
+import in.thirumal.exception.NotImplementedException;
 import in.thirumal.exception.ResourceNotFoundException;
 import in.thirumal.model.Contact;
 import in.thirumal.model.ContactVerify;
@@ -39,6 +40,7 @@ import in.thirumal.model.LoginUser;
 import in.thirumal.model.LoginUserName;
 import in.thirumal.model.Message;
 import in.thirumal.model.Password;
+import in.thirumal.model.ResetPassword;
 import in.thirumal.model.Token;
 import in.thirumal.model.UserResource;
 import in.thirumal.repository.ContactRepository;
@@ -124,7 +126,7 @@ public class UserService {
 		// Token - 
 		for (Contact contact : contactRepository.findByLoginId(Set.of(userResource.getEmail(), userResource.getPhoneNumber()))) {
 			String otp = generateOtp(6);
-			sendOtp(userResource.getFirstName(), contact, otp, Email.SIGNUP_FTL_TEMPLATE);
+			sendOtp(userResource.getFirstName(), contact, otp, Email.SIGNUP_FTL_TEMPLATE, "Account Verification OTP ");
 			tokenRepository.save(Token.builder().contactId(contact.getContactId()).otp(passwordEncoder.encode(otp))
 					.expiresOn(OffsetDateTime.now().plusMinutes(5)).build());
 			
@@ -132,7 +134,7 @@ public class UserService {
 		return get(loginUser.getLoginUuid());
 	}
 
-	private void sendOtp(String name, Contact contact, String otp, String template) {
+	private void sendOtp(String name, Contact contact, String otp, String template, String subject) {
 		logger.debug("Sending OTP {} to {}", otp, contact.getLoginId());
 		Message status = null ;
 		if (Contact.PHONE_NUMBER.equals(contact.getContactCd())) {
@@ -141,8 +143,9 @@ public class UserService {
 			status = messageServiceClient.send(Message.builder().sender(smsSender).receiver(Set.of(contact.getLoginId()))
 					.information(message).messageOf(contact.getLoginUserId()).build());
 		} else if (Contact.EMAIL.equals(contact.getContactCd())) {
-			status = messageServiceClient.send(new Email(emailSender, Set.of(contact.getLoginId()), template, 
-				Map.of("name", name, "otp", otp), "Account Verification OTP " + otp,  contact.getLoginUserId()));
+			Email email = new Email(emailSender, Set.of(contact.getLoginId()), template, 
+					Map.of("name", name, "otp", otp), (subject + otp),  contact.getLoginUserId());
+			status = messageServiceClient.send(email);
 		} 
 		logger.debug("Email/SMS status {}", status);
 	}
@@ -286,7 +289,7 @@ public class UserService {
 	 * @return OTP
 	 */
 	@Transactional
-	public boolean requestOtp(String loginId, String template) {
+	public boolean requestOtp(String loginId, String purpose) {
 		logger.debug("The {} requested for OTP", loginId);
 		Contact contact = contactRepository.findActiveLoginIdByLoginId(loginId);
 		String errorMessage;
@@ -299,11 +302,22 @@ public class UserService {
 		if (existToken != null) {
 			lastActiveTokenValidTime.applyAsLong(existToken);
 		}
+		String template;
+		String subject;
+		if (purpose.equalsIgnoreCase("verify-signup")) {
+			template = Email.ACCOUNT_VERIFY_FTL_TEMPLATE;
+			subject = "Account Verification OTP ";
+		} else if (purpose.equalsIgnoreCase("reset-password")) { 
+			template = Email.RESET_PASSWORD_FTL_TEMPLATE;
+			subject = "Password Reset OTP ";
+		} else {
+			throw new NotImplementedException("The OTP purpose " + purpose + " is not implemented!");
+		}
 		String otp = generateOtp(5);
 		tokenRepository.save(Token.builder().contactId(contact.getContactId()).otp(passwordEncoder.encode(otp))
 				.expiresOn(OffsetDateTime.now().plusMinutes(Token.EXPIRY_TIME_IN_MINUTES)).build());
 		LoginUserName loginUserName = loginUserNameRepository.findByLoginUserId(contact.getLoginUserId());
-		sendOtp(loginUserName.getFirstName(), contact, otp, template);
+		sendOtp(loginUserName.getFirstName(), contact, otp, template, subject);
 		return true;
 	}
 	
@@ -325,6 +339,43 @@ public class UserService {
 			throw new ResourceNotFoundException("The reuested user is not present in the database");
 		}
 		return loginHistoryRepository.list(loginUser.getLoginUserId(), size, ((page - 1) * size));
+	}
+
+	public boolean resetPassword(ResetPassword resetPassword) {
+		logger.debug("reset password {}", resetPassword);
+		Contact contact = contactRepository.findActiveLoginIdByLoginId(resetPassword.getLoginId());
+		String errorMessage;
+		if (contact == null) {
+			errorMessage = "The requested login ID : " + resetPassword.getLoginId() + " is not available in the system";
+			logger.debug(errorMessage);
+			throw new ResourceNotFoundException(errorMessage);
+		}
+		LoginUserName loginUserName = loginUserNameRepository.findByLoginUserId(contact.getLoginUserId());
+		Token token = tokenRepository.findByContactId(contact.getContactId());
+		if (Objects.isNull(token)) {
+			errorMessage = contact.getLoginId() + " has not requested OTP / it's expired";
+			logger.debug(errorMessage);
+			throw new BadRequestException(errorMessage);
+		}else if (!passwordEncoder.matches(resetPassword.getOtp(), token.getOtp())) {	
+			throw new BadRequestException("The entered OTP is not valid");
+		}	
+		String newPassword = resetPassword.getPassword();
+		if (!Password.passwordComplexity.test(newPassword)) {
+			logger.debug("Password complexity");
+			throw new BadRequestException("Password must contain atleast 1 digit, 1 special character,"
+					+ " 1 lowercase, 1 uppercase & minimum length of 8");
+		}	
+		List<Password> passwords = passwordRepository.findAllByLastNRowLoginUserId(contact.getLoginUserId(), 3);
+		boolean matches = passwords.stream().anyMatch(p -> passwordEncoder.matches(newPassword, p.getSecretKey())); 
+		if (matches) {
+			throw new BadRequestException("New password must not match with last 3 password");
+		}
+		passwordRepository.save(Password.builder().loginUserId(contact.getLoginUserId())
+				.secretKey(passwordEncoder.encode(newPassword)).build());
+		messageServiceClient.send(new Email(emailSender, Set.of(contact.getLoginId()), Email.RESET_PASSWORD_SUCCESS_FTL, 
+				Map.of("name", loginUserName.getFirstName()), "Your password has been successfully reset",  contact.getLoginUserId()));
+		return true;
+		
 	}
 	
 	
