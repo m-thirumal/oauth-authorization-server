@@ -108,6 +108,8 @@ public class UserController {
 		String template;
 		if (purpose.equalsIgnoreCase("verify-signup")) {
 			template = Email.ACCOUNT_VERIFY_FTL_TEMPLATE;
+		} else if (purpose.equalsIgnoreCase("")) { 
+			template = Email.RESET_PASSWORD_FTL_TEMPLATE;
 		} else {
 			throw new NotImplementedException("The OTP purpose " + purpose + " is not implemented!");
 		}

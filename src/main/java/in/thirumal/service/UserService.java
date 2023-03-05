@@ -291,7 +291,7 @@ public class UserService {
 		Contact contact = contactRepository.findActiveLoginIdByLoginId(loginId);
 		String errorMessage;
 		if (contact == null) {
-			errorMessage = "The requested contact  login ID is not available in the system " + loginId;
+			errorMessage = "The requested login ID : " + loginId + " is not available in the system";
 			logger.debug(errorMessage);
 			throw new ResourceNotFoundException(errorMessage);
 		}
