@@ -4,8 +4,8 @@
 
 ### Data Model
 
-![Data Model](../data-model.svg)
+![Data Model](data-model.svg)
 
 ### SQL
 
-[SQL to create table](../authorization.sql)
+[SQL to create table](authorization.sql)

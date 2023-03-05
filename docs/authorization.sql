@@ -254,7 +254,7 @@ ALTER TABLE lookup.contact_cd OWNER TO postgres;
 
 INSERT INTO lookup.contact_cd (contact_cd, code, regex, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'1', E'E-Mail', E'^[a-zA-Z0-9_!#$%&''*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 -- ddl-end --
-INSERT INTO lookup.contact_cd (contact_cd, code, regex, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'2', E'Phone Number', E'^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO lookup.contact_cd (contact_cd, code, regex, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'2', E'Phone Number', E'^\+[1-9]{1}[0-9]{3,14}$', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 -- ddl-end --
 
 -- object: lookup.locale_cd_locale_cd_seq | type: SEQUENCE --
@@ -333,6 +333,7 @@ CREATE TABLE public.password (
 	password_id bigint NOT NULL DEFAULT nextval('public.password_password_id_seq'::regclass),
 	login_user_id bigint NOT NULL,
 	secret_key varchar(300) NOT NULL,
+	force_password_change boolean NOT NULL DEFAULT false,
 	row_created_on timestamptz NOT NULL DEFAULT current_timestamp,
 	CONSTRAINT password_pk PRIMARY KEY (password_id)
 );
@@ -345,7 +346,6 @@ ALTER TABLE public.password OWNER TO postgres;
 CREATE TABLE public.login_history (
 	login_history_id bigserial NOT NULL,
 	login_user_id bigint NOT NULL,
-	contact_id bigint NOT NULL,
 	success_login boolean NOT NULL,
 	row_created_on timestamptz NOT NULL DEFAULT current_timestamp,
 	logout_time timestamptz
@@ -383,13 +383,6 @@ WITH SCHEMA public;
 -- ALTER TABLE public.login_history DROP CONSTRAINT IF EXISTS login_user_fk CASCADE;
 ALTER TABLE public.login_history ADD CONSTRAINT login_user_fk FOREIGN KEY (login_user_id)
 REFERENCES public.login_user (login_user_id) MATCH FULL
-ON DELETE CASCADE ON UPDATE CASCADE;
--- ddl-end --
-
--- object: contact_fk | type: CONSTRAINT --
--- ALTER TABLE public.login_history DROP CONSTRAINT IF EXISTS contact_fk CASCADE;
-ALTER TABLE public.login_history ADD CONSTRAINT contact_fk FOREIGN KEY (contact_id)
-REFERENCES public.contact (contact_id) MATCH FULL
 ON DELETE CASCADE ON UPDATE CASCADE;
 -- ddl-end --
 
@@ -476,6 +469,79 @@ CREATE INDEX ix_login_user_login_uuid ON public.login_user
 USING btree
 (
 	login_uuid
+);
+-- ddl-end --
+
+-- object: public.mfa_mfa_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.mfa_mfa_id_seq CASCADE;
+CREATE SEQUENCE public.mfa_mfa_id_seq
+	INCREMENT BY 1
+	MINVALUE -9223372036854775808
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+
+-- ddl-end --
+
+-- object: public.mfa | type: TABLE --
+-- DROP TABLE IF EXISTS public.mfa CASCADE;
+CREATE TABLE public.mfa (
+	mfa_id bigint NOT NULL DEFAULT nextval('public.mfa_mfa_id_seq'::regclass),
+	login_user_id bigint NOT NULL,
+	contact_cd smallint NOT NULL,
+	start_time timestamptz,
+	end_time timestamptz NOT NULL DEFAULT 'infinity'::timestamp,
+	row_created_on timestamp NOT NULL DEFAULT current_timestamp,
+	row_updated_on timestamptz NOT NULL,
+	row_update_info text
+
+);
+-- ddl-end --
+COMMENT ON TABLE public.mfa IS E'Multi-Factor Authentication (MFA)';
+-- ddl-end --
+ALTER TABLE public.mfa OWNER TO postgres;
+-- ddl-end --
+
+-- object: contact_cd_fk | type: CONSTRAINT --
+-- ALTER TABLE public.mfa DROP CONSTRAINT IF EXISTS contact_cd_fk CASCADE;
+ALTER TABLE public.mfa ADD CONSTRAINT contact_cd_fk FOREIGN KEY (contact_cd)
+REFERENCES lookup.contact_cd (contact_cd) MATCH FULL
+ON DELETE RESTRICT ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: login_user_fk | type: CONSTRAINT --
+-- ALTER TABLE public.mfa DROP CONSTRAINT IF EXISTS login_user_fk CASCADE;
+ALTER TABLE public.mfa ADD CONSTRAINT login_user_fk FOREIGN KEY (login_user_id)
+REFERENCES public.login_user (login_user_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: ixfk_mfa_login_user_id | type: INDEX --
+-- DROP INDEX IF EXISTS public.ixfk_mfa_login_user_id CASCADE;
+CREATE INDEX ixfk_mfa_login_user_id ON public.mfa
+USING btree
+(
+	login_user_id
+);
+-- ddl-end --
+
+-- object: ixfk_mfa_contact_cd | type: INDEX --
+-- DROP INDEX IF EXISTS public.ixfk_mfa_contact_cd CASCADE;
+CREATE INDEX ixfk_mfa_contact_cd ON public.mfa
+USING btree
+(
+	contact_cd
+);
+-- ddl-end --
+
+-- object: ix_contact_end_time | type: INDEX --
+-- DROP INDEX IF EXISTS public.ix_contact_end_time CASCADE;
+CREATE INDEX ix_contact_end_time ON public.contact
+USING btree
+(
+	(end_time = 'infinity')
 );
 -- ddl-end --
 

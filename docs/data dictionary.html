@@ -240,6 +240,7 @@ max-width: 500px;
  <li><a href="#public.login_history">public.login_history</a></li>
  <li><a href="#public.login_user">public.login_user</a></li>
  <li><a href="#public.login_user_name">public.login_user_name</a></li>
+ <li><a href="#public.mfa">public.mfa</a></li>
  <li><a href="#public.oauth2_authorization">public.oauth2_authorization</a></li>
  <li><a href="#public.oauth2_authorization_consent">public.oauth2_authorization_consent</a></li>
  <li><a href="#public.oauth2_registered_client">public.oauth2_registered_client</a></li>
@@ -887,6 +888,14 @@ max-width: 500px;
  <td class="title">Description</td>
  </tr>
  <tr>
+ <td>ix_contact_end_time</td>
+ <td class="value constr-type">btree</td>
+ <td></td>
+ <td class="value"><p class="max-td-wth">end_time = 'infinity'</p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ <tr>
  <td>ixfk_contact_login_user_id</td>
  <td class="value constr-type">btree</td>
  <td>login_user_id</td>
@@ -967,16 +976,6 @@ max-width: 500px;
  <td><p class="max-td-wth"><em></em></p></td>
  </tr>
  <tr>
- <td>contact_id</td>
- <td class="data-type">bigint</td>
- <td class="bool-field"></td>
- <td class="bool-field">&#10003;</td>
- <td class="bool-field"></td>
- <td class="bool-field">&#10003;</td>
- <td class="value"></td>
- <td><p class="max-td-wth"><em></em></p></td>
- </tr>
- <tr>
  <td>success_login</td>
  <td class="data-type">boolean</td>
  <td class="bool-field"></td>
@@ -1025,14 +1024,6 @@ max-width: 500px;
  <td class="value constr-type">FOREIGN KEY</td>
  <td>login_user_id</td>
  <td><a href="#public.login_user">public.login_user</a></td>
- <td class="value"></td>
- <td colspan="3"><p class="max-td-wth"><em></em></p></td>
- </tr>
- <tr>
- <td>contact_fk</td>
- <td class="value constr-type">FOREIGN KEY</td>
- <td>contact_id</td>
- <td><a href="#public.contact">public.contact</a></td>
  <td class="value"></td>
  <td colspan="3"><p class="max-td-wth"><em></em></p></td>
  </tr>
@@ -1340,6 +1331,205 @@ max-width: 500px;
  <td class="value">-9223372036854775808</td>
  <td class="value">9223372036854775807</td>
  <td>login_user_name_id</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ </tbody>
+</table>
+
+<div>
+ <a href="#index" class="nav-link">&uarr; Index</a>
+</div>
+<table id="public.mfa" class="table">
+ <caption class="tab-name">
+ <em>public</em>.<strong>mfa</strong>
+ <span class="type-label">Table</span>
+ </caption>
+ <thead>
+ <tr>
+ <td colspan="8" class="tab-description">Multi-Factor Authentication (MFA)
+ </td>
+ </tr>
+ <tr>
+ <th>Name</th>
+ <th>Data type</th>
+ <th>PK</th>
+ <th>FK</th>
+ <th>UQ</th>
+ <th>Not null</th>
+ <th>Default value</th>
+ <th>Description</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>mfa_id</td>
+ <td class="data-type">bigint</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">nextval('public.mfa_mfa_id_seq'::regclass)</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>login_user_id</td>
+ <td class="data-type">bigint</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>contact_cd</td>
+ <td class="data-type">smallint</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>start_time</td>
+ <td class="data-type">timestamptz</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>end_time</td>
+ <td class="data-type">timestamptz</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">'infinity'::timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_created_on</td>
+ <td class="data-type">timestamp</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">current_timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_updated_on</td>
+ <td class="data-type">timestamptz</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_update_info</td>
+ <td class="data-type">text</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Constraints</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Type</td>
+ <td class="title">Column(s)</td>
+ <td class="title">References</td>
+ <td class="title">Expression</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>contact_cd_fk</td>
+ <td class="value constr-type">FOREIGN KEY</td>
+ <td>contact_cd</td>
+ <td><a href="#lookup.contact_cd">lookup.contact_cd</a></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>login_user_fk</td>
+ <td class="value constr-type">FOREIGN KEY</td>
+ <td>login_user_id</td>
+ <td><a href="#public.login_user">public.login_user</a></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Indexes</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Type</td>
+ <td class="title">Column(s)</td>
+ <td class="title">Expression(s)</td>
+ <td class="title">Predicate</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>ixfk_mfa_login_user_id</td>
+ <td class="value constr-type">btree</td>
+ <td>login_user_id</td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ <tr>
+ <td>ixfk_mfa_contact_cd</td>
+ <td class="value constr-type">btree</td>
+ <td>contact_cd</td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Sequences</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Cyclic</td>
+ <td class="title">Min. value</td>
+ <td class="title">Max. value</td>
+ <td class="title">Column(s)</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>public.mfa_mfa_id_seq</td>
+ <td class="value bool-value"></td>
+ <td class="value">-9223372036854775808</td>
+ <td class="value">9223372036854775807</td>
+ <td>mfa_id</td>
  <td><p class="max-td-wth"><em></em></p></td>
  </tr>
  </table>
@@ -1955,6 +2145,16 @@ max-width: 500px;
  <td><p class="max-td-wth"><em></em></p></td>
  </tr>
  <tr>
+ <td>force_password_change</td>
+ <td class="data-type">boolean</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">false</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
  <td>row_created_on</td>
  <td class="data-type">timestamptz</td>
  <td class="bool-field"></td>
@@ -2211,7 +2411,7 @@ max-width: 500px;
  <a href="#index" class="nav-link">&uarr; Index</a>
 </div>
 <footer>
-Generated at <em>2023-02-25T17:42:01 </em> by <strong>pgModeler 1.0.1</strong><br/>
+Generated at <em>2023-03-05T21:42:02 </em> by <strong>pgModeler 1.0.1</strong><br/>
 <a href="https://pgmodeler.io">PostgreSQL Database Modeler - https://pgmodeler.io</a><br/>
 Copyright © 2006 - 2023 Raphael Araújo e Silva
 </footer> </body>

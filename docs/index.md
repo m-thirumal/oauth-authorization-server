@@ -56,6 +56,10 @@ INSERT INTO public.oauth2_authorization_consent(
 	VALUES ('Thirumal', 'admin', 'user');
 ```
 
+### Database model
+
+![](data-model.svg)
+
 #### Acquire Authorization Code
 
 1. Login using URL: [http://localhost:9000](http://localhost:9000/login)
