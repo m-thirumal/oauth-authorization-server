@@ -122,7 +122,8 @@ public class UserService {
 				.loginId(userResource.getPhoneNumber()).build());
 		contactRepository.saveAll(contacts);
 		// Password
-		passwordRepository.save(Password.builder().loginUserId(loginUserId).secretKey(passwordEncoder.encode(userResource.getPassword())).build());
+		passwordRepository.save(Password.builder().loginUserId(loginUserId)
+				.secretKey(passwordEncoder.encode(userResource.getPassword())).forcePasswordChange(userResource.isForcePasswordChange()).build());
 		// Token - 
 		for (Contact contact : contactRepository.findByLoginId(Set.of(userResource.getEmail(), userResource.getPhoneNumber()))) {
 			String otp = generateOtp(6);
@@ -207,6 +208,8 @@ public class UserService {
 		userResource.setFirstName(loginUserName.getFirstName());
 		userResource.setMiddleName(loginUserName.getMiddleName());
 		userResource.setLastName(loginUserName.getLastName());
+		// Force password
+		//userResource.setForcePasswordChange(false);
 		// Contact
 		for (Contact contact : contacts) {
 			if (contact.getEndTime().isBefore(OffsetDateTime.now())) {

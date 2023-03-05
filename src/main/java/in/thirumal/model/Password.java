@@ -31,6 +31,7 @@ public class Password implements Serializable {
 	private Long passwordId;
 	private Long loginUserId;
 	private String secretKey;	
+	private boolean forcePasswordChange;
 	private OffsetDateTime rowCreatedOn;
 
 }

@@ -25,7 +25,7 @@ LoginHistory.logout=UPDATE public.login_history SET logout_time = now() WHERE lo
 LoginHistory.listByLoginUserId=${LoginHistory} login_user_id = ? LIMIT ? OFFSET ?
 #-- Password
 Password=SELECT * FROM public.password WHERE 
-Password.create=INSERT INTO public.password(login_user_id, secret_key) VALUES (?, ?)
+Password.create=INSERT INTO public.password(login_user_id, secret_key, force_password_change) VALUES (?, ?, ?)
 Password.get=${Password} password_id = ?
 Password.getByLoginUserId=${Password} login_user_id = ? ORDER BY password_id DESC LIMIT 1
 Password.listByLoginUserId=${Password} login_user_id = ?

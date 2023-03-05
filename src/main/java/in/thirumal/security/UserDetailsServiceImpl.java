@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import in.thirumal.exception.BadRequestException;
 import in.thirumal.exception.UnAuthorizedException;
 import in.thirumal.model.Contact;
 import in.thirumal.model.LoginUser;
@@ -64,7 +65,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		Password password = passwordRepository.findByLoginUserId(contact.getLoginUserId());
 		if (password == null) {
 			throw new UnAuthorizedException("Password is not set/found.");
-		}		
+		} else if (password.isForcePasswordChange()) {
+			throw new BadRequestException("Need to reset password");
+		}
 		//TODO ROLES
 		return User.withUsername(loginUser.getLoginUuid().toString()).password(password.getSecretKey()).roles("ADMIN").build();
 	}

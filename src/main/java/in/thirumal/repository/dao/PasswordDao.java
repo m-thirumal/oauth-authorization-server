@@ -63,6 +63,7 @@ public class PasswordDao extends GenericDao implements PasswordRepository {
         } else {
             ps.setString(2, password.getSecretKey());
         }
+		ps.setBoolean(3, password.isForcePasswordChange());
 		return ps;
 	}
 
@@ -105,6 +106,8 @@ public class PasswordDao extends GenericDao implements PasswordRepository {
 		password.setLoginUserId(rs.getObject("login_user_id") != null ? rs.getLong("login_user_id") : null);
 		
 		password.setSecretKey(rs.getObject("secret_key") != null ? rs.getString("secret_key") : null);
+		
+		password.setForcePasswordChange(rs.getObject("force_password_change") != null ? rs.getBoolean("force_password_change") : null);
 
 		password.setRowCreatedOn(rs.getObject("row_created_on") != null ? rs.getObject("row_created_on", OffsetDateTime.class) : null);
  

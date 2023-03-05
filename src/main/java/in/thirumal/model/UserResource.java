@@ -34,7 +34,8 @@ public class UserResource implements Serializable {
 	private String password;
 	private OffsetDateTime dateOfBirth;
 	private OffsetDateTime accountCreatedOn;
-	
+	//
+	private boolean forcePasswordChange;
 	// Registered Client details
 	private String registeredClientId;
 	private Set<SimpleGrantedAuthority> authorities;
