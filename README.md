@@ -18,7 +18,7 @@ This repository full documentation can be found at [m-thirumal.github.io/oauth-a
 
    Modern authentication practices use a combination of both types, also known as `Multi-Factor authentication`.
    
-## Database mode
+## Database model
 
 ![Data model](docs/data-model.svg)
 
