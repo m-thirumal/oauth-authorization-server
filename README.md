@@ -18,6 +18,7 @@ This repository full documentation can be found at [m-thirumal.github.io/oauth-a
 
    Modern authentication practices use a combination of both types, also known as `Multi-Factor authentication`.
    
+<<<<<<< HEAD
 ## Prerequisites:
 
 1. [Eureka](https://github.com/m-thirumal/eureka-server)
@@ -25,6 +26,9 @@ This repository full documentation can be found at [m-thirumal.github.io/oauth-a
 
 
 ## Database mode
+=======
+## Database model
+>>>>>>> 5b38cb9b3576762043fc15ab9b3b001c5bb99fdf
 
 ![Data model](docs/data-model.svg)
 
