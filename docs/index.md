@@ -22,6 +22,10 @@ OAuth means `Open Authorization` & OAuth 2 is an  `Authorization Framework`
 
    Modern authentication practices use a combination of both types, also known as `Multi-Factor authentication`.
    
+## Prerequisites:
+
+1. [Eureka](https://github.com/m-thirumal/eureka-server)
+2. PostgreSQL 
 
 
 * [Definition](Definitions.md)
