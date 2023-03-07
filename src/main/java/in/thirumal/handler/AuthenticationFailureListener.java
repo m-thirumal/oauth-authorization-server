@@ -1,14 +1,19 @@
-/**
- * 
- */
 package in.thirumal.handler;
+
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import in.thirumal.model.Contact;
+import in.thirumal.model.LoginHistory;
+import in.thirumal.repository.ContactRepository;
+import in.thirumal.repository.LoginHistoryRepository;
 
 /**
  * @author Thirumal
@@ -19,13 +24,22 @@ public class AuthenticationFailureListener implements ApplicationListener<Authen
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	//@Autowired
-	//private ApplicationEventPublisher applicationEventPublisher;
+	@Autowired
+	private ContactRepository contactRepository;
+	@Autowired
+	private LoginHistoryRepository loginHistoryRepository;
 
 	@Transactional
 	@Override
 	public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
-		logger.debug("{}", event);
+		logger.debug("Failed login {}", event);
+		String userName  = event.getAuthentication().getName();
+		Contact contact = contactRepository.findActiveLoginIdByLoginId(userName);
+		if (Objects.isNull(contact)) {
+			logger.debug("Not able to find the login id  {} itself .....Ignoring.....", userName);
+			return;
+		} 
+		loginHistoryRepository.save(LoginHistory.builder().loginUserId(contact.getLoginUserId()).successLogin(false).build());
 	}
 
 }
