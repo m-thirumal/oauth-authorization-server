@@ -316,7 +316,7 @@ public class UserService {
 		} else {
 			throw new NotImplementedException("The OTP purpose " + purpose + " is not implemented!");
 		}
-		String otp = generateOtp(5);
+		String otp = generateOtp(6);
 		tokenRepository.save(Token.builder().contactId(contact.getContactId()).otp(passwordEncoder.encode(otp))
 				.expiresOn(OffsetDateTime.now().plusMinutes(Token.EXPIRY_TIME_IN_MINUTES)).build());
 		LoginUserName loginUserName = loginUserNameRepository.findByLoginUserId(contact.getLoginUserId());
