@@ -351,6 +351,7 @@ public class UserService {
 				loginHistoryRepository.count(loginUser.getLoginUserId()));
 	}
 
+	@Transactional
 	public boolean resetPassword(ResetPassword resetPassword) {
 		logger.debug("reset password {}", resetPassword);
 		Contact contact = contactRepository.findActiveLoginIdByLoginId(resetPassword.getLoginId());
