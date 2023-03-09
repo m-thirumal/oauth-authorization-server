@@ -4,6 +4,7 @@
 package in.thirumal.repository.dao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -68,6 +69,11 @@ public class LoginHistoryDao extends GenericDao implements LoginHistoryRepositor
 		return jdbcTemplate.query(getSql(LISTBY_LOGIN_USER_ID), loginHistoryRowMapper, loginUserId, limit, offset);
 	}
 	
+	@Override
+	public long count(Long loginUserId) {
+		return jdbcTemplate.queryForObject(getSql("LoginHistory.count"), (ResultSet rs, int rowNum)  -> rs.getLong("count"), loginUserId);
+	}
+	
 	RowMapper<LoginHistory> loginHistoryRowMapper = (rs, rowNum) -> {
 
 		LoginHistory loginHistory = new LoginHistory();
@@ -84,5 +90,6 @@ public class LoginHistoryDao extends GenericDao implements LoginHistoryRepositor
  
 		return loginHistory;
 	};
+
 
 }

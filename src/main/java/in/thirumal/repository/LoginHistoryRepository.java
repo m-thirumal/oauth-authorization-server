@@ -31,5 +31,13 @@ public interface LoginHistoryRepository {
 	 * @return
 	 */
 	List<LoginHistory> list(Long loginUserId, int limit, int offset);
+	
+	
+	/**
+	 * Total no.of login made by the give user @param loginUserId
+	 * @param loginUserId
+	 * @return
+	 */
+	long count(Long loginUserId);
 
 }
