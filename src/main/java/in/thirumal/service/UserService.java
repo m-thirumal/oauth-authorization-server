@@ -35,10 +35,10 @@ import in.thirumal.model.ContactVerify;
 import in.thirumal.model.Email;
 import in.thirumal.model.GenericCd;
 import in.thirumal.model.Login;
-import in.thirumal.model.LoginHistory;
 import in.thirumal.model.LoginUser;
 import in.thirumal.model.LoginUserName;
 import in.thirumal.model.Message;
+import in.thirumal.model.PaginatedLoginHistory;
 import in.thirumal.model.Password;
 import in.thirumal.model.ResetPassword;
 import in.thirumal.model.Token;
@@ -334,14 +334,21 @@ public class UserService {
 		return duration.getSeconds();		
 	};
 	
-	
-	public List<LoginHistory> loginHistories(UUID loginUuid, int page, int size) {
+	/**
+	 * Login histories of user
+	 * @param loginUuid
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	public PaginatedLoginHistory loginHistories(UUID loginUuid, int page, int size) {
 		logger.debug("Listing login histories {} from page {} to {}", loginUuid, page, size);
 		LoginUser loginUser = loginUserRepository.findByUuid(loginUuid);
 		if (Objects.isNull(loginUser) ) {
 			throw new ResourceNotFoundException("The reuested user is not present in the database");
 		}
-		return loginHistoryRepository.list(loginUser.getLoginUserId(), size, ((page - 1) * size));
+		return new PaginatedLoginHistory(loginHistoryRepository.list(loginUser.getLoginUserId(), size, ((page - 1) * size)), 
+				loginHistoryRepository.count(loginUser.getLoginUserId()));
 	}
 
 	public boolean resetPassword(ResetPassword resetPassword) {
