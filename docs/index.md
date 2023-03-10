@@ -24,8 +24,14 @@ OAuth means `Open Authorization` & OAuth 2 is an  `Authorization Framework`
    
 ## Prerequisites:
 
-1. [Eureka](https://github.com/m-thirumal/eureka-server)
+1. [Eureka](https://github.com/m-thirumal/eureka-server) - Optional
 2. PostgreSQL 
+
+
+## [How to set up](Set up.md)
+
+1. Without [Eureka](https://github.com/m-thirumal/eureka-server). Comment `eureka-client` in `pom.xml`.
+2. 
 
 
 * [Definition](Definitions.md)
