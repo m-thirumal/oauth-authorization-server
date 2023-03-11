@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://3.6.239.198:5432/authorization-1
     username: postgres
-    password: Thirumal
+    password: Enkindle@2013
     jdbc-url: ${spring.datasource.url} # For hikari
     hikari:
       minimum-idle: 100
