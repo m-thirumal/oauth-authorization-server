@@ -46,13 +46,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		Contact contact = contactRepository.findActiveLoginIdByLoginId(username);
 		logger.debug("Login {}", contact);
 		if (contact == null) {
-			String errorMessage = "The requested username : " + username + " is not available in the system";
+			String errorMessage = "The requested login id " + username + " is not available in the system";
 			logger.debug(errorMessage);
 			throw new UnAuthorizedException(errorMessage);
 		} else if (contact.getVerifiedOn() == null) {
 			String errorMessage = "Your account: " + username + " is not verified...";
 			logger.debug(errorMessage);
-			//throw new UnAuthorizedException(errorMessage);
+			//throw new UnAuthorizedException(errorMessage); // Uncomment this line to throw exception on unverified login 
 		}
 		// Login User
 		LoginUser loginUser = loginUserRepository.findById(contact.getLoginUserId());
