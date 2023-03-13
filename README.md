@@ -21,7 +21,7 @@ This repository full documentation can be found at [m-thirumal.github.io/oauth-a
 
 ## Prerequisites:
 
-1. [Eureka](https://github.com/m-thirumal/eureka-server)
+1. [Eureka](https://github.com/m-thirumal/eureka-server) (Optional)
 2. PostgreSQL 
 
 ## Set UP
