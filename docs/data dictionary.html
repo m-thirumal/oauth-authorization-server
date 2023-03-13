@@ -944,6 +944,16 @@ max-width: 500px;
  </caption>
  <thead>
  <tr>
+ <td colspan="8" class="tab-description">
+Limit Login Attempt.
+1. Record login failure in `login_history`
+2. Check wheather,  more than `n` number of continous login attempt failed in `UserDetailsServiceImpl`, then throw locked exception.
+3. Two way to unlock.
+3(a). UnLock the login after/next `n` hours
+3(b). Unlock using OTP
+ </td>
+ </tr>
+ <tr>
  <th>Name</th>
  <th>Data type</th>
  <th>PK</th>
@@ -2411,7 +2421,7 @@ max-width: 500px;
  <a href="#index" class="nav-link">&uarr; Index</a>
 </div>
 <footer>
-Generated at <em>2023-03-05T21:42:02 </em> by <strong>pgModeler 1.0.1</strong><br/>
+Generated at <em>2023-03-13T11:57:50 </em> by <strong>pgModeler 1.0.1</strong><br/>
 <a href="https://pgmodeler.io">PostgreSQL Database Modeler - https://pgmodeler.io</a><br/>
 Copyright © 2006 - 2023 Raphael Araújo e Silva
 </footer> </body>

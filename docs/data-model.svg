@@ -1409,6 +1409,18 @@
     <stop offset="0" stop-color="#3275b0" stop-opacity="1" />
     <stop offset="1" stop-color="#6ec0ff" stop-opacity="1" />
 </linearGradient>
+<linearGradient gradientUnits="objectBoundingBox" x1="0" y1="0" x2="0" y2="1" id="gradient352">
+    <stop offset="0" stop-color="#000000" stop-opacity="0.196078" />
+    <stop offset="1" stop-color="#000000" stop-opacity="0.196078" />
+</linearGradient>
+<linearGradient gradientUnits="objectBoundingBox" x1="0" y1="0" x2="0" y2="1" id="gradient353">
+    <stop offset="0" stop-color="#d0d067" stop-opacity="1" />
+    <stop offset="1" stop-color="#f3f37a" stop-opacity="1" />
+</linearGradient>
+<linearGradient gradientUnits="objectBoundingBox" x1="0" y1="0" x2="0" y2="1" id="gradient354">
+    <stop offset="0" stop-color="#d0d067" stop-opacity="1" />
+    <stop offset="1" stop-color="#f3f37a" stop-opacity="1" />
+</linearGradient>
 </defs>
 <g fill="none" stroke="black" stroke-width="1" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="bevel" >
 
@@ -12525,16 +12537,6 @@ font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="no
 >
 </g>
 
-<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,927,1128)"
-font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
->
-</g>
-
-<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,927,1128)"
-font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
->
-</g>
-
 <g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,2005,967)"
 font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
 >
@@ -14048,6 +14050,79 @@ font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="no
 </g>
 
 <g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1694,527)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1158,1162)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1158,1162)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1166,1170)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="url(#gradient352)" stroke="none" transform="matrix(1,0,0,1,1166,1170)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M-2.58506,11.5 L-2.39655,9.41622 L-1.83675,7.39576 L-0.922664,5.5 L0.317928,3.78655 L1.84733,2.30747 L3.61908,1.1077 L5.57934,0.223689 L7.66855,-0.317693 L9.82322,-0.5 L625.067,-0.5 L627.222,-0.317693 L629.311,0.223689 L631.271,1.1077 L633.043,2.30747 L634.573,3.78655 L635.813,5.5 L636.727,7.39576 L637.287,9.41622 L637.476,11.5 L637.476,37 L616,58.5 L7.66855,58.3177 L5.57934,57.7763 L3.61908,56.8923 L1.84733,55.6925 L0.317928,54.2135 L-0.922664,52.5 L-1.83675,50.6042 L-2.39655,48.5838 L-2.58506,46.5 L-2.58506,11.5"/>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1166,1170)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1158,1162)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="url(#gradient353)" stroke="#f3f300" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1158,1162)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M-2.58506,11.5 L-2.39655,9.41622 L-1.83675,7.39576 L-0.922664,5.5 L0.317928,3.78655 L1.84733,2.30747 L3.61908,1.1077 L5.57934,0.223689 L7.66855,-0.317693 L9.82322,-0.5 L625.067,-0.5 L627.222,-0.317693 L629.311,0.223689 L631.271,1.1077 L633.043,2.30747 L634.573,3.78655 L635.813,5.5 L636.727,7.39576 L637.287,9.41622 L637.476,11.5 L637.476,37 L616,58.5 L7.66855,58.3177 L5.57934,57.7763 L3.61908,56.8923 L1.84733,55.6925 L0.317928,54.2135 L-0.922664,52.5 L-1.83675,50.6042 L-2.39655,48.5838 L-2.58506,46.5 L-2.58506,11.5"/>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1162,1163)"
+font-family=".AppleSystemUIFont" font-size="9" font-weight="400" font-style="normal" 
+>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="0" y="8.6875" font-family=".AppleSystemUIFont" font-size="9" font-weight="400" font-style="normal" 
+ >1. Record login failure in `login_history`</text>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="0" y="19.6875" font-family=".AppleSystemUIFont" font-size="9" font-weight="400" font-style="normal" 
+ >2. Check wheather,  more than `n` number of continous login attempt failed in `UserDetailsServiceImpl`, then throw locked exception.</text>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="0" y="30.6875" font-family=".AppleSystemUIFont" font-size="9" font-weight="400" font-style="normal" 
+ >3. Two way to unlock.</text>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="0" y="41.6875" font-family=".AppleSystemUIFont" font-size="9" font-weight="400" font-style="normal" 
+ >3(a). UnLock the login after/next `n` hours</text>
+<text fill="#000000" fill-opacity="1" stroke="none" xml:space="preserve" x="0" y="52.6875" font-family=".AppleSystemUIFont" font-size="9" font-weight="400" font-style="normal" 
+ >3(b). Unlock using OTP</text>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1158,1162)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1774.91,1199.79)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+</g>
+
+<g fill="url(#gradient354)" stroke="#f3f300" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1774.91,1199.79)"
+font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M0,0 L20,0 L0,20 L0,0"/>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="1" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(1,0,0,1,1774.91,1199.79)"
 font-family=".AppleSystemUIFont" font-size="13" font-weight="400" font-style="normal" 
 >
 </g>
