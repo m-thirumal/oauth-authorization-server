@@ -24,6 +24,10 @@ This repository full documentation can be found at [m-thirumal.github.io/oauth-a
 1. [Eureka](https://github.com/m-thirumal/eureka-server)
 2. PostgreSQL 
 
+## Set UP
+
+Documentation to set up can be [found here](docs/Set%20up.md)
+
 
 ## Database model
 
