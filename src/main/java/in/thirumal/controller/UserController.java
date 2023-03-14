@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -85,6 +86,11 @@ public class UserController {
 	}
 
 
+	/***
+	 * Verify the contact (i.e login Id)
+	 * @param contactVerify
+	 * @return
+	 */
 	@PostMapping("/verify")
 	public boolean verify(@RequestBody ContactVerify contactVerify) {
 		return userService.verifyContact(contactVerify);
@@ -112,6 +118,12 @@ public class UserController {
 		logger.debug("Reset password ");
 		return userService.resetPassword(resetPassword);
 	}
+	
+	
+	@PutMapping("/update")
+	public UserResource updateName(@RequestBody UserResource userResource, HttpServletRequest request) {
+		return userService.update(userResource);
+	}	 
 	
 	
 	@PostMapping(value = "/login", consumes = { MediaType.APPLICATION_JSON_VALUE })

@@ -61,6 +61,13 @@ public class UserService {
 	
 	Logger logger = LoggerFactory.getLogger(UserService.class);
 	//
+	//
+	@Value("${notification.email.sender}")
+	String emailSender;
+	@Value("${notification.sms.sender}")
+	String smsSender;
+	
+	
 	@Autowired
 	private OAuth2AuthorizationConsentService oAuth2AuthorizationConsentService;
 	//
@@ -82,12 +89,6 @@ public class UserService {
 	private MessageServiceClient messageServiceClient;
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
-	//
-	@Value("${notification.email.sender}")
-	String emailSender;
-	@Value("${notification.sms.sender}")
-	String smsSender;
 	//
 	/**
 	 * Create new account for the user
@@ -224,10 +225,32 @@ public class UserService {
 		}
 		return userResource;
 	}
-
-	public boolean changePassword() {
-		return false;
+	
+	/**
+	 * Change the profile name
+	 * @param userResource
+	 * @return {@link UserResource}
+	 */
+	public UserResource update(UserResource userResource) {
+		logger.debug("Changing the name for  {}", userResource);
+		LoginUser loginUser = loginUserRepository.findByUuid(userResource.getLoginUuid());
+		if (loginUser == null) {
+			throw new ResourceNotFoundException("The requested user is not available in the system");
+		}
+		LoginUserName loginUserName = loginUserNameRepository.findByLoginUserId(loginUser.getLoginUserId());
+		if (userResource.getFirstName() == null) {
+			throw new BadRequestException("First name can't be empty");
+		}
+		if (userResource.getFirstName().equals(loginUserName.getFirstName()) &&
+				(userResource.getMiddleName() != null && userResource.getMiddleName().equals(loginUserName.getMiddleName())) &&
+				(userResource.getLastName() != null && userResource.getLastName().equals(loginUserName.getLastName()))) {
+			throw new BadRequestException("user details are same, nothing to update");
+		}
+		loginUserNameRepository.save(LoginUserName.builder().loginUserId(loginUser.getLoginUserId())
+				.firstName(userResource.getFirstName()).middleName(userResource.getMiddleName()).lastName(userResource.getLastName()).build());
+		return get(userResource.getLoginUuid());
 	}
+
 
 	public Object login(@Valid Login login) {
 		// TODO Auto-generated method stub
