@@ -30,6 +30,7 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
 	private static final String CREATE    = "LoginUser.create";
 	private static final String GET      = "LoginUser.get";
 	private static final String GETBY_UUID = GET + "ByUuid"; 
+	private static final String UPDATE     = "LoginUser.update";
 	
 	@Override
 	public Long save(LoginUser loginUser) {
@@ -66,6 +67,11 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
 		}
 	}
 	
+	@Override
+	public int update(LoginUser loginUser) {
+		logger.debug("Updateing login user dob {}", loginUser.getLoginUserId());
+		return  jdbcTemplate.update(getSql(UPDATE), loginUser.getDateOfBirth(), loginUser.getLoginUserId());
+	}	
 	
 	RowMapper<LoginUser> loginUserRowMapper = (rs, rowNum) -> {
 

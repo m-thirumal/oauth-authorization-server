@@ -231,23 +231,33 @@ public class UserService {
 	 * @param userResource
 	 * @return {@link UserResource}
 	 */
+	@Transactional
 	public UserResource update(UserResource userResource) {
 		logger.debug("Changing the name for  {}", userResource);
-		LoginUser loginUser = loginUserRepository.findByUuid(userResource.getLoginUuid());
-		if (loginUser == null) {
+		LoginUser loginUserDb = loginUserRepository.findByUuid(userResource.getLoginUuid());
+		if (loginUserDb == null) {
 			throw new ResourceNotFoundException("The requested user is not available in the system");
 		}
-		LoginUserName loginUserName = loginUserNameRepository.findByLoginUserId(loginUser.getLoginUserId());
+		LoginUserName loginUserNameDb = loginUserNameRepository.findByLoginUserId(loginUserDb.getLoginUserId());
 		if (userResource.getFirstName() == null) {
 			throw new BadRequestException("First name can't be empty");
 		}
-		if (userResource.getFirstName().equals(loginUserName.getFirstName()) &&
-				(userResource.getMiddleName() != null && userResource.getMiddleName().equals(loginUserName.getMiddleName())) &&
-				(userResource.getLastName() != null && userResource.getLastName().equals(loginUserName.getLastName()))) {
-			throw new BadRequestException("user details are same, nothing to update");
+		boolean newChange = false;
+		LoginUserName loginUserName = LoginUserName.builder().loginUserId(loginUserDb.getLoginUserId())
+				.firstName(userResource.getFirstName()).middleName(userResource.getMiddleName()).lastName(userResource.getLastName()).build();
+		if (loginUserNameDb.equals(loginUserName)) {
+			loginUserNameRepository.save(loginUserName);
+			newChange = true;
 		}
-		loginUserNameRepository.save(LoginUserName.builder().loginUserId(loginUser.getLoginUserId())
-				.firstName(userResource.getFirstName()).middleName(userResource.getMiddleName()).lastName(userResource.getLastName()).build());
+		LoginUser loginUser = new LoginUser(loginUserDb);
+		loginUser.setDateOfBirth(userResource.getDateOfBirth());
+		if (!loginUser.equals(loginUserDb)) {
+			loginUserRepository.update(loginUser);
+			newChange = true;
+		}
+		if (!newChange) {
+			throw new BadRequestException("User details are same, nothing to update");
+		}
 		return get(userResource.getLoginUuid());
 	}
 

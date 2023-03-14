@@ -38,7 +38,10 @@ public interface LoginUserRepository {
 	@Nullable
 	LoginUser findByUuid(UUID uuid);
 	
-	//@Nullable
-	//LoginUser findByLoginId(String loginId);
-
+	/**
+	 * Update date of birth
+	 * @param loginUser
+	 * @return
+	 */
+	int update(@Nullable LoginUser loginUser);
 }

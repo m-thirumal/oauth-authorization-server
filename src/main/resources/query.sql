@@ -13,6 +13,7 @@ LoginUser = SELECT * FROM public.login_user WHERE
 LoginUser.create=INSERT INTO public.login_user(date_of_birth) VALUES (?)
 LoginUser.get=${LoginUser} login_user_id = ?
 LoginUser.getByUuid=${LoginUser} login_uuid = ?
+LoginUser.update=UPDATE public.login_user SET date_of_birth = ? WHERE login_user_id = ?
 #-- Login User Name
 LoginUserName=SELECT * FROM public.login_user_name WHERE 
 LoginUserName.create=INSERT INTO public.login_user_name(login_user_id, first_name, middle_name, last_name) VALUES (?, ?, ?, ?)
