@@ -29,17 +29,18 @@ public class LoginUser implements Serializable {
 	private Long loginUserId;
 	private UUID loginUuid;
 	private OffsetDateTime dateOfBirth;
+	private boolean individual;
 	private OffsetDateTime rowCreatedOn;
 	
 	public LoginUser(LoginUser loginUser) {
-		this(loginUser.loginUserId, loginUser.getLoginUuid(), loginUser.getDateOfBirth(), loginUser.getRowCreatedOn());
+		this(loginUser.loginUserId, loginUser.getLoginUuid(), loginUser.getDateOfBirth(), loginUser.individual, loginUser.getRowCreatedOn());
 	}
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(dateOfBirth);
+		return Objects.hash(dateOfBirth, individual);
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -49,7 +50,8 @@ public class LoginUser implements Serializable {
 			return false;
 		}
 		LoginUser other = (LoginUser) obj;
-		return Objects.equals(dateOfBirth, other.dateOfBirth);
+		return Objects.equals(dateOfBirth, other.dateOfBirth) && individual == other.individual;
 	}
+
 
 }

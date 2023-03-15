@@ -33,6 +33,7 @@ public class UserResource implements Serializable {
 	private String phoneNumber;
 	private String password;
 	private OffsetDateTime dateOfBirth;
+	private boolean individual;
 	private OffsetDateTime accountCreatedOn;
 	//
 	private boolean forcePasswordChange;

@@ -50,6 +50,7 @@ import in.thirumal.repository.LoginUserNameRepository;
 import in.thirumal.repository.LoginUserRepository;
 import in.thirumal.repository.PasswordRepository;
 import in.thirumal.repository.TokenRepository;
+import in.thirumal.util.RegexValidation;
 import jakarta.validation.Valid;
 
 /**
@@ -126,12 +127,14 @@ public class UserService {
 		passwordRepository.save(Password.builder().loginUserId(loginUserId)
 				.secretKey(passwordEncoder.encode(userResource.getPassword())).forcePasswordChange(userResource.isForcePasswordChange()).build());
 		// Token - 
-		for (Contact contact : contactRepository.findByLoginId(Set.of(userResource.getEmail(), userResource.getPhoneNumber()))) {
-			String otp = generateOtp(6);
-			sendOtp(userResource.getFirstName(), contact, otp, Email.SIGNUP_FTL_TEMPLATE, "Account Verification OTP ");
-			tokenRepository.save(Token.builder().contactId(contact.getContactId()).otp(passwordEncoder.encode(otp))
-					.expiresOn(OffsetDateTime.now().plusMinutes(5)).build());
-			
+		if (userResource.isForcePasswordChange()) { // Force change means account creation using internal system
+			for (Contact contact : contactRepository.findByLoginId(Set.of(userResource.getEmail(), userResource.getPhoneNumber()))) {
+				String otp = generateOtp(6);
+				sendOtp(userResource.getFirstName(), contact, otp, Email.SIGNUP_FTL_TEMPLATE, "Account Verification OTP ");
+				tokenRepository.save(Token.builder().contactId(contact.getContactId()).otp(passwordEncoder.encode(otp))
+						.expiresOn(OffsetDateTime.now().plusMinutes(5)).build());
+				
+			}
 		}
 		return get(loginUser.getLoginUuid());
 	}
@@ -164,7 +167,8 @@ public class UserService {
 		// E-mail validation
 		validateWithRegex(genericCds, Contact.EMAIL, userResource.getEmail(), "The Requested E-Mail is not vaild");
 		//Phone Number validation
-		validateWithRegex(genericCds, Contact.PHONE_NUMBER, userResource.getPhoneNumber(), "The Requested Phone Number is not vaild");	
+		//validateWithRegex(genericCds, Contact.PHONE_NUMBER, userResource.getPhoneNumber(), "The Requested Phone Number is not vaild");
+		RegexValidation.isValidPhoneNumber(userResource.getPhoneNumber());
 		// User Duplication
 		List<Contact> contacts = contactRepository.findByLoginId(Set.of(userResource.getEmail(), userResource.getPhoneNumber()));
 		if (!contacts.isEmpty()) {
@@ -195,22 +199,25 @@ public class UserService {
 		LoginUserName loginUserName = loginUserNameRepository.findByLoginUserId(loginUser.getLoginUserId());
 		// Contact
 		List<Contact> contacts = contactRepository.findAllByLoginUserId(loginUser.getLoginUserId());
-		return buildUserResource(loginUser, loginUserName, contacts);
+		// Password
+		Password password = passwordRepository.findByLoginUserId(loginUser.getLoginUserId());
+		return buildUserResource(loginUser, loginUserName, contacts, password);
 	}
 	
 
-	private UserResource buildUserResource(LoginUser loginUser, LoginUserName loginUserName, List<Contact> contacts) {
+	private UserResource buildUserResource(LoginUser loginUser, LoginUserName loginUserName, List<Contact> contacts, Password password) {
 		UserResource userResource = new UserResource();
 		// Login User
 		userResource.setLoginUuid(loginUser.getLoginUuid());
 		userResource.setDateOfBirth(loginUser.getDateOfBirth());
+		userResource.setIndividual(loginUser.isIndividual());
 		userResource.setAccountCreatedOn(loginUser.getRowCreatedOn());
 		// Login User Name
 		userResource.setFirstName(loginUserName.getFirstName());
 		userResource.setMiddleName(loginUserName.getMiddleName());
 		userResource.setLastName(loginUserName.getLastName());
 		// Force password
-		//userResource.setForcePasswordChange(false);
+		userResource.setForcePasswordChange(password.isForcePasswordChange());
 		// Contact
 		for (Contact contact : contacts) {
 			if (contact.getEndTime().isBefore(OffsetDateTime.now())) {

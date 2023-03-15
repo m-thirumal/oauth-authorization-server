@@ -48,6 +48,7 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
 
 	private PreparedStatement setPreparedStatement(LoginUser loginUser, PreparedStatement ps) throws SQLException {
 		ps.setObject(1, loginUser.getDateOfBirth());
+		ps.setBoolean(2, loginUser.isIndividual());
 		return ps;
 	}
 
@@ -70,7 +71,7 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
 	@Override
 	public int update(LoginUser loginUser) {
 		logger.debug("Updateing login user dob {}", loginUser.getLoginUserId());
-		return  jdbcTemplate.update(getSql(UPDATE), loginUser.getDateOfBirth(), loginUser.getLoginUserId());
+		return  jdbcTemplate.update(getSql(UPDATE), loginUser.getDateOfBirth(), loginUser.isIndividual(), loginUser.getLoginUserId());
 	}	
 	
 	RowMapper<LoginUser> loginUserRowMapper = (rs, rowNum) -> {
@@ -82,6 +83,8 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
 		loginUser.setLoginUuid(rs.getObject("login_uuid") != null ? rs.getObject("login_uuid", UUID.class) : null);
 		
 		loginUser.setDateOfBirth(rs.getObject("date_of_birth") != null ? rs.getObject("date_of_birth", OffsetDateTime.class) : null);
+		
+		loginUser.setIndividual(rs.getBoolean("individual"));
 
 		loginUser.setRowCreatedOn(rs.getObject("row_created_on") != null ? rs.getObject("row_created_on", OffsetDateTime.class) : null);
  
