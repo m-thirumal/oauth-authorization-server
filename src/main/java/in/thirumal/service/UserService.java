@@ -103,7 +103,8 @@ public class UserService {
 		List<GenericCd> genericCds = genericCdRepository.list("contact", GenericCd.DEFAULT_LOCALE_CD);
 		validateEmailAndPhoneNumber(userResource, genericCds);
 		// Login user create
-		Long loginUserId = loginUserRepository.save(LoginUser.builder().dateOfBirth(userResource.getDateOfBirth()).build());
+		Long loginUserId = loginUserRepository.save(LoginUser.builder().dateOfBirth(userResource.getDateOfBirth())
+				.individual(userResource.isIndividual()).build());
 		LoginUser loginUser = loginUserRepository.findById(loginUserId);
 		logger.debug("Created login user id {}", loginUser);
 		if (Objects.isNull(loginUser)) {
@@ -127,7 +128,7 @@ public class UserService {
 		passwordRepository.save(Password.builder().loginUserId(loginUserId)
 				.secretKey(passwordEncoder.encode(userResource.getPassword())).forcePasswordChange(userResource.isForcePasswordChange()).build());
 		// Token - 
-		if (userResource.isForcePasswordChange()) { // Force change means account creation using internal system
+		if (!userResource.isForcePasswordChange()) { // Force change means account creation using internal system
 			for (Contact contact : contactRepository.findByLoginId(Set.of(userResource.getEmail(), userResource.getPhoneNumber()))) {
 				String otp = generateOtp(6);
 				sendOtp(userResource.getFirstName(), contact, otp, Email.SIGNUP_FTL_TEMPLATE, "Account Verification OTP ");
@@ -258,6 +259,7 @@ public class UserService {
 		}
 		LoginUser loginUser = new LoginUser(loginUserDb);
 		loginUser.setDateOfBirth(userResource.getDateOfBirth());
+		loginUser.setIndividual(userResource.isIndividual());
 		if (!loginUser.equals(loginUserDb)) {
 			loginUserRepository.update(loginUser);
 			newChange = true;
