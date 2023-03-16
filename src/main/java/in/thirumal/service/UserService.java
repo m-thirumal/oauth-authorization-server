@@ -37,6 +37,7 @@ import in.thirumal.model.GenericCd;
 import in.thirumal.model.Login;
 import in.thirumal.model.LoginUser;
 import in.thirumal.model.LoginUserName;
+import in.thirumal.model.LoginUserRole;
 import in.thirumal.model.Message;
 import in.thirumal.model.PaginatedLoginHistory;
 import in.thirumal.model.Password;
@@ -48,6 +49,7 @@ import in.thirumal.repository.GenericCdRepository;
 import in.thirumal.repository.LoginHistoryRepository;
 import in.thirumal.repository.LoginUserNameRepository;
 import in.thirumal.repository.LoginUserRepository;
+import in.thirumal.repository.LoginUserRoleRepository;
 import in.thirumal.repository.PasswordRepository;
 import in.thirumal.repository.TokenRepository;
 import in.thirumal.util.RegexValidation;
@@ -89,6 +91,8 @@ public class UserService {
 	@Autowired
 	private MessageServiceClient messageServiceClient;
 	@Autowired
+	private LoginUserRoleRepository loginUserRoleRepository;
+	@Autowired
 	PasswordEncoder passwordEncoder;
 	//
 	/**
@@ -118,6 +122,8 @@ public class UserService {
 		// User Name
 		loginUserNameRepository.save(LoginUserName.builder().loginUserId(loginUserId)
 				.firstName(userResource.getFirstName()).middleName(userResource.getMiddleName()).lastName(userResource.getLastName()).build());
+		// Role
+		loginUserRoleRepository.save(LoginUserRole.builder().loginUserId(loginUserId).roleCd(LoginUserRole.USER).remarks("").build());
 		// Contact (i.e User ID to login)
 		var contacts = new ArrayList<Contact>();
 		contacts.add(Contact.builder().contactCd(Contact.EMAIL).loginUserId(loginUserId).loginId(userResource.getEmail()).build());

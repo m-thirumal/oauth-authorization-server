@@ -19,7 +19,13 @@ LoginUserName=SELECT * FROM public.login_user_name WHERE
 LoginUserName.create=INSERT INTO public.login_user_name(login_user_id, first_name, middle_name, last_name) VALUES (?, ?, ?, ?)
 LoginUserName.get=${LoginUserName} login_user_name_id = ?
 LoginUserName.getByLoginUserId=${LoginUserName} login_user_id = ? ORDER BY login_user_name_id DESC LIMIT 1
-# ---- Login History -----
+#----Login User Role ----------#
+LoginUserRole=SELECT r.*, rc.code AS role FROM public.login_user_role AS r LEFT JOIN lookup.role_cd AS rc ON rc.role_cd = r.role_cd AND rc.end_time = 'infinity' WHERE
+LoginUserRole.create=INSERT INTO public.login_user_role(login_user_id, role_cd, remarks) VALUES (?, ?, ?)
+LoginUserRole.get=${LoginUserRole} r.login_user_role_id = ?
+LoginUserRole.listByLoginUserId=${LoginUserRole} r.login_user_id = ? AND r.end_time = 'infinity'
+LoginUserRole.revoke=UPDATE public.login_user_role SET end_time = now() WHERE r.login_user_id = ?
+#---- Login History -----
 LoginHistory=SELECT * FROM public.login_history WHERE
 LoginHistory.create=INSERT INTO public.login_history(login_user_id, success_login) VALUES (?, ?)
 LoginHistory.logout=UPDATE public.login_history SET logout_time = now() WHERE login_id = ? ORDER BY login_user_id DESC LIMIT 1

@@ -4,10 +4,13 @@
 package in.thirumal.security;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,9 +21,11 @@ import in.thirumal.exception.BadRequestException;
 import in.thirumal.exception.UnAuthorizedException;
 import in.thirumal.model.Contact;
 import in.thirumal.model.LoginUser;
+import in.thirumal.model.LoginUserRole;
 import in.thirumal.model.Password;
 import in.thirumal.repository.ContactRepository;
 import in.thirumal.repository.LoginUserRepository;
+import in.thirumal.repository.LoginUserRoleRepository;
 import in.thirumal.repository.PasswordRepository;
 
 /**
@@ -34,6 +39,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 	@Autowired
 	private LoginUserRepository loginUserRepository;
+	@Autowired
+	private LoginUserRoleRepository loginUserRoleRepository;
 	@Autowired
 	private ContactRepository contactRepository;
 	@Autowired
@@ -68,8 +75,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		} else if (password.isForcePasswordChange()) {
 			throw new BadRequestException("Need to reset password");
 		}
-		//TODO ROLES
-		return User.withUsername(loginUser.getLoginUuid().toString()).password(password.getSecretKey()).roles("ADMIN").build();
+		//ROLES
+		List<LoginUserRole> loginUserRoles = loginUserRoleRepository.findAllByLoginUserId(loginUser.getLoginUserId());
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+	     
+	    for (LoginUserRole loginUserRole : loginUserRoles) {
+	        authorities.add(new SimpleGrantedAuthority(loginUserRole.getRole()));
+	    }
+	     
+		return User.withUsername(loginUser.getLoginUuid().toString()).password(password.getSecretKey())
+				.authorities(authorities)
+				.build();
 	}
 
 }
