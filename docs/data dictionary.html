@@ -236,10 +236,13 @@ max-width: 500px;
  <li><a href="#lookup.contact_cd">lookup.contact_cd</a></li>
  <li><a href="#lookup.contact_locale">lookup.contact_locale</a></li>
  <li><a href="#lookup.locale_cd">lookup.locale_cd</a></li>
+ <li><a href="#lookup.role_cd">lookup.role_cd</a></li>
+ <li><a href="#lookup.role_locale">lookup.role_locale</a></li>
  <li><a href="#public.contact">public.contact</a></li>
  <li><a href="#public.login_history">public.login_history</a></li>
  <li><a href="#public.login_user">public.login_user</a></li>
  <li><a href="#public.login_user_name">public.login_user_name</a></li>
+ <li><a href="#public.login_user_role">public.login_user_role</a></li>
  <li><a href="#public.mfa">public.mfa</a></li>
  <li><a href="#public.oauth2_authorization">public.oauth2_authorization</a></li>
  <li><a href="#public.oauth2_authorization_consent">public.oauth2_authorization_consent</a></li>
@@ -744,6 +747,368 @@ max-width: 500px;
 <div>
  <a href="#index" class="nav-link">&uarr; Index</a>
 </div>
+<table id="lookup.role_cd" class="table">
+ <caption class="tab-name">
+ <em>lookup</em>.<strong>role_cd</strong>
+ <span class="type-label">Table</span>
+ </caption>
+ <thead>
+ <tr>
+ <th>Name</th>
+ <th>Data type</th>
+ <th>PK</th>
+ <th>FK</th>
+ <th>UQ</th>
+ <th>Not null</th>
+ <th>Default value</th>
+ <th>Description</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>role_cd</td>
+ <td class="data-type">smallint</td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>code</td>
+ <td class="data-type">varchar(50)</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>start_time</td>
+ <td class="data-type">timestamp</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">current_timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>end_time</td>
+ <td class="data-type">timestamp</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">'infinity'::timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_created_on</td>
+ <td class="data-type">timestamptz</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value">current_timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_created_by</td>
+ <td class="data-type">varchar(50)</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">'Thirumal'</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_updated_on</td>
+ <td class="data-type">timestamptz</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">current_timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_updated_by</td>
+ <td class="data-type">varchar(50)</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">'Thirumal'</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_update_info</td>
+ <td class="data-type">text</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Constraints</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Type</td>
+ <td class="title">Column(s)</td>
+ <td class="title">References</td>
+ <td class="title">Expression</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>role_cd_pk</td>
+ <td class="value constr-type">PRIMARY KEY</td>
+ <td>role_cd</td>
+ <td></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Indexes</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Type</td>
+ <td class="title">Column(s)</td>
+ <td class="title">Expression(s)</td>
+ <td class="title">Predicate</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>ix_role_cd_code</td>
+ <td class="value constr-type">btree</td>
+ <td>code</td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ <tr>
+ <td>ix_role_cd_end_time</td>
+ <td class="value constr-type">btree</td>
+ <td></td>
+ <td class="value"><p class="max-td-wth">end_time='infinity'</p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ </tbody>
+</table>
+
+<div>
+ <a href="#index" class="nav-link">&uarr; Index</a>
+</div>
+<table id="lookup.role_locale" class="table">
+ <caption class="tab-name">
+ <em>lookup</em>.<strong>role_locale</strong>
+ <span class="type-label">Table</span>
+ </caption>
+ <thead>
+ <tr>
+ <th>Name</th>
+ <th>Data type</th>
+ <th>PK</th>
+ <th>FK</th>
+ <th>UQ</th>
+ <th>Not null</th>
+ <th>Default value</th>
+ <th>Description</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>role_cd</td>
+ <td class="data-type">smallint</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>locale_cd</td>
+ <td class="data-type">integer</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>description</td>
+ <td class="data-type">varchar</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">100</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>start_time</td>
+ <td class="data-type">timestamp</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">current_timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>end_time</td>
+ <td class="data-type">timestamptz</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">'infinity'::timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_created_on</td>
+ <td class="data-type">timestamp</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">current_timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_created_by</td>
+ <td class="data-type">varchar(50)</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">'Thirumal'</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_updated_on</td>
+ <td class="data-type">timestamp</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">current_timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_updated_by</td>
+ <td class="data-type">varchar(50)</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">'Thirumal'</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>row_update_info</td>
+ <td class="data-type">text</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Constraints</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Type</td>
+ <td class="title">Column(s)</td>
+ <td class="title">References</td>
+ <td class="title">Expression</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>role_cd_fk</td>
+ <td class="value constr-type">FOREIGN KEY</td>
+ <td>role_cd</td>
+ <td><a href="#lookup.role_cd">lookup.role_cd</a></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>locale_cd_fk</td>
+ <td class="value constr-type">FOREIGN KEY</td>
+ <td>locale_cd</td>
+ <td><a href="#lookup.locale_cd">lookup.locale_cd</a></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Indexes</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Type</td>
+ <td class="title">Column(s)</td>
+ <td class="title">Expression(s)</td>
+ <td class="title">Predicate</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>ixfk_role_locale_role_cd</td>
+ <td class="value constr-type">btree</td>
+ <td>role_cd</td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ <tr>
+ <td>ixfk_role_locale_locale_cd</td>
+ <td class="value constr-type">btree</td>
+ <td>locale_cd</td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ </tbody>
+</table>
+
+<div>
+ <a href="#index" class="nav-link">&uarr; Index</a>
+</div>
 <table id="public.contact" class="table">
  <caption class="tab-name">
  <em>public</em>.<strong>contact</strong>
@@ -1095,6 +1460,16 @@ Limit Login Attempt.
  <td><p class="max-td-wth"><em></em></p></td>
  </tr>
  <tr>
+ <td>individual</td>
+ <td class="data-type">boolean</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">true</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
  <td>row_created_on</td>
  <td class="data-type">timestamptz</td>
  <td class="bool-field"></td>
@@ -1352,6 +1727,197 @@ Limit Login Attempt.
 <div>
  <a href="#index" class="nav-link">&uarr; Index</a>
 </div>
+<table id="public.login_user_role" class="table">
+ <caption class="tab-name">
+ <em>public</em>.<strong>login_user_role</strong>
+ <span class="type-label">Table</span>
+ </caption>
+ <thead>
+ <tr>
+ <th>Name</th>
+ <th>Data type</th>
+ <th>PK</th>
+ <th>FK</th>
+ <th>UQ</th>
+ <th>Not null</th>
+ <th>Default value</th>
+ <th>Description</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>login_user_role_id</td>
+ <td class="data-type">bigint</td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">nextval('public.login_user_role_login_user_role_id_seq'::regclass)</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>login_user_id</td>
+ <td class="data-type">bigint</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>role_cd</td>
+ <td class="data-type">smallint</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>start_time</td>
+ <td class="data-type">timestamp</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">current_timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>end_time</td>
+ <td class="data-type">timestamptz</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value">'infinity'::timestamp</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>remarks</td>
+ <td class="data-type">varchar(100)</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Constraints</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Type</td>
+ <td class="title">Column(s)</td>
+ <td class="title">References</td>
+ <td class="title">Expression</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>login_user_fk</td>
+ <td class="value constr-type">FOREIGN KEY</td>
+ <td>login_user_id</td>
+ <td><a href="#public.login_user">public.login_user</a></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>role_cd_fk</td>
+ <td class="value constr-type">FOREIGN KEY</td>
+ <td>role_cd</td>
+ <td><a href="#lookup.role_cd">lookup.role_cd</a></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>login_user_role_pk</td>
+ <td class="value constr-type">PRIMARY KEY</td>
+ <td>login_user_role_id</td>
+ <td></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Indexes</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Type</td>
+ <td class="title">Column(s)</td>
+ <td class="title">Expression(s)</td>
+ <td class="title">Predicate</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>ix_login_user_role_end_time</td>
+ <td class="value constr-type">btree</td>
+ <td></td>
+ <td class="value"><p class="max-td-wth">end_time='infinity'</p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ <tr>
+ <td>ixfk_login_user_role_role_cd</td>
+ <td class="value constr-type">btree</td>
+ <td>role_cd</td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ <tr>
+ <td>ixfk_login_user_role_login_user_id</td>
+ <td class="value constr-type">btree</td>
+ <td>login_user_id</td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Sequences</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Cyclic</td>
+ <td class="title">Min. value</td>
+ <td class="title">Max. value</td>
+ <td class="title">Column(s)</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>public.login_user_role_login_user_role_id_seq</td>
+ <td class="value bool-value"></td>
+ <td class="value">-9223372036854775808</td>
+ <td class="value">9223372036854775807</td>
+ <td>login_user_role_id</td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ </tbody>
+</table>
+
+<div>
+ <a href="#index" class="nav-link">&uarr; Index</a>
+</div>
 <table id="public.mfa" class="table">
  <caption class="tab-name">
  <em>public</em>.<strong>mfa</strong>
@@ -1582,7 +2148,7 @@ Limit Login Attempt.
  <tr>
  <td>registered_client_id</td>
  <td class="data-type">varchar(100)</td>
- <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
  <td class="bool-field">&#10003;</td>
  <td class="bool-field"></td>
  <td class="bool-field">&#10003;</td>
@@ -1592,7 +2158,7 @@ Limit Login Attempt.
  <tr>
  <td>principal_name</td>
  <td class="data-type">varchar(200)</td>
- <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
  <td class="bool-field">&#10003;</td>
  <td class="bool-field"></td>
  <td class="bool-field">&#10003;</td>
@@ -1836,7 +2402,7 @@ Limit Login Attempt.
  <tr>
  <td>oauth2_authorization_pk</td>
  <td class="value constr-type">PRIMARY KEY</td>
- <td>id</td>
+ <td>id, registered_client_id, principal_name</td>
  <td></td>
  <td class="value"></td>
  <td colspan="3"><p class="max-td-wth"><em></em></p></td>
@@ -2421,7 +2987,7 @@ Limit Login Attempt.
  <a href="#index" class="nav-link">&uarr; Index</a>
 </div>
 <footer>
-Generated at <em>2023-03-13T11:57:50 </em> by <strong>pgModeler 1.0.1</strong><br/>
+Generated at <em>2023-03-16T22:52:06 </em> by <strong>pgModeler 1.0.1</strong><br/>
 <a href="https://pgmodeler.io">PostgreSQL Database Modeler - https://pgmodeler.io</a><br/>
 Copyright © 2006 - 2023 Raphael Araújo e Silva
 </footer> </body>

@@ -59,7 +59,7 @@ CREATE TABLE public.oauth2_authorization (
 	refresh_token_issued_at timestamptz,
 	refresh_token_expires_at timestamptz,
 	refresh_token_metadata text,
-	CONSTRAINT oauth2_authorization_pk PRIMARY KEY (id)
+	CONSTRAINT oauth2_authorization_pk PRIMARY KEY (id,registered_client_id,principal_name)
 );
 -- ddl-end --
 ALTER TABLE public.oauth2_authorization OWNER TO postgres;
@@ -211,6 +211,7 @@ CREATE TABLE public.login_user (
 	login_user_id bigint NOT NULL DEFAULT nextval('public.login_user_login_user_id_seq'::regclass),
 	login_uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
 	date_of_birth timestamptz,
+	individual boolean NOT NULL DEFAULT true,
 	row_created_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	CONSTRAINT user_pk PRIMARY KEY (login_user_id)
 );
@@ -546,6 +547,176 @@ CREATE INDEX ix_contact_end_time ON public.contact
 USING btree
 (
 	(end_time = 'infinity')
+);
+-- ddl-end --
+
+-- object: lookup.role_cd | type: TABLE --
+-- DROP TABLE IF EXISTS lookup.role_cd CASCADE;
+CREATE TABLE lookup.role_cd (
+	role_cd smallint NOT NULL,
+	code varchar(50) NOT NULL,
+	start_time timestamp NOT NULL DEFAULT current_timestamp,
+	end_time timestamp NOT NULL DEFAULT 'infinity'::timestamp,
+	row_created_on timestamptz DEFAULT current_timestamp,
+	row_created_by varchar(50) NOT NULL DEFAULT 'Thirumal',
+	row_updated_on timestamptz NOT NULL DEFAULT current_timestamp,
+	row_updated_by varchar(50) NOT NULL DEFAULT 'Thirumal',
+	row_update_info text,
+	CONSTRAINT role_cd_pk PRIMARY KEY (role_cd)
+);
+-- ddl-end --
+ALTER TABLE lookup.role_cd OWNER TO postgres;
+-- ddl-end --
+
+INSERT INTO lookup.role_cd (role_cd, code, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'1', E'user', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+INSERT INTO lookup.role_cd (role_cd, code, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'2', E'support', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+INSERT INTO lookup.role_cd (role_cd, code, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'3', E'admin', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+
+-- object: lookup.role_locale | type: TABLE --
+-- DROP TABLE IF EXISTS lookup.role_locale CASCADE;
+CREATE TABLE lookup.role_locale (
+	role_cd smallint NOT NULL,
+	locale_cd integer NOT NULL,
+	description varchar NOT NULL DEFAULT 100,
+	start_time timestamp NOT NULL DEFAULT current_timestamp,
+	end_time timestamptz NOT NULL DEFAULT 'infinity'::timestamp,
+	row_created_on timestamp NOT NULL DEFAULT current_timestamp,
+	row_created_by varchar(50) NOT NULL DEFAULT 'Thirumal',
+	row_updated_on timestamp NOT NULL DEFAULT current_timestamp,
+	row_updated_by varchar(50) NOT NULL DEFAULT 'Thirumal',
+	row_update_info text
+
+);
+-- ddl-end --
+ALTER TABLE lookup.role_locale OWNER TO postgres;
+-- ddl-end --
+
+INSERT INTO lookup.role_locale (role_cd, locale_cd, description, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'1', E'1', E'user', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+INSERT INTO lookup.role_locale (role_cd, locale_cd, description, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'2', E'1', E'support', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+INSERT INTO lookup.role_locale (role_cd, locale_cd, description, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'3', E'1', E'admin', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+-- ddl-end --
+
+-- object: role_cd_fk | type: CONSTRAINT --
+-- ALTER TABLE lookup.role_locale DROP CONSTRAINT IF EXISTS role_cd_fk CASCADE;
+ALTER TABLE lookup.role_locale ADD CONSTRAINT role_cd_fk FOREIGN KEY (role_cd)
+REFERENCES lookup.role_cd (role_cd) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: locale_cd_fk | type: CONSTRAINT --
+-- ALTER TABLE lookup.role_locale DROP CONSTRAINT IF EXISTS locale_cd_fk CASCADE;
+ALTER TABLE lookup.role_locale ADD CONSTRAINT locale_cd_fk FOREIGN KEY (locale_cd)
+REFERENCES lookup.locale_cd (locale_cd) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: ixfk_role_locale_role_cd | type: INDEX --
+-- DROP INDEX IF EXISTS lookup.ixfk_role_locale_role_cd CASCADE;
+CREATE INDEX ixfk_role_locale_role_cd ON lookup.role_locale
+USING btree
+(
+	role_cd
+);
+-- ddl-end --
+
+-- object: ixfk_role_locale_locale_cd | type: INDEX --
+-- DROP INDEX IF EXISTS lookup.ixfk_role_locale_locale_cd CASCADE;
+CREATE INDEX ixfk_role_locale_locale_cd ON lookup.role_locale
+USING btree
+(
+	locale_cd
+);
+-- ddl-end --
+
+-- object: ix_role_cd_code | type: INDEX --
+-- DROP INDEX IF EXISTS lookup.ix_role_cd_code CASCADE;
+CREATE INDEX ix_role_cd_code ON lookup.role_cd
+USING btree
+(
+	code
+);
+-- ddl-end --
+
+-- object: public.login_user_role_login_user_role_id_seq | type: SEQUENCE --
+-- DROP SEQUENCE IF EXISTS public.login_user_role_login_user_role_id_seq CASCADE;
+CREATE SEQUENCE public.login_user_role_login_user_role_id_seq
+	INCREMENT BY 1
+	MINVALUE -9223372036854775808
+	MAXVALUE 9223372036854775807
+	START WITH 1
+	CACHE 1
+	NO CYCLE
+	OWNED BY NONE;
+
+-- ddl-end --
+
+-- object: public.login_user_role | type: TABLE --
+-- DROP TABLE IF EXISTS public.login_user_role CASCADE;
+CREATE TABLE public.login_user_role (
+	login_user_role_id bigint NOT NULL DEFAULT nextval('public.login_user_role_login_user_role_id_seq'::regclass),
+	login_user_id bigint NOT NULL,
+	role_cd smallint NOT NULL,
+	start_time timestamp NOT NULL DEFAULT current_timestamp,
+	end_time timestamptz NOT NULL DEFAULT 'infinity'::timestamp,
+	remarks varchar(100),
+	CONSTRAINT login_user_role_pk PRIMARY KEY (login_user_role_id)
+);
+-- ddl-end --
+ALTER TABLE public.login_user_role OWNER TO postgres;
+-- ddl-end --
+
+-- object: role_cd_fk | type: CONSTRAINT --
+-- ALTER TABLE public.login_user_role DROP CONSTRAINT IF EXISTS role_cd_fk CASCADE;
+ALTER TABLE public.login_user_role ADD CONSTRAINT role_cd_fk FOREIGN KEY (role_cd)
+REFERENCES lookup.role_cd (role_cd) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: ix_role_cd_end_time | type: INDEX --
+-- DROP INDEX IF EXISTS lookup.ix_role_cd_end_time CASCADE;
+CREATE INDEX ix_role_cd_end_time ON lookup.role_cd
+USING btree
+(
+	(end_time='infinity')
+);
+-- ddl-end --
+
+-- object: login_user_fk | type: CONSTRAINT --
+-- ALTER TABLE public.login_user_role DROP CONSTRAINT IF EXISTS login_user_fk CASCADE;
+ALTER TABLE public.login_user_role ADD CONSTRAINT login_user_fk FOREIGN KEY (login_user_id)
+REFERENCES public.login_user (login_user_id) MATCH FULL
+ON DELETE CASCADE ON UPDATE CASCADE;
+-- ddl-end --
+
+-- object: ix_login_user_role_end_time | type: INDEX --
+-- DROP INDEX IF EXISTS public.ix_login_user_role_end_time CASCADE;
+CREATE INDEX ix_login_user_role_end_time ON public.login_user_role
+USING btree
+(
+	(end_time='infinity')
+);
+-- ddl-end --
+
+-- object: ixfk_login_user_role_role_cd | type: INDEX --
+-- DROP INDEX IF EXISTS public.ixfk_login_user_role_role_cd CASCADE;
+CREATE INDEX ixfk_login_user_role_role_cd ON public.login_user_role
+USING btree
+(
+	role_cd
+);
+-- ddl-end --
+
+-- object: ixfk_login_user_role_login_user_id | type: INDEX --
+-- DROP INDEX IF EXISTS public.ixfk_login_user_role_login_user_id CASCADE;
+CREATE INDEX ixfk_login_user_role_login_user_id ON public.login_user_role
+USING btree
+(
+	login_user_id
 );
 -- ddl-end --
 
