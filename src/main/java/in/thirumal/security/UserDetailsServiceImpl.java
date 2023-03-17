@@ -3,7 +3,9 @@
  */
 package in.thirumal.security;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,23 +70,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throw new UnAuthorizedException("Login id is not available");
 		}
 		// Password
-		//TODO Verify Expire Date
 		Password password = passwordRepository.findByLoginUserId(contact.getLoginUserId());
 		if (password == null) {
 			throw new UnAuthorizedException("Password is not set/found.");
 		} else if (password.isForcePasswordChange()) {
 			throw new BadRequestException("Need to reset password");
 		}
+		long duration = ChronoUnit.DAYS.between(password.getRowCreatedOn().toLocalDate(), LocalDate.now());
 		//ROLES
 		List<LoginUserRole> loginUserRoles = loginUserRoleRepository.findAllByLoginUserId(loginUser.getLoginUserId());
-		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-	     
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();	     
 	    for (LoginUserRole loginUserRole : loginUserRoles) {
 	        authorities.add(new SimpleGrantedAuthority(loginUserRole.getRole()));
-	    }
-	     
+	    }	     
 		return User.withUsername(loginUser.getLoginUuid().toString()).password(password.getSecretKey())
 				.authorities(authorities)
+				.credentialsExpired(duration > 60)
 				.build();
 	}
 
