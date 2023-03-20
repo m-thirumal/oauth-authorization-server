@@ -431,6 +431,9 @@ public class UserService {
 		}
 		passwordRepository.save(Password.builder().loginUserId(contact.getLoginUserId())
 				.secretKey(passwordEncoder.encode(newPassword)).build());
+		if (contact.getVerifiedOn() == null) { //Verify the contact
+			contactRepository.verify(contact);
+		}
 		messageServiceClient.send(new Email(emailSender, Set.of(contact.getLoginId()), Email.RESET_PASSWORD_SUCCESS_FTL, 
 				Map.of("name", loginUserName.getFirstName()), "Your password has been successfully reset",  contact.getLoginUserId()));
 		return true;
