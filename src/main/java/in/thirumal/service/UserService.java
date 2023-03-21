@@ -2,8 +2,6 @@ package in.thirumal.service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.time.Clock;
-import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +10,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.ToLongFunction;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -349,9 +346,11 @@ public class UserService {
 			logger.debug(errorMessage);
 			throw new ResourceNotFoundException(errorMessage);
 		}
-		Token existToken = tokenRepository.findByContactId(contact.getContactId());
-		if (existToken != null) {
-			lastActiveTokenValidTime.applyAsLong(existToken);
+		List<Token> existToken = tokenRepository.findAllByContactId(contact.getContactId());
+		if (existToken.size() > 2) {
+			errorMessage = "Too many request in few minutes, Try after sometimes";
+			logger.debug(errorMessage);
+			throw new BadRequestException(errorMessage);
 		}
 		String template;
 		String subject;
@@ -371,16 +370,6 @@ public class UserService {
 		sendOtp(loginUserName.getFirstName(), contact, otp, template, subject);
 		return true;
 	}
-	
-	ToLongFunction<Token> lastActiveTokenValidTime = token -> {
-		Duration duration = Duration.between(token.getExpiresOn().toLocalDateTime(), OffsetDateTime.now(Clock.systemUTC()).toLocalDateTime());
-		if (duration.getSeconds() < 0) {
-			String errorMessage = "Too many request in few minutes, the last token issued on " + token.getRowCreatedOn();
-			logger.debug(errorMessage);
-			throw new BadRequestException(errorMessage);
-		}
-		return duration.getSeconds();		
-	};
 	
 	/**
 	 * Login histories of user

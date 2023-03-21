@@ -86,8 +86,8 @@ public class TokenDao extends GenericDao implements TokenRepository {
 	}
 	
 	@Override
-	public List<Token> findAllByLoginUserId(Long id) {
-		logger.debug("Finding contact by loginUserId {}", id);
+	public List<Token> findAllByContactId(Long id) {
+		logger.debug("Finding tokens by contact {}", id);
 		return jdbcTemplate.query(getSql(LIST_BY_CONTACT_ID), tokenRowMapper, id);
 	}
 

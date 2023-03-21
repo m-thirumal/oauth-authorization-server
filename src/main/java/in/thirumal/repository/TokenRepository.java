@@ -19,5 +19,5 @@ public interface TokenRepository {
 	
 	Token findByContactId(Long contactId);
 	
-	List<Token> findAllByLoginUserId(Long contactId);
+	List<Token> findAllByContactId(Long contactId);
 }
