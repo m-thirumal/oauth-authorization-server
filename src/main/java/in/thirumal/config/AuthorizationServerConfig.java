@@ -102,6 +102,12 @@ public class AuthorizationServerConfig {
 		return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
 	}
 	
+	/**
+	 * This filter chain is for the authorization server
+	 * @param http
+	 * @return
+	 * @throws Exception
+	 */
 	@Bean
 	@Order(1)
 	public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -120,9 +126,15 @@ public class AuthorizationServerConfig {
 	    return http/*.formLogin(Customizer.withDefaults())*/.build();
 	}
 	
+	/**
+	 * This filter chain is for the application
+	 * @param http
+	 * @return
+	 * @throws Exception
+	 */
 	@Bean 
 	@Order(2)
-	public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
+	public SecurityFilterChain applicationSecurityFilterChain(HttpSecurity http)
 			throws Exception {
 		http.anonymous().disable();
 		http.cors().and().authorizeHttpRequests()
@@ -202,6 +214,7 @@ public class AuthorizationServerConfig {
                 Set<String> authorities = principal.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toSet());
+                context.getClaims().claims(c -> c.put("Creator", "Thirumal"));
                 context.getClaims().claim("roles", authorities);
             }
         };
