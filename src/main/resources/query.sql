@@ -5,7 +5,7 @@ Contact.create=INSERT INTO public.contact(login_user_id, contact_cd, login_id) V
 Contact.verify=UPDATE public.contact SET verified_on = ? WHERE  contact_id = ?
 Contact.get=${Contact} contact_id = ?
 Contact.getByLoginUserId=${Contact} login_user_id = ? ORDER BY contact_id DESC LIMIT 1
-Contact.listByLoginUserId=${Contact} login_user_id = ?
+Contact.listByLoginUserId=${Contact} login_user_id = ? AND end_time = 'infinity'
 Contact.listByLoginId=${Contact} login_id = ? AND end_time = 'infinity'
 Contact.listInLoginId=${Contact} login_id IN (?) AND end_time = 'infinity'
 #-- Login User

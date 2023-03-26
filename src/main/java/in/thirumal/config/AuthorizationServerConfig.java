@@ -207,7 +207,7 @@ public class AuthorizationServerConfig {
     
     
     @Bean
-    OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
+    OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer(CustomClaims claims) {
         return context -> {
             if (context.getTokenType() == OAuth2TokenType.ACCESS_TOKEN) {
                 Authentication principal = context.getPrincipal();
@@ -215,6 +215,7 @@ public class AuthorizationServerConfig {
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toSet());
                 context.getClaims().claims(c -> c.put("Creator", "Thirumal"));
+                context.getClaims().claims(c -> c.putAll(claims.getClaims(principal)));
                 context.getClaims().claim("roles", authorities);
             }
         };
