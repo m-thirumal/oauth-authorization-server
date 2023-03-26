@@ -34,7 +34,7 @@ Documentation to set up can be [found here](docs/Set%20up.md)
 ![Data model](docs/data-model.svg)
 
 
-## FAQ
+## [FAQ](https://m-thirumal.github.io/oauth-authorization-server/FAQ)
 
 1. Where do I find all end points. Invoke [http://localhost:9000/.well-known/openid-configuration](http://localhost:9000/.well-known/openid-configuration)
 
