@@ -326,7 +326,7 @@ public class UserService {
 			throw new BadRequestException(errorMessage);
 		}
 		contact.setVerifiedOn(OffsetDateTime.now());
-		return contactRepository.verify(contact) == 1;
+		return contactRepository.verify(contact.getContactId()) == 1;
 	}
 
 	/**
@@ -421,7 +421,7 @@ public class UserService {
 		passwordRepository.save(Password.builder().loginUserId(contact.getLoginUserId())
 				.secretKey(passwordEncoder.encode(newPassword)).build());
 		if (contact.getVerifiedOn() == null) { //Verify the contact
-			contactRepository.verify(contact);
+			contactRepository.verify(contact.getContactId());
 		}
 		messageServiceClient.send(new Email(emailSender, Set.of(contact.getLoginId()), Email.RESET_PASSWORD_SUCCESS_FTL, 
 				Map.of("name", loginUserName.getFirstName()), "Your password has been successfully reset",  contact.getLoginUserId()));

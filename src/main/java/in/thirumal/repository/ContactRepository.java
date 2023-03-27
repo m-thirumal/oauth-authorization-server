@@ -29,8 +29,8 @@ public interface ContactRepository {
 	List<Contact> findByLoginId(Set<String> of);
 	/**
 	 * Verify contact with OTP
-	 * @param contact
+	 * @param contactId
 	 */
-	int verify(Contact contact);
+	int verify(Long contactId);
 	
 }
