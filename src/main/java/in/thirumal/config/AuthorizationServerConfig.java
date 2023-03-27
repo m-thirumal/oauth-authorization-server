@@ -214,7 +214,7 @@ public class AuthorizationServerConfig {
                 Set<String> authorities = principal.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .collect(Collectors.toSet());
-                context.getClaims().claims(c -> c.put("Creator", "Thirumal"));
+                context.getClaims().claims(c -> c.put("creator", "Thirumal"));
                 context.getClaims().claims(c -> c.putAll(claims.getClaims(principal)));
                 context.getClaims().claim("roles", authorities);
             }
