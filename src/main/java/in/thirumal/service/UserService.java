@@ -256,7 +256,7 @@ public class UserService {
 		boolean newChange = false;
 		LoginUserName loginUserName = LoginUserName.builder().loginUserId(loginUserDb.getLoginUserId())
 				.firstName(userResource.getFirstName()).middleName(userResource.getMiddleName()).lastName(userResource.getLastName()).build();
-		if (loginUserNameDb.equals(loginUserName)) {
+		if (!loginUserNameDb.equals(loginUserName)) {
 			loginUserNameRepository.save(loginUserName);
 			newChange = true;
 		}
