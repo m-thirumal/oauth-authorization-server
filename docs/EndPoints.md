@@ -49,3 +49,7 @@ Invoke [http://localhost:9000/.well-known/openid-configuration](http://localhost
 }
 
 ```
+
+![](./img/endpoint/endpoints.png)
+
+
