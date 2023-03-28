@@ -568,11 +568,11 @@ CREATE TABLE lookup.role_cd (
 ALTER TABLE lookup.role_cd OWNER TO postgres;
 -- ddl-end --
 
-INSERT INTO lookup.role_cd (role_cd, code, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'1', E'user', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO lookup.role_cd (role_cd, code, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'1', E'USER', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 -- ddl-end --
-INSERT INTO lookup.role_cd (role_cd, code, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'2', E'support', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO lookup.role_cd (role_cd, code, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'2', E'SUPPORT', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 -- ddl-end --
-INSERT INTO lookup.role_cd (role_cd, code, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'3', E'admin', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO lookup.role_cd (role_cd, code, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'3', E'ADMIN', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 -- ddl-end --
 
 -- object: lookup.role_locale | type: TABLE --
@@ -594,11 +594,11 @@ CREATE TABLE lookup.role_locale (
 ALTER TABLE lookup.role_locale OWNER TO postgres;
 -- ddl-end --
 
-INSERT INTO lookup.role_locale (role_cd, locale_cd, description, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'1', E'1', E'user', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO lookup.role_locale (role_cd, locale_cd, description, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'1', E'1', E'USER', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 -- ddl-end --
-INSERT INTO lookup.role_locale (role_cd, locale_cd, description, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'2', E'1', E'support', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO lookup.role_locale (role_cd, locale_cd, description, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'2', E'1', E'SUPPORT', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 -- ddl-end --
-INSERT INTO lookup.role_locale (role_cd, locale_cd, description, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'3', E'1', E'admin', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO lookup.role_locale (role_cd, locale_cd, description, start_time, end_time, row_created_on, row_created_by, row_updated_on, row_updated_by, row_update_info) VALUES (E'3', E'1', E'ADMIN', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 -- ddl-end --
 
 -- object: role_cd_fk | type: CONSTRAINT --
