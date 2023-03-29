@@ -17,7 +17,26 @@ This repository full documentation can be found at [m-thirumal.github.io/oauth-a
    2. `Possession based authentication`: This type of authentication is based on verifying something which a user possesses. For example, when an application sends you One Time Passwords (OTPs) or a text message.
 
    Modern authentication practices use a combination of both types, also known as `Multi-Factor authentication`.
-   
+
+## Features:
+
+| Configuration Parameter                                                                     | EndPoints                               | 
+|---------------------------------------------------------------------------------------------|-----------------------------------------|
+| issuer (Base URL)                                                                           | http://localhost:9000                   |
+| authorization_endpoint                                                                      | http://localhost:9000/oauth2/authorize  |
+| [Access Token](https://m-thirumal.github.io/oauth-authorization-server/Access%20Token/)     | http://localhost:9000/oauth2/token      |
+| [Refresh Token](https://m-thirumal.github.io/oauth-authorization-server/Refresh%20Token/)   | http://localhost:9000/oauth2/token      |
+| [Revoke Token](https://m-thirumal.github.io/oauth-authorization-server/Revoke%20Token/)     | http://localhost:9000/oauth2/revoke     |
+| jwks_uri                                                                                    | http://localhost:9000/oauth2/jwks       |
+| userinfo_endpoint                                                                           | http://localhost:9000/userinfo          |
+| [Introspect Token](https://m-thirumal.github.io/oauth-authorization-server/Introspect/)     | http://localhost:9000/oauth2/introspect |
+| [EndPoints](https://m-thirumal.github.io/oauth-authorization-server/EndPoints/)             | http://localhost:9000/.well-known/openid-configuration|
+| [Customize Token Content](https://m-thirumal.github.io/oauth-authorization-server/Customize%20Access%20Token%20Content/)|    -      |
+| [DDL SQL for PostgreSQL](./docs/authorization.sql)                                          | DDL for PostgreSQL                      |
+| [Data Dictionary of Model](./docs/data%20dictionary.html)                                   | [DB](./docs/data%20dictionary.html)     |
+
+
+
 
 ## Prerequisites:
 
@@ -31,7 +50,7 @@ Documentation to set up can be [found here](docs/Set%20up.md)
 
 ## Database model
 
-![Data model](docs/data-model.svg)
+![Data model](docs/img/database/data-model.svg)
 
 
 ## [FAQ](https://m-thirumal.github.io/oauth-authorization-server/FAQ)
