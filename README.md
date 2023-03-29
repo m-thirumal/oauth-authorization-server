@@ -17,7 +17,15 @@ This repository full documentation can be found at [m-thirumal.github.io/oauth-a
    2. `Possession based authentication`: This type of authentication is based on verifying something which a user possesses. For example, when an application sends you One Time Passwords (OTPs) or a text message.
 
    Modern authentication practices use a combination of both types, also known as `Multi-Factor authentication`.
-   
+
+## Features:
+
+[EndPoints](https://m-thirumal.github.io/oauth-authorization-server/EndPoints/)   
+[Access Token](https://m-thirumal.github.io/oauth-authorization-server/Access%20Token/)
+[Refresh Token](https://m-thirumal.github.io/oauth-authorization-server/Refresh%20Token/)
+[Revoke Token](https://m-thirumal.github.io/oauth-authorization-server/Revoke%20Token/)
+[Introspect Token](https://m-thirumal.github.io/oauth-authorization-server/Introspect/)
+[User Info in Access Token](https://m-thirumal.github.io/oauth-authorization-server/Modify%20Access%20Token/)
 
 ## Prerequisites:
 
