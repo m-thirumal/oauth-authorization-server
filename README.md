@@ -20,9 +20,6 @@ This repository full documentation can be found at [m-thirumal.github.io/oauth-a
 
 ## Features:
 
-
-[User Info in Access Token](https://m-thirumal.github.io/oauth-authorization-server/Modify%20Access%20Token/)
-
 | Configuration Parameter                                                                     | EndPoints                               | 
 |---------------------------------------------------------------------------------------------|-----------------------------------------|
 | issuer (Base URL)                                                                           | http://localhost:9000                   |
@@ -34,6 +31,12 @@ This repository full documentation can be found at [m-thirumal.github.io/oauth-a
 | userinfo_endpoint                                                                           | http://localhost:9000/userinfo          |
 | [Introspect Token](https://m-thirumal.github.io/oauth-authorization-server/Introspect/)     | http://localhost:9000/oauth2/introspect |
 | [EndPoints](https://m-thirumal.github.io/oauth-authorization-server/EndPoints/)             | http://localhost:9000/.well-known/openid-configuration|
+| [Customize Token Content](https://m-thirumal.github.io/oauth-authorization-server/Customize%20Access%20Token%20Content/)|    -      |
+| [DDL SQL for PostgreSQL](./docs/authorization.sql)                                          | DDL for PostgreSQL                      |
+| [Data Dictionary of Model](./docs/data%20dictionary.html)                                   | [DB](./docs/data%20dictionary.html)     |
+
+
+
 
 ## Prerequisites:
 
