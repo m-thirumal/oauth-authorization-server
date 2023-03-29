@@ -4,7 +4,7 @@
 
 ### Data Model
 
-![Data Model](data-model.svg)
+![Data Model](./img/database/data-model.svg)
 
 ### SQL
 
