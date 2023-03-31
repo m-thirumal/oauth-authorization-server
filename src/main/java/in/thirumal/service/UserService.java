@@ -37,6 +37,8 @@ import in.thirumal.model.LoginUserName;
 import in.thirumal.model.LoginUserRole;
 import in.thirumal.model.Message;
 import in.thirumal.model.PaginatedLoginHistory;
+import in.thirumal.model.PaginatedUser;
+import in.thirumal.model.Pagination;
 import in.thirumal.model.Password;
 import in.thirumal.model.ResetPassword;
 import in.thirumal.model.Token;
@@ -429,5 +431,11 @@ public class UserService {
 		
 	}
 	
+	public PaginatedUser list(Pagination pagination) {
+		logger.debug("Lsting users with {}", pagination);
+		var userResources = new ArrayList<UserResource>();
+		
+		return new PaginatedUser(userResources, 0);
+	}
 	
 }

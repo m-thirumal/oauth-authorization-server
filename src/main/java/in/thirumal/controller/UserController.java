@@ -159,5 +159,13 @@ public class UserController {
 			@RequestParam(value = "size", required = false, defaultValue = "0") int size) {
 		return userService.loginHistories(loginUuid, page, size);
 	}
+	
+	@GetMapping("")
+	public in.thirumal.model.PaginatedUser list(@RequestParam(value = "page", defaultValue = "0", required = false) long page,
+            @RequestParam(value = "size", defaultValue = "30", required = false) long size,
+            @RequestParam(value = "sortBy", defaultValue = "rowCreatedOn", required = false) String sortBy,
+            @RequestParam(value = "asc", required = false) boolean asc) {
+		return userService.list(new in.thirumal.model.Pagination(page, size, sortBy, asc));
+	}
 		
 }
