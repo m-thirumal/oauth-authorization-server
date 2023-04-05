@@ -323,7 +323,7 @@ public class UserService {
 			throw new BadRequestException(errorMessage);
 		}
 		if (!passwordEncoder.matches(contactVerify.getOtp(), token.getOtp())) {
-			errorMessage = "OTP is not matched";
+			errorMessage = "OTP for " + contactVerify.getContact() + " is not matching";
 			logger.debug(errorMessage);
 			throw new BadRequestException(errorMessage);
 		}
