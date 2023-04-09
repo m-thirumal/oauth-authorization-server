@@ -22,12 +22,13 @@ This repository full documentation can be found at [m-thirumal.github.io/oauth-a
 
 OAuth2 supports several grant types for different use cases. The most common grant types are:
 
-| Grant Type                           |    Usage
-|--------------------------------------|
-| Authorization Code                   | Used for web applications that run on a server and need to access resources on behalf of a user.
-| Implicit                             | Used for single-page applications that run in a web browser and need access to resources without the need for a server.
-| Resource Owner Password Credentials  | Used for trusted applications that require direct access to a user’s resources.
-| Client Credentials                   |  Used for applications that need to access their own resources.
+
+| Grant Type                           |    Usage                                                                                                    |
+|--------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| Authorization Code                   | Used for web applications that run on a server and need to access resources on behalf of a user.            |
+| Implicit                             | Used for single-page applications that run in a web browser and need access to resources without the need for a server.|
+| Resource Owner Password Credentials  | Used for trusted applications that require direct access to a user’s resources.                             |
+| Client Credentials                   |  Used for applications that need to access their own resources.                                             |
 
 ## Features:
 
