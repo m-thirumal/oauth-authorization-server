@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeRequestAuthenticationToken;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +38,10 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
 	public void onApplicationEvent(AuthenticationSuccessEvent event) {  
 		logger.debug("Login Success event : {}", event);
 		String userName  = event.getAuthentication().getName();
+		if (event.getSource() instanceof OAuth2AuthorizationCodeRequestAuthenticationToken) {
+			logger.debug("Authorization code request....after success login.....Ignoring....");
+			return;
+		}
 		UUID loginId;
 		try {
 			loginId = UUID.fromString(userName);
