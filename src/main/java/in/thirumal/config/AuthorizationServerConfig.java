@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
@@ -54,7 +53,7 @@ import com.nimbusds.jose.proc.SecurityContext;
  *
  */
 @Configuration(proxyBeanMethods = false)
-@Import(OAuth2AuthorizationServerConfiguration.class)
+//@Import(OAuth2AuthorizationServerConfiguration.class)
 public class AuthorizationServerConfig {
 
 	/**
@@ -116,13 +115,18 @@ public class AuthorizationServerConfig {
 	    	.oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
 	   // Redirect to the login page when not authenticated from the
 		// authorization endpoint
-		http.exceptionHandling(exceptions -> {
-			exceptions.authenticationEntryPoint(
-					new LoginUrlAuthenticationEntryPoint("/login"));
-		});
-		// Accept access tokens for User Info and/or Client Registration
-		http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+//		http.exceptionHandling(exceptions -> {
+//			exceptions.authenticationEntryPoint(
+//					new LoginUrlAuthenticationEntryPoint("/login"));
+//		});
+//		// Accept access tokens for User Info and/or Client Registration
+//		http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 
+	    http
+	  		.exceptionHandling(exceptions ->
+	  			exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+	  		)
+	  		.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 	    return http/*.formLogin(Customizer.withDefaults())*/.build();
 	}
 	
