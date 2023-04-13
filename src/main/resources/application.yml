@@ -8,6 +8,11 @@ spring:
     banner-mode: console
   lifecycle:
     timeout-per-shutdown-phase: 60s
+  session:
+    jdbc:
+      table-name: spring_session
+#      cleanup-cron: 0 */3 * * * *
+    store-type: jdbc
 server:
 #  port: 9000
   shutdown: graceful
