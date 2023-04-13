@@ -230,7 +230,7 @@ max-width: 500px;
 
 <h2>Data dictionary index</h2>
  <ul id="index">
- <li><strong>Database: </strong>authorization-1</strong>
+ <li><strong>Database: </strong>authorization1</strong>
  <li><br/><strong>Tables</strong>
  <ul>
  <li><a href="#lookup.contact_cd">lookup.contact_cd</a></li>
@@ -248,6 +248,8 @@ max-width: 500px;
  <li><a href="#public.oauth2_authorization_consent">public.oauth2_authorization_consent</a></li>
  <li><a href="#public.oauth2_registered_client">public.oauth2_registered_client</a></li>
  <li><a href="#public.password">public.password</a></li>
+ <li><a href="#public.spring_session">public.spring_session</a></li>
+ <li><a href="#public.spring_session_attributes">public.spring_session_attributes</a></li>
  <li><a href="#public.token">public.token</a></li>
  </ul>
  </li>
@@ -2829,6 +2831,261 @@ Limit Login Attempt.
 <div>
  <a href="#index" class="nav-link">&uarr; Index</a>
 </div>
+<table id="public.spring_session" class="table">
+ <caption class="tab-name">
+ <em>public</em>.<strong>spring_session</strong>
+ <span class="type-label">Table</span>
+ </caption>
+ <thead>
+ <tr>
+ <th>Name</th>
+ <th>Data type</th>
+ <th>PK</th>
+ <th>FK</th>
+ <th>UQ</th>
+ <th>Not null</th>
+ <th>Default value</th>
+ <th>Description</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>primary_id</td>
+ <td class="data-type">char(36)</td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>session_id</td>
+ <td class="data-type">char(36)</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>creation_time</td>
+ <td class="data-type">bigint</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>last_access_time</td>
+ <td class="data-type">bigint</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>max_inactive_interval</td>
+ <td class="data-type">integer</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>expiry_time</td>
+ <td class="data-type">bigint</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>principal_name</td>
+ <td class="data-type">varchar(100)</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Constraints</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Type</td>
+ <td class="title">Column(s)</td>
+ <td class="title">References</td>
+ <td class="title">Expression</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>spring_session_session_id_unique</td>
+ <td class="value constr-type">UNIQUE</td>
+ <td>session_id</td>
+ <td></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>spring_session_pk</td>
+ <td class="value constr-type">PRIMARY KEY</td>
+ <td>primary_id</td>
+ <td></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Indexes</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Type</td>
+ <td class="title">Column(s)</td>
+ <td class="title">Expression(s)</td>
+ <td class="title">Predicate</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>ix_spring_session_session_id</td>
+ <td class="value constr-type">btree</td>
+ <td>session_id</td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ <tr>
+ <td>ix_spring_session_expiry_time</td>
+ <td class="value constr-type">btree</td>
+ <td>expiry_time</td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ <tr>
+ <td>ix_spring_session_principal_name</td>
+ <td class="value constr-type">btree</td>
+ <td>principal_name</td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td class="value"><p class="max-td-wth"></p></td>
+ <td><p class="max-td-wth"><em></em></p></td></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ </tbody>
+</table>
+
+<div>
+ <a href="#index" class="nav-link">&uarr; Index</a>
+</div>
+<table id="public.spring_session_attributes" class="table">
+ <caption class="tab-name">
+ <em>public</em>.<strong>spring_session_attributes</strong>
+ <span class="type-label">Table</span>
+ </caption>
+ <thead>
+ <tr>
+ <th>Name</th>
+ <th>Data type</th>
+ <th>PK</th>
+ <th>FK</th>
+ <th>UQ</th>
+ <th>Not null</th>
+ <th>Default value</th>
+ <th>Description</th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr>
+ <td>session_primary_id</td>
+ <td class="data-type">char(36)</td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>attribute_name</td>
+ <td class="data-type">varchar(200)</td>
+ <td class="bool-field">&#10003;</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>attribute_bytes</td>
+ <td class="data-type">bytea</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field">&#10003;</td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td colspan="8" class="nested-tab-parent">
+ <table class="nested-tab">
+ <tr>
+ <td class="title" colspan="6">Constraints</td>
+ </tr>
+ <tr>
+ <td class="title">Name</td>
+ <td class="title">Type</td>
+ <td class="title">Column(s)</td>
+ <td class="title">References</td>
+ <td class="title">Expression</td>
+ <td class="title">Description</td>
+ </tr>
+ <tr>
+ <td>spring_session_attributes_pk</td>
+ <td class="value constr-type">PRIMARY KEY</td>
+ <td>session_primary_id, attribute_name</td>
+ <td></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>spring_session_attributes_fk</td>
+ <td class="value constr-type">FOREIGN KEY</td>
+ <td>session_primary_id</td>
+ <td><a href="#public.spring_session">public.spring_session</a></td>
+ <td class="value"></td>
+ <td colspan="3"><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ </table>
+ </td>
+ </tr>
+ </tbody>
+</table>
+
+<div>
+ <a href="#index" class="nav-link">&uarr; Index</a>
+</div>
 <table id="public.token" class="table">
  <caption class="tab-name">
  <em>public</em>.<strong>token</strong>
@@ -2987,7 +3244,7 @@ Limit Login Attempt.
  <a href="#index" class="nav-link">&uarr; Index</a>
 </div>
 <footer>
-Generated at <em>2023-03-28T12:48:00 </em> by <strong>pgModeler 1.0.1</strong><br/>
+Generated at <em>2023-04-13T08:11:47 </em> by <strong>pgModeler 1.0.1</strong><br/>
 <a href="https://pgmodeler.io">PostgreSQL Database Modeler - https://pgmodeler.io</a><br/>
 Copyright © 2006 - 2023 Raphael Araújo e Silva
 </footer> </body>

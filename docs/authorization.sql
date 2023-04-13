@@ -7,11 +7,11 @@
 -- Database creation must be performed outside a multi lined SQL file. 
 -- These commands were put in this file only as a convenience.
 -- 
--- object: "authorization-1" | type: DATABASE --
--- DROP DATABASE IF EXISTS "authorization-1";
-CREATE DATABASE "authorization-1";
+-- object: authorization1 | type: DATABASE --
+-- DROP DATABASE IF EXISTS authorization1;
+CREATE DATABASE authorization1;
 -- ddl-end --
-COMMENT ON DATABASE "authorization-1" IS E'Created Thirumal';
+COMMENT ON DATABASE authorization1 IS E'Created Thirumal';
 -- ddl-end --
 
 
@@ -718,6 +718,69 @@ USING btree
 (
 	login_user_id
 );
+-- ddl-end --
+
+-- object: public.spring_session | type: TABLE --
+-- DROP TABLE IF EXISTS public.spring_session CASCADE;
+CREATE TABLE public.spring_session (
+	primary_id char(36) NOT NULL,
+	session_id char(36) NOT NULL,
+	creation_time bigint NOT NULL,
+	last_access_time bigint NOT NULL,
+	max_inactive_interval integer NOT NULL,
+	expiry_time bigint NOT NULL,
+	principal_name varchar(100),
+	CONSTRAINT spring_session_session_id_unique UNIQUE (session_id),
+	CONSTRAINT spring_session_pk PRIMARY KEY (primary_id)
+);
+-- ddl-end --
+ALTER TABLE public.spring_session OWNER TO postgres;
+-- ddl-end --
+
+-- object: ix_spring_session_session_id | type: INDEX --
+-- DROP INDEX IF EXISTS public.ix_spring_session_session_id CASCADE;
+CREATE UNIQUE INDEX ix_spring_session_session_id ON public.spring_session
+USING btree
+(
+	session_id
+);
+-- ddl-end --
+
+-- object: ix_spring_session_expiry_time | type: INDEX --
+-- DROP INDEX IF EXISTS public.ix_spring_session_expiry_time CASCADE;
+CREATE INDEX ix_spring_session_expiry_time ON public.spring_session
+USING btree
+(
+	expiry_time
+);
+-- ddl-end --
+
+-- object: ix_spring_session_principal_name | type: INDEX --
+-- DROP INDEX IF EXISTS public.ix_spring_session_principal_name CASCADE;
+CREATE INDEX ix_spring_session_principal_name ON public.spring_session
+USING btree
+(
+	principal_name
+);
+-- ddl-end --
+
+-- object: public.spring_session_attributes | type: TABLE --
+-- DROP TABLE IF EXISTS public.spring_session_attributes CASCADE;
+CREATE TABLE public.spring_session_attributes (
+	session_primary_id char(36) NOT NULL,
+	attribute_name varchar(200) NOT NULL,
+	attribute_bytes bytea NOT NULL,
+	CONSTRAINT spring_session_attributes_pk PRIMARY KEY (session_primary_id,attribute_name)
+);
+-- ddl-end --
+ALTER TABLE public.spring_session_attributes OWNER TO postgres;
+-- ddl-end --
+
+-- object: spring_session_attributes_fk | type: CONSTRAINT --
+-- ALTER TABLE public.spring_session_attributes DROP CONSTRAINT IF EXISTS spring_session_attributes_fk CASCADE;
+ALTER TABLE public.spring_session_attributes ADD CONSTRAINT spring_session_attributes_fk FOREIGN KEY (session_primary_id)
+REFERENCES public.spring_session (primary_id) MATCH SIMPLE
+ON DELETE CASCADE ON UPDATE NO ACTION;
 -- ddl-end --
 
 
