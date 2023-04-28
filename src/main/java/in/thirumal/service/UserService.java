@@ -339,7 +339,8 @@ public class UserService {
 	 * @return OTP
 	 */
 	@Transactional
-	public boolean requestOtp(String loginId, String purpose) {
+	public boolean requestOtp(Map<String, Object> payload, String purpose) {
+		String loginId = payload.get("loginId").toString();
 		logger.debug("The {} requested for OTP", loginId);
 		Contact contact = contactRepository.findActiveLoginIdByLoginId(loginId);
 		String errorMessage;
@@ -357,9 +358,13 @@ public class UserService {
 		String template;
 		String subject;
 		if (purpose.equalsIgnoreCase("verify-signup")) {
+			if (contact.getVerifiedOn() != null) {
+				throw new BadRequestException("Account is already verified");
+			}
 			template = Email.ACCOUNT_VERIFY_FTL_TEMPLATE;
 			subject = "Account Verification OTP ";
 		} else if (purpose.equalsIgnoreCase("reset-password")) { 
+			validatePassword(contact.getLoginUserId(), payload.get("password").toString());
 			template = Email.RESET_PASSWORD_FTL_TEMPLATE;
 			subject = "Password Reset OTP ";
 		} else {
@@ -410,16 +415,7 @@ public class UserService {
 			throw new BadRequestException("The entered OTP is not valid");
 		}	
 		String newPassword = resetPassword.getPassword();
-		if (!Password.passwordComplexity.test(newPassword)) {
-			logger.debug("Password complexity");
-			throw new BadRequestException("Password must contain atleast 1 digit, 1 special character,"
-					+ " 1 lowercase, 1 uppercase & minimum length of 8");
-		}	
-		List<Password> passwords = passwordRepository.findAllByLastNRowLoginUserId(contact.getLoginUserId(), 3);
-		boolean matches = passwords.stream().anyMatch(p -> passwordEncoder.matches(newPassword, p.getSecretKey())); 
-		if (matches) {
-			throw new BadRequestException("New password must not match with last 3 password");
-		}
+		validatePassword(contact.getLoginUserId(), newPassword);
 		passwordRepository.save(Password.builder().loginUserId(contact.getLoginUserId())
 				.secretKey(passwordEncoder.encode(newPassword)).build());
 		if (contact.getVerifiedOn() == null) { //Verify the contact
@@ -429,6 +425,19 @@ public class UserService {
 				Map.of("name", loginUserName.getFirstName()), "Your password has been successfully reset",  contact.getLoginUserId()));
 		return true;
 		
+	}
+	
+	private void validatePassword(Long loginUserId, String password) {
+		if (!Password.passwordComplexity.test(password)) {
+			logger.debug("Password complexity");
+			throw new BadRequestException("Password must contain atleast 1 digit, 1 special character,"
+					+ " 1 lowercase, 1 uppercase & minimum length of 8");
+		}	
+		List<Password> passwords = passwordRepository.findAllByLastNRowLoginUserId(loginUserId, 3);
+		boolean matches = passwords.stream().anyMatch(p -> passwordEncoder.matches(password, p.getSecretKey())); 
+		if (matches) {
+			throw new BadRequestException("New password must not match with last 3 password");
+		}
 	}
 	
 	public PaginatedUser list(Pagination pagination) {

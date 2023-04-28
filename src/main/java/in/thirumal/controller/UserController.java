@@ -95,7 +95,6 @@ public class UserController {
 	public boolean verify(@RequestBody ContactVerify contactVerify) {
 		return userService.verifyContact(contactVerify);
 	}
-
 	
 	/**
 	 * @param payload (email)
@@ -109,7 +108,7 @@ public class UserController {
 		//Start of Verify reCaptcha
 		// verifyCaptcha(recaptchaResponse, request);
 		//End of reCaptcha
-		return new ResponseEntity<>(userService.requestOtp(payload.get("loginId").toString(), purpose), HttpStatus.OK);
+		return new ResponseEntity<>(userService.requestOtp(payload, purpose), HttpStatus.OK);
 	}
 	
 	
