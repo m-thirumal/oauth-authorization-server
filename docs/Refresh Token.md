@@ -3,27 +3,6 @@
 [Refresh token](Refresh%20Token.md) grant type is used to exchange a refresh token for an access token
 
 
-# Refresh Token that never expires
-
-If the `refresh_expires_in` is set to `0`, then the refresh token will not expire
-
-```bash
-{
-	"access_token": "",
-	"expires_in"  : "",
-	"refresh_token": "",
-	"refresh_expires_in": "",
-	"token_type"  : "",
-	"session_state": "",
-	"scope"       : ""
-}
-
-```
-
-## How to request the refresh token that never expires
-
-!> Set `scope` value `profile_offline_access` on token access
-
 # Get Access Token using Refresh Token
 
 ```bash
@@ -37,3 +16,9 @@ curl --location 'http://localhost:9000/oauth2/token' \
 ```
 
 ![](./img/access-token/access-token-using-refresh-token.png)
+
+# Refresh Token that never expires 
+
+?> This feature is not available yet in the new OAuth2.1 authorization server
+
+!> Can be achieved by setting `Integer.MAX` in token settings
