@@ -99,7 +99,7 @@ Access Tokens
 ```
 
 
-#### Refresh Token
+## Refresh Token
 
   [Refresh token](Refresh%20Token.md) grant type is used to exchange a refresh token for an access token
   
@@ -107,5 +107,3 @@ Access Tokens
 ## Scope
 
 Limit user access on resource server
-
-##

@@ -3,7 +3,6 @@
 [Refresh token](Refresh%20Token.md) grant type is used to exchange a refresh token for an access token
 
 
-
 # Refresh Token that never expires
 
 If the `refresh_expires_in` is set to `0`, then the refresh token will not expire
@@ -21,7 +20,7 @@ If the `refresh_expires_in` is set to `0`, then the refresh token will not expir
 
 ```
 
-### How to request the refresh token that never expires
+## How to request the refresh token that never expires
 
 Set `scope` value `profile_offline_access` on token access
 
