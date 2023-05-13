@@ -8,7 +8,7 @@
 
 ### SQL
 
-```SQL
+```sql
 -- Database generated with pgModeler (PostgreSQL Database Modeler).
 -- pgModeler version: 1.0.1
 -- PostgreSQL version: 15.0

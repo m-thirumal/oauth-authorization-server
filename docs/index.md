@@ -38,7 +38,7 @@ OAuth means `Open Authorization` & OAuth 2 is an  `Authorization Framework`
 
 ### SQL
 
-```
+```SQL
 INSERT INTO public.oauth2_authorization_consent(
 	registered_client_id, principal_name, authorities)
 	VALUES ('Thirumal', 'admin', 'user');

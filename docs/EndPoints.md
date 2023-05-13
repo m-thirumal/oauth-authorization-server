@@ -2,7 +2,7 @@
 
 Invoke [http://localhost:9000/.well-known/openid-configuration](http://localhost:9000/.well-known/openid-configuration)
 
-```
+```bash
 {
     "issuer": "http://localhost:9000",
     "authorization_endpoint": "http://localhost:9000/oauth2/authorize",

@@ -13,7 +13,7 @@ If the OAuth Client application is a Javascript application, then no need to con
 
 POST
 
-```
+```bash
 {
   "clientName": "client1",
   "clientAuthenticationMethods": ["client_secret_basic", "client_secret_post"],

@@ -47,7 +47,7 @@ There are two types
 
 Request for OAuth code
 
-```
+```bash
 http://localhost:9000/auth
 
 ?client_id=""
@@ -69,7 +69,7 @@ Exchange OAuth code for access token
 
 Grant types are 	`authorization_code, client_credentials` based on the type of clients
 
-```
+```bash
 http://localhost:9000/token
 
 --header 'Content-Type: application/x-www-form-urlencoded'
@@ -89,7 +89,7 @@ http://localhost:9000/token
 Access Tokens
 
 
-```
+```bash
 {
 	"access_token": "",
 	"expires_in"  : "",

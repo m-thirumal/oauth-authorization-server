@@ -3,7 +3,7 @@
 
 Add Roles in claims
 
-```
+```java
 @Bean
 OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer(CustomClaims claims) {
     return context -> {
