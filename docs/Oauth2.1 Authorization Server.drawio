@@ -1,0 +1,97 @@
+<mxfile host="Electron" modified="2023-05-14T15:35:43.803Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.2.8 Chrome/112.0.5615.165 Electron/24.2.0 Safari/537.36" etag="tk9Y6g6V-kpwzW8ZjFaI" version="21.2.8" type="device">
+  <diagram name="Page-1" id="O3EOFl7XjusSt9eqgzAN">
+    <mxGraphModel dx="1781" dy="1843" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="1">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="j4JViCOknMpUK0rzboyn-10" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;entryX=1.006;entryY=0.379;entryDx=0;entryDy=0;strokeWidth=2;entryPerimeter=0;" edge="1" parent="1" source="j4JViCOknMpUK0rzboyn-1" target="j4JViCOknMpUK0rzboyn-21">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="280" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="260" y="10" />
+              <mxPoint x="260" y="253" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-12" value="Token(Access, Refresh token))" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBorderColor=none;labelBackgroundColor=none;fontFamily=Architects Daughter;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DArchitects%2BDaughter;rotation=270;" vertex="1" connectable="0" parent="j4JViCOknMpUK0rzboyn-10">
+          <mxGeometry x="-0.0342" y="6" relative="1" as="geometry">
+            <mxPoint x="4" y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-1" value="OAuth 2.1 Authorization&lt;br&gt;Server&amp;nbsp;" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/compute/Azure_Spring_Cloud.svg;rounded=0;labelBackgroundColor=none;" vertex="1" parent="1">
+          <mxGeometry x="420" y="-50" width="68" height="68" as="geometry" />
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-2" value="Resource Server&lt;br&gt;(Order Service)" style="outlineConnect=0;fontColor=#660000;fillColor=#e51400;strokeColor=#B20000;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.servers;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="498" y="100" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-3" value="Resource Server&lt;br&gt;(Payment Service)" style="outlineConnect=0;fillColor=#0050ef;strokeColor=#001DBC;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.servers;fontColor=#006666;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="498" y="250" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-4" value="Resource Server&lt;br&gt;(Delivery Service)" style="outlineConnect=0;fontColor=#00331A;fillColor=#008a00;strokeColor=#005700;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.servers;labelBackgroundColor=none;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="498" y="410" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-9" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;exitX=0.994;exitY=0.18;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="j4JViCOknMpUK0rzboyn-21">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="210" as="sourcePoint" />
+            <mxPoint x="420" y="-20" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="50" y="210" />
+              <mxPoint x="195" y="210" />
+              <mxPoint x="195" y="-20" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-11" value="&lt;font face=&quot;Architects Daughter&quot; data-font-src=&quot;https://fonts.googleapis.com/css?family=Architects+Daughter&quot;&gt;Pass Credentials&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;rotation=268;fontStyle=0" vertex="1" connectable="0" parent="j4JViCOknMpUK0rzboyn-9">
+          <mxGeometry x="0.0629" y="17" relative="1" as="geometry">
+            <mxPoint x="3" y="37" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-14" style="edgeStyle=elbowEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;endArrow=classic;endFill=1;shadow=0;" edge="1" parent="1" target="j4JViCOknMpUK0rzboyn-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="290" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="360" y="250" />
+              <mxPoint x="480" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-15" style="edgeStyle=elbowEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" target="j4JViCOknMpUK0rzboyn-3">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="290" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-16" style="edgeStyle=elbowEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;" edge="1" parent="1" target="j4JViCOknMpUK0rzboyn-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="290" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="360" y="330" />
+              <mxPoint x="480" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-17" value="Resource Request with Access Token" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontSize=12;" vertex="1" connectable="0" parent="j4JViCOknMpUK0rzboyn-16">
+          <mxGeometry x="-0.3891" relative="1" as="geometry">
+            <mxPoint x="69" y="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-18" value="&lt;font style=&quot;font-size: 12px;&quot; data-font-src=&quot;https://fonts.googleapis.com/css?family=Architects+Daughter&quot;&gt;Resource Access&lt;/font&gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" vertex="1" connectable="0" parent="j4JViCOknMpUK0rzboyn-16">
+          <mxGeometry x="-0.0139" y="-3" relative="1" as="geometry">
+            <mxPoint x="-49" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-21" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=14;strokeWidth=2;glass=0;rounded=0;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="-70" y="207" width="121" height="121" as="geometry" />
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-23" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="j4JViCOknMpUK0rzboyn-22" target="j4JViCOknMpUK0rzboyn-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-22" value="Resource Owner" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#76608a;fontColor=#336600;strokeColor=#432D57;" vertex="1" parent="1">
+          <mxGeometry x="-230" y="230" width="40" height="67.5" as="geometry" />
+        </mxCell>
+        <mxCell id="j4JViCOknMpUK0rzboyn-24" value="" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.mobile_client;" vertex="1" parent="1">
+          <mxGeometry x="10" y="250" width="41" height="78" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
