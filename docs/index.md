@@ -1,5 +1,7 @@
 # OAuth 2 Authorization server
 
+![](img/Oauth2.1%20Authorization%20Server.drawio.png)
+
 ## What is OAuth 2?
 
 OAuth means `Open Authorization` & OAuth 2 is an  `Authorization Framework`

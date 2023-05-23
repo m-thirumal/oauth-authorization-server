@@ -1,5 +1,7 @@
 # OAuth (New - 2.1) Authorization server
 
+![](img/Oauth2.1%20Authorization%20Server.drawio.png)
+
 This repository full documentation can be found at [m-thirumal.github.io/oauth-authorization-server/](https://m-thirumal.github.io/oauth-authorization-server/)
 
 #### What is Authentication and Authorization?
