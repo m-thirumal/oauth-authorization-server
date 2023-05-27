@@ -230,7 +230,7 @@ max-width: 500px;
 
 <h2>Data dictionary index</h2>
  <ul id="index">
- <li><strong>Database: </strong>authorization1</strong>
+ <li><strong>Database: </strong>authorization-1</strong>
  <li><br/><strong>Tables</strong>
  <ul>
  <li><a href="#lookup.contact_cd">lookup.contact_cd</a></li>
@@ -1448,7 +1448,7 @@ Limit Login Attempt.
  <td class="bool-field"></td>
  <td class="bool-field"></td>
  <td class="bool-field">&#10003;</td>
- <td class="value">uuid_generate_v4()</td>
+ <td class="value"></td>
  <td><p class="max-td-wth"><em></em></p></td>
  </tr>
  <tr>
@@ -2388,6 +2388,86 @@ Limit Login Attempt.
  <td><p class="max-td-wth"><em></em></p></td>
  </tr>
  <tr>
+ <td>user_code_value</td>
+ <td class="data-type">text</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>user_code_issued_at</td>
+ <td class="data-type">timestamptz</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>user_code_expires_at</td>
+ <td class="data-type">timestamptz</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>user_code_metadata</td>
+ <td class="data-type">text</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>device_code_value</td>
+ <td class="data-type">text</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>device_code_issued_at</td>
+ <td class="data-type">timestamptz</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>device_code_expires_at</td>
+ <td class="data-type">timestamptz</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>device_code_metadata</td>
+ <td class="data-type">text</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
  <td colspan="8" class="nested-tab-parent">
  <table class="nested-tab">
  <tr>
@@ -2606,6 +2686,16 @@ Limit Login Attempt.
  <tr>
  <td>redirect_uris</td>
  <td class="data-type">varchar</td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="bool-field"></td>
+ <td class="value"></td>
+ <td><p class="max-td-wth"><em></em></p></td>
+ </tr>
+ <tr>
+ <td>post_logout_redirect_uris</td>
+ <td class="data-type">varchar(1000)</td>
  <td class="bool-field"></td>
  <td class="bool-field"></td>
  <td class="bool-field"></td>
@@ -3244,7 +3334,7 @@ Limit Login Attempt.
  <a href="#index" class="nav-link">&uarr; Index</a>
 </div>
 <footer>
-Generated at <em>2023-04-13T08:11:47 </em> by <strong>pgModeler 1.0.1</strong><br/>
+Generated at <em>2023-05-27T12:11:47 </em> by <strong>pgModeler 1.0.4</strong><br/>
 <a href="https://pgmodeler.io">PostgreSQL Database Modeler - https://pgmodeler.io</a><br/>
 Copyright © 2006 - 2023 Raphael Araújo e Silva
 </footer> </body>

@@ -1,17 +1,17 @@
 -- Database generated with pgModeler (PostgreSQL Database Modeler).
--- pgModeler version: 1.0.1
+-- pgModeler version: 1.0.4
 -- PostgreSQL version: 15.0
 -- Project Site: pgmodeler.io
--- Model Author: ---
+-- Model Author: Thirumal
 
 -- Database creation must be performed outside a multi lined SQL file. 
 -- These commands were put in this file only as a convenience.
 -- 
--- object: authorization1 | type: DATABASE --
--- DROP DATABASE IF EXISTS authorization1;
-CREATE DATABASE authorization1;
+-- object: "authorization-1" | type: DATABASE --
+-- DROP DATABASE IF EXISTS "authorization-1";
+CREATE DATABASE "authorization-1";
 -- ddl-end --
-COMMENT ON DATABASE authorization1 IS E'Created Thirumal';
+COMMENT ON DATABASE "authorization-1" IS E'Created Thirumal';
 -- ddl-end --
 
 
@@ -23,12 +23,6 @@ ALTER SCHEMA lookup OWNER TO postgres;
 -- ddl-end --
 
 SET search_path TO pg_catalog,public,lookup;
--- ddl-end --
-
--- object: "uuid-ossp" | type: EXTENSION --
--- DROP EXTENSION IF EXISTS "uuid-ossp" CASCADE;
-CREATE EXTENSION "uuid-ossp"
-WITH SCHEMA public;
 -- ddl-end --
 
 -- object: public.oauth2_authorization | type: TABLE --
@@ -59,6 +53,14 @@ CREATE TABLE public.oauth2_authorization (
 	refresh_token_issued_at timestamptz,
 	refresh_token_expires_at timestamptz,
 	refresh_token_metadata text,
+	user_code_value text,
+	user_code_issued_at timestamptz,
+	user_code_expires_at timestamptz,
+	user_code_metadata text,
+	device_code_value text,
+	device_code_issued_at timestamptz,
+	device_code_expires_at timestamptz,
+	device_code_metadata text,
 	CONSTRAINT oauth2_authorization_pk PRIMARY KEY (id,registered_client_id,principal_name)
 );
 -- ddl-end --
@@ -99,6 +101,7 @@ CREATE TABLE public.oauth2_registered_client (
 	client_authentication_methods varchar(1000) NOT NULL,
 	authorization_grant_types varchar(1000) NOT NULL,
 	redirect_uris varchar,
+	post_logout_redirect_uris varchar(1000),
 	scopes varchar(1000) NOT NULL,
 	client_settings varchar(2000) NOT NULL,
 	token_settings varchar(2000) NOT NULL,
@@ -108,9 +111,9 @@ CREATE TABLE public.oauth2_registered_client (
 ALTER TABLE public.oauth2_registered_client OWNER TO postgres;
 -- ddl-end --
 
-INSERT INTO public.oauth2_registered_client (id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name, client_authentication_methods, authorization_grant_types, redirect_uris, scopes, client_settings, token_settings) VALUES (E'Thirumal', E'1', DEFAULT, E'$2a$10$M0D7JM8IErxNfdNCRccHgOR3ImXzr/nV5NQO1kRZZCIaaDM.YhA5e', DEFAULT, E'Thirumal', E'client_secret_basic,client_secret_post', E'refresh_token,client_credentials,authorization_code', E'http://127.0.0.1:8000/authorized,http://127.0.0.1:8000/login/oauth2/code/users-client-oidc', E'read,openid,profile', E'{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":true}', E'{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",3000.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}');
+INSERT INTO public.oauth2_registered_client (id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name, client_authentication_methods, authorization_grant_types, redirect_uris, scopes, client_settings, token_settings, post_logout_redirect_uris) VALUES (E'Thirumal', E'1', DEFAULT, E'$2a$10$M0D7JM8IErxNfdNCRccHgOR3ImXzr/nV5NQO1kRZZCIaaDM.YhA5e', DEFAULT, E'Thirumal', E'client_secret_basic,client_secret_post', E'refresh_token,client_credentials,authorization_code', E'http://127.0.0.1:8000/authorized,http://127.0.0.1:8000/login/oauth2/code/users-client-oidc', E'read,openid,profile', E'{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":true}', E'{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",3000.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}', DEFAULT);
 -- ddl-end --
-INSERT INTO public.oauth2_registered_client (id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name, client_authentication_methods, authorization_grant_types, redirect_uris, scopes, client_settings, token_settings) VALUES (E'E-Auction', E'2', DEFAULT, E'$2a$10$M0D7JM8IErxNfdNCRccHgOR3ImXzr/nV5NQO1kRZZCIaaDM.YhA5e', DEFAULT, E'E-Auction', E'client_secret_basic,client_secret_post', E'refresh_token,client_credentials,authorization_code', E'http://127.0.0.1:8000/authorized,http://127.0.0.1:8000/login/oauth2/code/users-client-oidc', E'read,openid,profile', E'{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":true}', E'{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",3000.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}');
+INSERT INTO public.oauth2_registered_client (id, client_id, client_id_issued_at, client_secret, client_secret_expires_at, client_name, client_authentication_methods, authorization_grant_types, redirect_uris, scopes, client_settings, token_settings, post_logout_redirect_uris) VALUES (E'E-Auction', E'2', DEFAULT, E'$2a$10$M0D7JM8IErxNfdNCRccHgOR3ImXzr/nV5NQO1kRZZCIaaDM.YhA5e', DEFAULT, E'E-Auction', E'client_secret_basic,client_secret_post', E'refresh_token,client_credentials,authorization_code', E'http://127.0.0.1:8000/authorized,http://127.0.0.1:8000/login/oauth2/code/users-client-oidc', E'read,openid,profile', E'{"@class":"java.util.Collections$UnmodifiableMap","settings.client.require-proof-key":false,"settings.client.require-authorization-consent":true}', E'{"@class":"java.util.Collections$UnmodifiableMap","settings.token.reuse-refresh-tokens":true,"settings.token.id-token-signature-algorithm":["org.springframework.security.oauth2.jose.jws.SignatureAlgorithm","RS256"],"settings.token.access-token-time-to-live":["java.time.Duration",3000.000000000],"settings.token.access-token-format":{"@class":"org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat","value":"self-contained"},"settings.token.refresh-token-time-to-live":["java.time.Duration",3600.000000000],"settings.token.authorization-code-time-to-live":["java.time.Duration",300.000000000]}', DEFAULT);
 -- ddl-end --
 
 -- object: public.login_user_name_login_user_name_id_seq | type: SEQUENCE --
@@ -209,7 +212,7 @@ ALTER TABLE public.contact OWNER TO postgres;
 -- DROP TABLE IF EXISTS public.login_user CASCADE;
 CREATE TABLE public.login_user (
 	login_user_id bigint NOT NULL DEFAULT nextval('public.login_user_login_user_id_seq'::regclass),
-	login_uuid uuid NOT NULL DEFAULT uuid_generate_v4(),
+	login_uuid uuid NOT NULL,
 	date_of_birth timestamptz,
 	individual boolean NOT NULL DEFAULT true,
 	row_created_on timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
