@@ -71,7 +71,8 @@ public class LoginHistoryDao extends GenericDao implements LoginHistoryRepositor
 	
 	@Override
 	public long count(Long loginUserId) {
-		return jdbcTemplate.queryForObject(getSql("LoginHistory.count"), (ResultSet rs, int rowNum)  -> rs.getLong("count"), loginUserId);
+		Long count = jdbcTemplate.queryForObject(getSql("LoginHistory.count"), (ResultSet rs, int rowNum)  -> rs.getLong("count"), loginUserId);
+		return count == null ? 0 : count.longValue();
 	}
 	
 	RowMapper<LoginHistory> loginHistoryRowMapper = (rs, rowNum) -> {

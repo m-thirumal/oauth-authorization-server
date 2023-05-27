@@ -1,6 +1,8 @@
 spring:
   application:
     name: authorization-server
+  messages:
+    basename: messages
   profiles: 
     active: DEV
   main:
@@ -8,6 +10,12 @@ spring:
     banner-mode: console
   lifecycle:
     timeout-per-shutdown-phase: 60s
+  datasource:
+    jdbc-url: ${spring.datasource.url} # For hikari
+    hikari:
+      minimum-idle: 100
+      jdbc-url: ${spring.datasource.url} 
+    driver-class-name: org.postgresql.Driver
   session:
     jdbc:
       table-name: spring_session

@@ -10,7 +10,7 @@ Contact.listByLoginId=${Contact} login_id = ? AND end_time = 'infinity'
 Contact.listInLoginId=${Contact} login_id IN (?) AND end_time = 'infinity'
 #-- Login User
 LoginUser = SELECT * FROM public.login_user WHERE 
-LoginUser.create=INSERT INTO public.login_user(date_of_birth, individual) VALUES (?, ?)
+LoginUser.create=INSERT INTO public.login_user(login_uuid, date_of_birth, individual) VALUES (?, ?, ?)
 LoginUser.get=${LoginUser} login_user_id = ?
 LoginUser.getByUuid=${LoginUser} login_uuid = ?
 LoginUser.update=UPDATE public.login_user SET date_of_birth = ?, individual = ? WHERE login_user_id = ?

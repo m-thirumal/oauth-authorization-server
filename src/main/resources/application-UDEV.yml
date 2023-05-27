@@ -3,10 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/authorization-1
     username: postgres
     password: Thirumal
-    jdbc-url: ${spring.datasource.url} # For hikari
-    hikari:
-      minimum-idle: 100
-      jdbc-url: ${spring.datasource.url} 
 server:
   port: 9000
 

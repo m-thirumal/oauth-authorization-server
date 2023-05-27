@@ -20,6 +20,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -152,6 +153,11 @@ public class AuthorizationServerConfig {
 			// Form login handles the redirect to the login page from the
 			// authorization server filter chain
 			.formLogin(Customizer.withDefaults());
+		http.sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .invalidSessionUrl("/invalidSession.htm")
+                .maximumSessions(3)
+                .maxSessionsPreventsLogin(true));
 		http.csrf().disable();
 		return http.build();
 	}

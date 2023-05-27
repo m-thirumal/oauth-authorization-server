@@ -1,24 +1,20 @@
 spring:
   datasource:
-    url: jdbc:postgresql://3.6.239.198:5432/authorization-1
+    url: jdbc:postgresql://localhost:5432/authorization
     username: postgres
-    password: Enkindle@2013
-    jdbc-url: ${spring.datasource.url} # For hikari
-    hikari:
-      minimum-idle: 100
-      jdbc-url: ${spring.datasource.url} 
+    password: thirumal
 server:
   port: 9000
 
 eureka:
   client:
     service-url:
-      defaultZone: http://thirumal:thirumal@3.6.239.198:8761/eureka/
+      defaultZone: http://thirumal:thirumal@localhost:8761/eureka/
 google:
   recaptcha:
     key:
-      site: 6LcTncEkAAAAACymEdK_QG-ltMwo7VLyWcERIeOJ
-      secret: 6LcTncEkAAAAAOmE5T8ecDUgNHfc9bOQtc8V9py3
+      site: 6LcTncEkAAAAACymEdK_QG-
+      secret: 6LcTncEkAAAAAOmE5T8ec
       threshold: 0.5
 notification: 
   email:

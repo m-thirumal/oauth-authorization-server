@@ -11,6 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import in.thirumal.exception.BadRequestException;
@@ -47,8 +48,9 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
 	}
 
 	private PreparedStatement setPreparedStatement(LoginUser loginUser, PreparedStatement ps) throws SQLException {
-		ps.setObject(1, loginUser.getDateOfBirth());
-		ps.setBoolean(2, loginUser.isIndividual());
+		ps.setObject(1, UUID.randomUUID());
+		ps.setObject(2, loginUser.getDateOfBirth());
+		ps.setBoolean(3, loginUser.isIndividual());
 		return ps;
 	}
 
@@ -69,7 +71,7 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
 	}
 	
 	@Override
-	public int update(LoginUser loginUser) {
+	public int update(@NonNull LoginUser loginUser) {
 		logger.debug("Updateing login user dob {}", loginUser.getLoginUserId());
 		return  jdbcTemplate.update(getSql(UPDATE), loginUser.getDateOfBirth(), loginUser.isIndividual(), loginUser.getLoginUserId());
 	}	
