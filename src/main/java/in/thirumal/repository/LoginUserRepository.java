@@ -2,7 +2,6 @@ package in.thirumal.repository;
 
 import java.util.UUID;
 
-import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import in.thirumal.model.LoginUser;
@@ -46,5 +45,5 @@ public interface LoginUserRepository {
 	 * @param loginUser
 	 * @return
 	 */
-	int update(@NonNull LoginUser loginUser);
+	int update(LoginUser loginUser);
 }

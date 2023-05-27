@@ -19,7 +19,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AnonymousConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -127,7 +128,7 @@ public class AuthorizationServerConfig {
 	  		.exceptionHandling(exceptions ->
 	  			exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
 	  		)
-	  		.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+	  		.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
 	    return http/*.formLogin(Customizer.withDefaults())*/.build();
 	}
 	
@@ -141,11 +142,12 @@ public class AuthorizationServerConfig {
 	@Order(2)
 	public SecurityFilterChain applicationSecurityFilterChain(HttpSecurity http)
 			throws Exception {
-		http.anonymous().disable();
-		http.cors().and().authorizeHttpRequests()
-		//.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
-		.requestMatchers("/user/**", "/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico")
-		.permitAll();
+		http.anonymous(AnonymousConfigurer::disable);
+		http.cors().and().authorizeHttpRequests(authorize ->
+			authorize.requestMatchers("/user/**", "/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico")
+			//.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
+			.permitAll()
+			);
 		http
 			.authorizeHttpRequests(authorize -> authorize
 				//	.requestMatchers(HttpMethod.POST, "/user/**").permitAll()
@@ -155,10 +157,10 @@ public class AuthorizationServerConfig {
 			.formLogin(Customizer.withDefaults());
 		http.sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                .invalidSessionUrl("/invalidSession.htm")
-                .maximumSessions(3)
-                .maxSessionsPreventsLogin(true));
-		http.csrf().disable();
+             //   .invalidSessionUrl("/invalidSession.htm")
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false));
+		http.csrf(CsrfConfigurer::disable);
 		return http.build();
 	}
 
