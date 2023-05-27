@@ -443,8 +443,11 @@ public class UserService {
 	public PaginatedUser list(Pagination pagination) {
 		logger.debug("Lsting users with {}", pagination);
 		var userResources = new ArrayList<UserResource>();
-		
-		return new PaginatedUser(userResources, 0);
+		List<LoginUser> loginUsers = loginUserRepository.findAll(pagination);
+		for (LoginUser loginUser : loginUsers) {
+			userResources.add(get(loginUser.getLoginUuid()));
+		}
+		return new PaginatedUser(userResources, loginUserRepository.count());
 	}
 	
 }

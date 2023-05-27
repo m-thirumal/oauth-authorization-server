@@ -1,10 +1,10 @@
 package in.thirumal.repository;
 
+import java.util.List;
 import java.util.UUID;
 
-import org.springframework.lang.Nullable;
-
 import in.thirumal.model.LoginUser;
+import in.thirumal.model.Pagination;
 /**
  * @author Thirumal
  *
@@ -26,9 +26,7 @@ public interface LoginUserRepository {
 	 * @param id the login user identifier
 	 * @return the {@link LoginUser} if found, otherwise {@code null}
 	 */
-	@Nullable
 	LoginUser findById(Long id);
-	
 	
 	/**
 	 * Returns the login user (Resource Owner) identified by the provided {@code uuid},
@@ -37,7 +35,6 @@ public interface LoginUserRepository {
 	 * @param uuid the login user identifier
 	 * @return the {@link LoginUser} if found, otherwise {@code null}
 	 */
-	@Nullable
 	LoginUser findByUuid(UUID uuid);
 	
 	/**
@@ -46,4 +43,13 @@ public interface LoginUserRepository {
 	 * @return
 	 */
 	int update(LoginUser loginUser);
+
+	/**
+	 * List of all login user 
+	 * @param pagination
+	 * @return list of {@link LoginUser}
+	 */
+	List<LoginUser> findAll(Pagination pagination);
+
+	long count();
 }

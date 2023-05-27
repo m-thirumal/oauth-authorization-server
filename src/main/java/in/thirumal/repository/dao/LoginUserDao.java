@@ -1,8 +1,10 @@
 package in.thirumal.repository.dao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,12 +13,12 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import in.thirumal.exception.BadRequestException;
 import in.thirumal.exception.ResourceNotFoundException;
 import in.thirumal.model.LoginUser;
+import in.thirumal.model.Pagination;
 import in.thirumal.repository.LoginUserRepository;
 
 /**
@@ -71,7 +73,19 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
 	}
 	
 	@Override
-	public int update(@NonNull LoginUser loginUser) {
+	public List<LoginUser> findAll(Pagination pagination) {
+		logger.debug("Finding all login user with pagination {}", pagination);
+		return null;
+	}
+	
+	@Override
+	public long count() {
+		Long count = jdbcTemplate.queryForObject(getSql("LoginUser.count"), (ResultSet rs, int rowNum)  -> rs.getLong("count"));
+		return count == null ? 0 : count.longValue();
+	}
+	
+	@Override
+	public int update(LoginUser loginUser) {
 		logger.debug("Updateing login user dob {}", loginUser.getLoginUserId());
 		return  jdbcTemplate.update(getSql(UPDATE), loginUser.getDateOfBirth(), loginUser.isIndividual(), loginUser.getLoginUserId());
 	}	
@@ -92,6 +106,5 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
  
 		return loginUser;
 	};
-	
 
 }

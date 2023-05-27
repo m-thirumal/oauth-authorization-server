@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -160,11 +161,12 @@ public class UserController {
 	}
 	
 	@GetMapping("")
-	public in.thirumal.model.PaginatedUser list(@RequestParam(value = "page", defaultValue = "0", required = false) long page,
+	public String list(@RequestParam(value = "page", defaultValue = "0", required = false) long page,
             @RequestParam(value = "size", defaultValue = "30", required = false) long size,
             @RequestParam(value = "sortBy", defaultValue = "rowCreatedOn", required = false) String sortBy,
-            @RequestParam(value = "asc", required = false) boolean asc) {
-		return userService.list(new in.thirumal.model.Pagination(page, size, sortBy, asc));
+            @RequestParam(value = "asc", required = false) boolean asc, Model model) {		
+		 model.addAttribute("user", userService.list(new in.thirumal.model.Pagination(page, size, sortBy, asc)));
+	     return "user";
 	}
 		
 }
