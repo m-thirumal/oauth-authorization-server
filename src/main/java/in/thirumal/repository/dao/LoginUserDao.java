@@ -30,9 +30,10 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
 
 	private static final String PK = "login_user_id";
 	
-	private static final String CREATE    = "LoginUser.create";
-	private static final String GET      = "LoginUser.get";
+	private static final String CREATE     = "LoginUser.create";
+	private static final String GET        = "LoginUser.get";
 	private static final String GETBY_UUID = GET + "ByUuid"; 
+	private static final String LIST       = "LoginUser.list";
 	private static final String UPDATE     = "LoginUser.update";
 	
 	@Override
@@ -75,7 +76,7 @@ public class LoginUserDao extends GenericDao implements LoginUserRepository {
 	@Override
 	public List<LoginUser> findAll(Pagination pagination) {
 		logger.debug("Finding all login user with pagination {}", pagination);
-		return null;
+		return jdbcTemplate.query(getSql(LIST), loginUserRowMapper, pagination.size(), pagination.getOffset());
 	}
 	
 	@Override

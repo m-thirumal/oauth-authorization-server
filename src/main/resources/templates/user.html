@@ -6,7 +6,6 @@
 <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} " />
 </head>
 <body>
-<h1>Hello, <span th:text="${user}"></span>!</h1>
 <table>
         <thead>
             <tr>
@@ -16,11 +15,11 @@
             </tr>
         </thead>
         <tbody>
-           <!--  <tr th:each="userResource : ${paginatedUser.userResource}">
+            <tr th:each="userResource : ${user.userResources}">
                 <td th:text="${userResource.loginUuid}"></td>
                 <td th:text="${userResource.firstName}"></td>
                 <td th:text="${userResource.email}"></td>
-            </tr> -->
+            </tr> 
         </tbody>
     </table>
 	<!-- Navigation -->

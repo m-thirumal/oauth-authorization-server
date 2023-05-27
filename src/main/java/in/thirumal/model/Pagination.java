@@ -9,4 +9,8 @@ package in.thirumal.model;
  */
 public record Pagination(long page, long size, String sortBy, boolean asc) {
 
+	
+	public long getOffset() {
+		return page * size;
+	}
 }

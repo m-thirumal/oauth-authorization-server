@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import in.thirumal.model.ContactVerify;
 import in.thirumal.model.Login;
@@ -39,6 +41,7 @@ import jakarta.validation.Valid;
  * @author Thirumal
  *
  */
+@Controller
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -161,12 +164,14 @@ public class UserController {
 	}
 	
 	@GetMapping("")
-	public String list(@RequestParam(value = "page", defaultValue = "0", required = false) long page,
+	public ModelAndView user(@RequestParam(value = "page", defaultValue = "0", required = false) long page,
             @RequestParam(value = "size", defaultValue = "30", required = false) long size,
             @RequestParam(value = "sortBy", defaultValue = "rowCreatedOn", required = false) String sortBy,
             @RequestParam(value = "asc", required = false) boolean asc, Model model) {		
-		 model.addAttribute("user", userService.list(new in.thirumal.model.Pagination(page, size, sortBy, asc)));
-	     return "user";
+		var paginatedUser = userService.list(new in.thirumal.model.Pagination(page, size, sortBy, asc));
+		ModelAndView modelAndView = new ModelAndView("user");
+		modelAndView.addObject("user", paginatedUser);
+	    return modelAndView;
 	}
 		
 }
