@@ -33,6 +33,7 @@ public class LoginHistoryDao extends GenericDao implements LoginHistoryRepositor
 	private static final String CREATE               = "LoginHistory.create";
 	private static final String LIST                 = "LoginHistory.list";
 	private static final String LISTBY_LOGIN_USER_ID = LIST + "ByLoginUserId";
+	private static final String LAST_N_LOGIN_FAILED  = "LoginHistory.lastNFailedLogin";
 	
 	@Override
 	public Long save(LoginHistory loginHistory) {
@@ -75,6 +76,13 @@ public class LoginHistoryDao extends GenericDao implements LoginHistoryRepositor
 		return count == null ? 0 : count.longValue();
 	}
 	
+	@Override
+	public boolean isLastNLoginFailed(Long loginUserId, int lastNLogin) {
+		 Long failedCount = jdbcTemplate.queryForObject(getSql(LAST_N_LOGIN_FAILED), 
+				 (ResultSet rs, int rowNum)  -> rs.getLong("count"), loginUserId, lastNLogin);
+		 return !(failedCount == null) && failedCount >= lastNLogin;
+	}
+
 	RowMapper<LoginHistory> loginHistoryRowMapper = (rs, rowNum) -> {
 
 		LoginHistory loginHistory = new LoginHistory();
@@ -91,6 +99,5 @@ public class LoginHistoryDao extends GenericDao implements LoginHistoryRepositor
  
 		return loginHistory;
 	};
-
 
 }

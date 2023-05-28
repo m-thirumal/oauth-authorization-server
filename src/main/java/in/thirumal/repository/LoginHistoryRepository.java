@@ -32,6 +32,12 @@ public interface LoginHistoryRepository {
 	 */
 	List<LoginHistory> list(Long loginUserId, int limit, int offset);
 	
+	/**
+	 * Is last N login is failed
+	 * @param lastNLogin
+	 * @return 
+	 */
+	boolean isLastNLoginFailed(Long loginUserId, int lastNLogin);
 	
 	/**
 	 * Total no.of login made by the give user @param loginUserId

@@ -32,7 +32,8 @@ LoginHistory=SELECT * FROM public.login_history WHERE
 LoginHistory.create=INSERT INTO public.login_history(login_user_id, success_login) VALUES (?, ?)
 LoginHistory.logout=UPDATE public.login_history SET logout_time = now() WHERE login_id = ? ORDER BY login_user_id DESC LIMIT 1
 LoginHistory.listByLoginUserId=${LoginHistory} login_user_id = ? ORDER BY login_history_id DESC LIMIT ? OFFSET ?
-LoginHistory.count=SELECT COUNT(*) from public.login_history WHERE login_user_id = ? 
+LoginHistory.count=SELECT COUNT(*) from public.login_history WHERE login_user_id = ?
+LoginHistory.lastNFailedLogin=SELECT COUNT(*) FROM(select * from login_history where login_user_id = ? ORDER BY login_history_id DESC LIMIT ?) AS last_n_rows WHERE success_login = false
 #-- Password
 Password=SELECT * FROM public.password WHERE 
 Password.create=INSERT INTO public.password(login_user_id, secret_key, force_password_change) VALUES (?, ?, ?)

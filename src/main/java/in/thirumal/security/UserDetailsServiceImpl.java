@@ -26,6 +26,7 @@ import in.thirumal.model.LoginUser;
 import in.thirumal.model.LoginUserRole;
 import in.thirumal.model.Password;
 import in.thirumal.repository.ContactRepository;
+import in.thirumal.repository.LoginHistoryRepository;
 import in.thirumal.repository.LoginUserRepository;
 import in.thirumal.repository.LoginUserRoleRepository;
 import in.thirumal.repository.PasswordRepository;
@@ -41,6 +42,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 	@Autowired
 	private LoginUserRepository loginUserRepository;
+	@Autowired
+	private LoginHistoryRepository loginHistoryRepository;
 	@Autowired
 	private LoginUserRoleRepository loginUserRoleRepository;
 	@Autowired
@@ -82,9 +85,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();	     
 	    for (LoginUserRole loginUserRole : loginUserRoles) {
 	        authorities.add(new SimpleGrantedAuthority(loginUserRole.getRole()));
-	    }	     
+	    }	  
+	    boolean accountLocked = loginHistoryRepository.isLastNLoginFailed(loginUser.getLoginUserId(), 5);
 		return User.withUsername(loginUser.getLoginUuid().toString()).password(password.getSecretKey())
 				.authorities(authorities)
+				.accountLocked(accountLocked)
 				.credentialsExpired(duration > 60)
 				.build();
 	}
