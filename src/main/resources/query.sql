@@ -41,6 +41,7 @@ Password.get=${Password} password_id = ?
 Password.getByLoginUserId=${Password} login_user_id = ? ORDER BY password_id DESC LIMIT 1
 Password.listByLoginUserId=${Password} login_user_id = ?
 Password.listLastNRowByLoginUserId=${Password} login_user_id = ? ORDER BY password_id DESC LIMIT ?
+Password.PasswordResetAfterNLoginAttempt=SELECT * FROM public.password WHERE login_user_id = ? AND row_created_on > (SELECT row_created_on FROM public.login_history WHERE login_user_id = ? ORDER BY login_user_id DESC LIMIT 1 OFFSET (SELECT COUNT(*) FROM public.login_history WHERE login_user_id = ?) - ?)
 #-- Token
 Token=SELECT * FROM public.token WHERE
 Token.create=INSERT INTO public.token(contact_id, otp, expires_on) VALUES (?, ?, ?)

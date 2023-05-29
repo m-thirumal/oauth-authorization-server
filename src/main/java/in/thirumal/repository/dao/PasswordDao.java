@@ -36,6 +36,7 @@ public class PasswordDao extends GenericDao implements PasswordRepository {
 	private static final String GETBY_LOGIN_USER_ID = GET + "ByLoginUserId";
 	private static final String LISTBY_LOGIN_USER_ID = LIST + "ByLoginUserId";
 	private static final String LIST_LAST_N_ROW_BY_LOGIN_USER_ID = LIST + "LastNRowByLoginUserId";
+	private static final String PASSWORD_RESET_AFTER_N_LOGIN_ATTEMPT = "Password.PasswordResetAfterNLoginAttempt";
 	
 	
 	@Override
@@ -96,6 +97,12 @@ public class PasswordDao extends GenericDao implements PasswordRepository {
 		return jdbcTemplate.query(getSql(LIST_LAST_N_ROW_BY_LOGIN_USER_ID), passwordRowMapper, loginUserId, lastNRow);
 	}
 
+	@Override
+	public boolean isPasswordResetAfterNLoginAttempt(Long loginUserId, int loginAttempt) {
+		logger.debug("Is user {} reset the password after {} login attempt", loginUserId, loginAttempt);
+		return !jdbcTemplate.query(getSql(PASSWORD_RESET_AFTER_N_LOGIN_ATTEMPT), passwordRowMapper, 
+				loginUserId, loginUserId, loginUserId, loginAttempt).isEmpty();
+	}
 	
 	RowMapper<Password> passwordRowMapper = (rs, rowNum) -> {
 

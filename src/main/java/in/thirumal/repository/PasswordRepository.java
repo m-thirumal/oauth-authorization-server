@@ -26,4 +26,11 @@ public interface PasswordRepository {
 	List<Password> findAllByLoginUserId(Long loginUserId);
 	
 	List<Password> findAllByLastNRowLoginUserId(Long loginUserId, int lastNRow);
+	
+	/**
+	 * Used for unlocking user
+	 * @param loginUserId
+	 * @return return true if the password reset date time is greater than last "N" login attempt.
+	 */
+	boolean isPasswordResetAfterNLoginAttempt(Long loginUserId, int loginAttempt);
 }

@@ -86,7 +86,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	    for (LoginUserRole loginUserRole : loginUserRoles) {
 	        authorities.add(new SimpleGrantedAuthority(loginUserRole.getRole()));
 	    }	  
-	    boolean accountLocked = loginHistoryRepository.isLastNLoginFailed(loginUser.getLoginUserId(), 5);
+	    boolean accountLocked = loginHistoryRepository.isLastNLoginFailed(loginUser.getLoginUserId(), 5) &&
+	    		!passwordRepository.isPasswordResetAfterNLoginAttempt(loginUser.getLoginUserId(), 5);
 		return User.withUsername(loginUser.getLoginUuid().toString()).password(password.getSecretKey())
 				.authorities(authorities)
 				.accountLocked(accountLocked)
