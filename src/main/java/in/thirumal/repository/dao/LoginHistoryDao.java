@@ -80,7 +80,7 @@ public class LoginHistoryDao extends GenericDao implements LoginHistoryRepositor
 	public boolean isLastNLoginFailed(Long loginUserId, int lastNLogin) {
 		 Long failedCount = jdbcTemplate.queryForObject(getSql(LAST_N_LOGIN_FAILED), 
 				 (ResultSet rs, int rowNum)  -> rs.getLong("count"), loginUserId, lastNLogin);
-		 return !(failedCount == null) && failedCount >= lastNLogin;
+		 return failedCount != null && failedCount >= lastNLogin;
 	}
 
 	RowMapper<LoginHistory> loginHistoryRowMapper = (rs, rowNum) -> {
