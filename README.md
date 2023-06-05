@@ -4,6 +4,10 @@
 
 This repository full documentation can be found at [m-thirumal.github.io/oauth-authorization-server/](https://m-thirumal.github.io/oauth-authorization-server/)
 
+## Pre-requists
+
+Run [Eureka Server](https://github.com/m-thirumal/eureka-server)
+
 #### What is Authentication and Authorization?
 
 `Authentication` - "Who you are?", is the process of ascertaining that somebody really is who they claim to be.

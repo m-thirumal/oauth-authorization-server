@@ -51,7 +51,7 @@
         <dependency>
 	      <groupId>org.springframework.cloud</groupId>
 	      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-	    </dependency>
+	    </dependency> 
 		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>

@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/authorization
     username: postgres
-    password: thirumal
+    password: Thirumal
 server:
   port: 9000
 
