@@ -20,6 +20,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AnonymousConfigurer;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
@@ -143,7 +144,7 @@ public class AuthorizationServerConfig {
 	public SecurityFilterChain applicationSecurityFilterChain(HttpSecurity http)
 			throws Exception {
 		http.anonymous(AnonymousConfigurer::disable);
-		http.cors().and().authorizeHttpRequests(authorize ->
+		http.cors(CorsConfigurer::disable).authorizeHttpRequests(authorize ->
 			authorize.requestMatchers("/user/**", "/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico")
 			//.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
 			.permitAll()
