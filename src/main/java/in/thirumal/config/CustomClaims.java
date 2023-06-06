@@ -55,10 +55,10 @@ public class CustomClaims {
 		for (var contact : contacts) {
 			if (Contact.EMAIL.equals(contact.getContactCd())) {
 				claims.put("email", contact.getLoginId());
-				claims.put("emailVerifiedOn", contact.getVerifiedOn());
+				claims.put("emailVerifiedOn", contact.getVerifiedOn().toString());
 			} else if (Contact.PHONE_NUMBER.equals(contact.getContactCd())) {
 				claims.put("phoneNumber", contact.getLoginId());
-				claims.put("phoneNumberVerifiedOn", contact.getVerifiedOn());
+				claims.put("phoneNumberVerifiedOn", contact.getVerifiedOn().toString());
 			}
 		}
 		return claims;		
