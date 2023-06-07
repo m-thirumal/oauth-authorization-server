@@ -46,7 +46,7 @@ public class CustomClaims {
 			return Map.of();
 		}
 		claims.put("individual", loginUser.isIndividual());
-		claims.put("dateOfBirth", loginUser.getDateOfBirth() == null ? null : loginUser.getDateOfBirth().toString());
+		claims.put("dateOfBirth", convertToString(loginUser.getDateOfBirth()));
 		LoginUserName loginUserName = loginUserNameRepository.findByLoginUserId(loginUser.getLoginUserId());
 		claims.put("firstName", loginUserName.getFirstName());
 		claims.put("middleName", loginUserName.getMiddleName());
@@ -55,12 +55,17 @@ public class CustomClaims {
 		for (var contact : contacts) {
 			if (Contact.EMAIL.equals(contact.getContactCd())) {
 				claims.put("email", contact.getLoginId());
-				claims.put("emailVerifiedOn", contact.getVerifiedOn().toString());
+				claims.put("emailVerifiedOn", convertToString(contact.getVerifiedOn()));
 			} else if (Contact.PHONE_NUMBER.equals(contact.getContactCd())) {
 				claims.put("phoneNumber", contact.getLoginId());
-				claims.put("phoneNumberVerifiedOn", contact.getVerifiedOn().toString());
+				claims.put("phoneNumberVerifiedOn", convertToString(contact.getVerifiedOn()));
 			}
 		}
 		return claims;		
 	}
+
+	private String convertToString(Object obj) {
+		return obj == null ? null : obj.toString();
+	}
+	
 }
