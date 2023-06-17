@@ -8,6 +8,7 @@ import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class LoginUser implements Serializable {
 	private static final long serialVersionUID = 8998709262269738118L;
 	
 	private Long loginUserId;
+	@NotNull
 	private UUID loginUuid;
 	private OffsetDateTime dateOfBirth;
 	private boolean individual;

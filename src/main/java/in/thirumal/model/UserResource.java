@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,6 +39,7 @@ public class UserResource implements Serializable {
 	//
 	private boolean forcePasswordChange;
 	// Registered Client details
+	@NotNull
 	private String registeredClientId;
 	private Set<SimpleGrantedAuthority> authorities;
 	

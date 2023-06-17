@@ -4,22 +4,22 @@
 package in.thirumal.security.captcha;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 /**
  * @author Thirumal
  */
-@Component
+@Configuration
 public class RestTemplateConfig {
-	
-	/*
-	 * Bean is required for re-captcha
-	 */
-	@Bean
-	public RestTemplate restTemplate() {
+
+    /*
+     * Bean is required for re-captcha
+     */
+    @Bean
+    RestTemplate restTemplate() {
 	    return new RestTemplate(httpRequestFactory());
 	}
 
