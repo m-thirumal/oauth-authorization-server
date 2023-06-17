@@ -71,7 +71,7 @@ public class LoginUserRoleDao extends GenericDao implements LoginUserRoleReposit
 
 	@Override
 	public LoginUserRole findById(Long id) {
-		logger.debug("Finding Login user role by Id {}", id);
+		logger.debug("Finding by pk {}", id);
 		return jdbcTemplate.queryForObject(getSql(GET), loginUserRoleRowMapper, id);
 	}
 
@@ -100,7 +100,7 @@ public class LoginUserRoleDao extends GenericDao implements LoginUserRoleReposit
 		
 		loginUserRole.setStartTime(rs.getObject("start_time") != null ? rs.getObject("start_time", OffsetDateTime.class) : null);
 		
-		loginUserRole.setStartTime(rs.getObject("end_time") != null ? rs.getObject("end_time", OffsetDateTime.class) : null);
+		loginUserRole.setEndTime(rs.getObject("end_time") != null ? rs.getObject("end_time", OffsetDateTime.class) : null);
 		
 		loginUserRole.setRemarks(rs.getObject("remarks") != null ? rs.getString("remarks") : null);
 		

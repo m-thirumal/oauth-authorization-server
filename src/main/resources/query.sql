@@ -34,6 +34,10 @@ LoginHistory.logout=UPDATE public.login_history SET logout_time = now() WHERE lo
 LoginHistory.listByLoginUserId=${LoginHistory} login_user_id = ? ORDER BY login_history_id DESC LIMIT ? OFFSET ?
 LoginHistory.count=SELECT COUNT(*) from public.login_history WHERE login_user_id = ?
 LoginHistory.lastNFailedLogin=SELECT COUNT(*) FROM(select * from login_history where login_user_id = ? ORDER BY login_history_id DESC LIMIT ?) AS last_n_rows WHERE success_login = false
+#---------MFA--------
+Mfa=SELECT * FROM public.mfa WHERE
+Mfa.create=INSERT INTO public.mfa(ogin_user_id, contact_id, mfa_cd, secret) VALUES (?, ?, ?, ?)
+Mfa.disable=UPDATE public.mfa SET end_time=CURRENT_TIMESTAMP WHERE login_user_id = ?
 #-- Password
 Password=SELECT * FROM public.password WHERE 
 Password.create=INSERT INTO public.password(login_user_id, secret_key, force_password_change) VALUES (?, ?, ?)
