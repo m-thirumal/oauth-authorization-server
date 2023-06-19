@@ -5,6 +5,7 @@ package in.thirumal.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,6 +28,11 @@ public class MfaController {
 	@PostMapping("")
 	public Mfa enableMfa(Mfa mfa) {
 		return mfaService.enable(mfa);
+	}
+	
+	@DeleteMapping("/{loginUuid}")
+	public int disableMfa(String loginUuid) {
+		return mfaService.disable(loginUuid);
 	}
 	
 }
