@@ -70,7 +70,7 @@ public class AuthorizationServerConfig {
 	 * @return
 	 */
 	@Bean
-    public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
+    RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
        /*
 		RegisteredClient registeredClient = RegisteredClient.withId("Thirumal")
           .clientId("client1")
@@ -93,13 +93,13 @@ public class AuthorizationServerConfig {
     }
 	
 	@Bean
-	public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
+	OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
 			RegisteredClientRepository registeredClientRepository) {
 		return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
 	}
 
 	@Bean
-	public OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate jdbcTemplate,
+	OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate jdbcTemplate,
 			RegisteredClientRepository registeredClientRepository) {
 		return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
 	}
@@ -112,7 +112,7 @@ public class AuthorizationServerConfig {
 	 */
 	@Bean
 	@Order(1)
-	public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
+	SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
 	    OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 	    http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
 	    	.oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
@@ -141,7 +141,7 @@ public class AuthorizationServerConfig {
 	 */
 	@Bean 
 	@Order(2)
-	public SecurityFilterChain applicationSecurityFilterChain(HttpSecurity http)
+	SecurityFilterChain applicationSecurityFilterChain(HttpSecurity http)
 			throws Exception {
 		http.anonymous(AnonymousConfigurer::disable);
 		http.cors(CorsConfigurer::disable).authorizeHttpRequests(authorize ->
@@ -167,12 +167,12 @@ public class AuthorizationServerConfig {
 
 	
 	@Bean
-	public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+	JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
 		return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
 	}
 	
 	@Bean
-    public JWKSource<SecurityContext> jwkSource() {
+    JWKSource<SecurityContext> jwkSource() {
         RSAKey rsaKey = generateRsa();
         JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);
@@ -205,7 +205,7 @@ public class AuthorizationServerConfig {
 //    }
     
     @Bean
-    public TokenSettings tokenSettings() {
+    TokenSettings tokenSettings() {
       //@formatter:off
       return TokenSettings.builder()
           .accessTokenTimeToLive(Duration.ofMinutes(30L))
@@ -214,7 +214,7 @@ public class AuthorizationServerConfig {
     }
 	
     @Bean 
-	public AuthorizationServerSettings authorizationServerSettings() {
+	AuthorizationServerSettings authorizationServerSettings() {
 		return AuthorizationServerSettings.builder().build();
 	}
     
