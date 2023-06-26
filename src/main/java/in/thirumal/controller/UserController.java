@@ -4,6 +4,7 @@
 package in.thirumal.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -154,6 +155,13 @@ public class UserController {
 	@GetMapping("/get-account/{loginUuid}")
 	public UserResource createAccount(@PathVariable("loginUuid") UUID loginUuid) {
 		return userService.get(loginUuid);
+	}
+	
+	@GetMapping("/user-by-role/{roleCd}")
+	public List<UserResource> listUserByRole(@PathVariable("roleCd") Long roleCd, 
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page, 
+			@RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+		return userService.listUserByRole(roleCd, page, size);
 	}
 	 
 	@GetMapping("/login-histories/{loginUuid}")

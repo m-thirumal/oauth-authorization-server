@@ -26,6 +26,7 @@ LoginUserRole=SELECT r.*, rc.code AS role FROM public.login_user_role AS r LEFT 
 LoginUserRole.create=INSERT INTO public.login_user_role(login_user_id, role_cd, remarks) VALUES (?, ?, ?)
 LoginUserRole.get=${LoginUserRole} r.login_user_role_id = ?
 LoginUserRole.listByLoginUserId=${LoginUserRole} r.login_user_id = ? AND r.end_time = 'infinity'
+LoginUserRole.listByLoginRoleCd=${LoginUserRole} r.role_cd = ? AND (r.end_time = 'infinity' OR r.end_time > current_timestamp) ORDER BY login_user_id ASC LIMIT ? OFFSET ?
 LoginUserRole.revoke=UPDATE public.login_user_role SET end_time = now() WHERE r.login_user_id = ?
 #---- Login History -----
 LoginHistory=SELECT * FROM public.login_history WHERE

@@ -33,6 +33,7 @@ public class LoginUserRoleDao extends GenericDao implements LoginUserRoleReposit
 	private static final String GET                   = "LoginUserRole.get";
 	private static final String LIST                  = "LoginUserRole.list";
 	private static final String LISTBY_LOGIN_USER_ID  = LIST + "ByLoginUserId";
+	private static final String LIST_BY_LOGIN_ROLE    = LIST + "ByLoginRoleCd";
 	
 	
 	@Override
@@ -79,6 +80,12 @@ public class LoginUserRoleDao extends GenericDao implements LoginUserRoleReposit
 	public List<LoginUserRole> findAllByLoginUserId(Long loginUserId) {
 		logger.debug("Finding all login user role by login user id {}", loginUserId);
 		return jdbcTemplate.query(getSql(LISTBY_LOGIN_USER_ID), loginUserRoleRowMapper, loginUserId);
+	}
+	
+	@Override
+	public List<LoginUserRole> findAllByLoginUserRole(Long roleCd, int page, int limit) {
+		logger.debug("Finding all user who has role {} with limit {} on page {}", roleCd, limit, page);
+		return jdbcTemplate.query(getSql(LIST_BY_LOGIN_ROLE), loginUserRoleRowMapper, roleCd, limit, page);
 	}
 	
 	@Override

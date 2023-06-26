@@ -35,6 +35,8 @@ public interface LoginUserRoleRepository {
 	
 	List<LoginUserRole> findAllByLoginUserId(Long id);
 	
+	List<LoginUserRole> findAllByLoginUserRole(Long roleCd, int page, int limit);
+	
 	int revoke(Long id);
 	
 }

@@ -210,6 +210,13 @@ public class UserService {
 		return buildUserResource(loginUser, loginUserName, contacts, password);
 	}
 	
+	private UserResource get(Long loginUserId) {
+		LoginUser loginUser = loginUserRepository.findById(loginUserId);
+		if (Objects.isNull(loginUser)) {
+			throw new ResourceNotFoundException("The requested user " + loginUserId + " is not available");
+		}
+		return get(loginUser.getLoginUuid());
+	}	
 
 	private UserResource buildUserResource(LoginUser loginUser, LoginUserName loginUserName, List<Contact> contacts, Password password) {
 		UserResource userResource = new UserResource();
@@ -448,6 +455,23 @@ public class UserService {
 			userResources.add(get(loginUser.getLoginUuid()));
 		}
 		return new PaginatedUser(userResources, loginUserRepository.count());
+	}
+	
+	/**
+	 * List users by their role
+	 * @param roleCd
+	 * @param page
+	 * @param size
+	 * @return {@link UserResource}
+	 */
+	public List<UserResource> listUserByRole(Long roleCd, int page, int size) {
+		logger.debug("List users by roleCd {} on page {} with size {}", roleCd, page, size);
+		List<UserResource> userResources = new ArrayList<>();
+		List<LoginUserRole> loginUserRoles = loginUserRoleRepository.findAllByLoginUserRole(roleCd, page, size);
+		for (var loginUserRole : loginUserRoles) {
+			userResources.add(get(loginUserRole.getLoginUserId()));
+		}
+		return userResources;
 	}
 	
 }
