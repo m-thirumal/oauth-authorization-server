@@ -145,7 +145,7 @@ public class AuthorizationServerConfig {
 			throws Exception {
 		http.anonymous(AnonymousConfigurer::disable);
 		http.cors(CorsConfigurer::disable).authorizeHttpRequests(authorize ->
-			authorize.requestMatchers("/user/**", "/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico")
+			authorize.requestMatchers("/user/**", "/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico", "/actuator/**")
 			//.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
 			.permitAll()
 			);

@@ -67,6 +67,10 @@ management:
   endpoint:
     shutdown:
       enabled: true
+    restart: 
+      enabled: true
+    health:
+      show-details: ALWAYS
   endpoints: 
     web: 
       exposure: 
