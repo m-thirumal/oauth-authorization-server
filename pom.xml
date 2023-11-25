@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.5</version>
+		<version>3.2.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>in.thirumal</groupId>
@@ -15,7 +15,7 @@
 	<description>OAuth Authorization Server project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
-		<spring-cloud.version>2022.0.4</spring-cloud.version>
+		<spring-cloud.version>2023.0.0-RC1</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
@@ -149,10 +149,18 @@
 		</plugins>
 	</build>
 	<repositories>
-	    <repository>
+	    <!--<repository>
 	      <id>netflix-candidates</id>
 	      <name>Netflix Candidates</name>
 	      <url>https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates</url>
+	      <snapshots>
+	        <enabled>false</enabled>
+	      </snapshots>
+	    </repository>-->
+	    <repository>
+	      <id>spring-milestones</id>
+	      <name>Spring Milestones</name>
+	      <url>https://repo.spring.io/milestone</url>
 	      <snapshots>
 	        <enabled>false</enabled>
 	      </snapshots>
