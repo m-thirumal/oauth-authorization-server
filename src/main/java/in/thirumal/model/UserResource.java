@@ -7,6 +7,9 @@ import java.util.UUID;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+
+import in.thirumal.util.PhoneNumberUtility;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,5 +45,10 @@ public class UserResource implements Serializable {
 	@NotNull
 	private String registeredClientId;
 	private Set<SimpleGrantedAuthority> authorities;
+	
+
+	public PhoneNumber getPhoneDetail() {
+		return phoneNumber == null ? null : PhoneNumberUtility.getPhoneDetail(phoneNumber);
+	}
 	
 }
