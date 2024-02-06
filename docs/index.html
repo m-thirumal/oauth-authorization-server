@@ -11,13 +11,60 @@
 <body>
   <div id="app"></div>
   <script>
+    var htmlUrl = "https://github.com/m-thirumal/oauth-authorization-server"
+    var title = "Spring Boot OAuth2.1 Example"
     window.$docsify = {
       name: 'OAuth 2.1 Authorization',
       repo: 'https://www.github.com/m-thirumal/oauth-authorization-server/',
       loadSidebar: true,
       subMaxLevel: 2,
       loadNavbar: true,
-      search: 'auto' // default
+      search: 'auto', // default
+      //Share
+      share: {
+            reddit: {
+                url: htmlUrl,
+                title: title,
+            },
+            linkedin: {
+                url: htmlUrl,
+                title: title,
+            },
+            facebook: {
+                url: htmlUrl,
+                title: title,
+            },
+            twitter: {
+                url: htmlUrl,
+                title: title,
+            },
+            whatsapp: {
+                url: htmlUrl,
+                title: title,
+            },
+            telegram: {
+                url: htmlUrl,
+                title: title,
+            },
+        },
+     //Drawio
+     markdown: {
+      renderer: {
+
+        code: function (code, lang) {
+          if (lang === 'drawio') {
+            if (window.drawioConverter) {
+              console.log('drawio 转化中')
+              return window.drawioConverter(code)
+            } else {
+              return `<div class='drawio-code'>${code}</div>`
+            }
+          } else {
+            return this.origin.code.apply(this, arguments);
+          }
+        }
+      }
+    }
     }
   </script>
   <!-- Docsify v4 -->
@@ -29,5 +76,8 @@
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-sql.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="//unpkg.com/docsify-share/build/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-drawio/viewer.min.js"></script>
+  <script src='https://cdn.jsdelivr.net/npm/docsify-drawio/drawio.js'></script>
 </body>
 </html>
