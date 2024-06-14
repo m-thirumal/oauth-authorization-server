@@ -55,17 +55,17 @@ public class LoginUserNameDao extends GenericDao implements LoginUserNameReposit
 		if(loginUserName.getFirstName() == null) {
             ps.setObject(2, null);
         } else {
-            ps.setString(2, loginUserName.getFirstName());
+            ps.setString(2, loginUserName.getFirstName().strip());
         }
 		if(loginUserName.getMiddleName() == null) {
             ps.setObject(3, null);
         } else {
-            ps.setString(3, loginUserName.getMiddleName());
+            ps.setString(3, loginUserName.getMiddleName().strip());
         }
 		if(loginUserName.getLastName() == null) {
             ps.setObject(4, null);
         } else {
-            ps.setString(4, loginUserName.getLastName());
+            ps.setString(4, loginUserName.getLastName().strip());
         }
 		return ps;
 	}

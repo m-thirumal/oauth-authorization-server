@@ -8,6 +8,9 @@ spring:
   main:
     #allow-bean-definition-overriding: true
     banner-mode: console
+  threads:
+    virtual:
+      enabled: true
   lifecycle:
     timeout-per-shutdown-phase: 60s
   datasource:

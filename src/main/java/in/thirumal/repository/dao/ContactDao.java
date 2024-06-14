@@ -68,7 +68,7 @@ public class ContactDao extends GenericDao implements ContactRepository {
 		if(contact.getLoginId() == null) {
             ps.setObject(3, null);
         } else {
-            ps.setString(3, contact.getLoginId());
+            ps.setString(3, contact.getLoginId().strip().toLowerCase());
         }
 		return ps;
 	}
