@@ -1,49 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>3.3.4</version>
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>in.thirumal</groupId>
 	<artifactId>oauth-authorization-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>oauth-authorization-server</name>
 	<description>OAuth Authorization Server project for Spring Boot</description>
+	<url />
+	<licenses>
+		<license />
+	</licenses>
+	<developers>
+		<developer>
+			<id>m-thirumal</id>
+			<name>Thirumal</name>
+			<email>racetortoise@gmail.com</email>
+			<url></url>
+			<organization></organization>
+			<organizationUrl></organizationUrl>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>Asia/Kolkata</timezone>
+			<properties>
+				<picUrl></picUrl>
+			</properties>
+		</developer>
+	</developers>
+	<scm>
+		<connection />
+		<developerConnection />
+		<tag />
+		<url />
+	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<spring-cloud.version>2023.0.2</spring-cloud.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
 	</properties>
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
+		<!--
+		https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
 		<dependency>
-		    <groupId>org.springdoc</groupId>
-		    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-		    <version>2.5.0</version>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.6.0</version>
 		</dependency>
 		<!-- libphonenumber -->
 		<dependency>
-		    <groupId>com.googlecode.libphonenumber</groupId>
-		    <artifactId>libphonenumber</artifactId>
-		    <version>8.13.38</version>
+			<groupId>com.googlecode.libphonenumber</groupId>
+			<artifactId>libphonenumber</artifactId>
+			<version>8.13.47</version>
 		</dependency>
 		<!-- libphonenumber offline-->
 		<dependency>
-		    <groupId>com.googlecode.libphonenumber</groupId>
-		    <artifactId>geocoder</artifactId>
-		    <version>2.232</version>
+			<groupId>com.googlecode.libphonenumber</groupId>
+			<artifactId>geocoder</artifactId>
+			<version>2.241</version>
 		</dependency>
 		<!-- Lib phone number-->
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
 		<dependency>
-	      <groupId>org.springframework.boot</groupId>
-	      <artifactId>spring-boot-starter-thymeleaf</artifactId>
-	    </dependency>
-	    <dependency>
-		    <groupId>org.springframework.session</groupId>
-		    <artifactId>spring-session-jdbc</artifactId>
+		    <groupId>com.google.guava</groupId>
+		    <artifactId>guava</artifactId>
+		    <version>33.3.1-jre</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-jdbc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -58,18 +95,19 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-        </dependency>
-        <dependency>
-	      <groupId>org.springframework.cloud</groupId>
-	      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-	    </dependency> 
-		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server -->
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+		</dependency>
 		<dependency>
-		    <groupId>org.springframework.security</groupId>
-		    <artifactId>spring-security-oauth2-authorization-server</artifactId>
-		    </dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-authorization-server -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-authorization-server</artifactId>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.nimbusds/nimbus-jose-jwt -->
 		<!--
 		<dependency>
@@ -82,14 +120,15 @@
 		    <groupId>org.springframework.security</groupId>
 		    <artifactId>spring-security-cas</artifactId>
 		</dependency>-->
-		<!-- https://mvnrepository.com/artifact/org.springframework.retry/spring-retry -->
+		<!--
+		https://mvnrepository.com/artifact/org.springframework.retry/spring-retry -->
 		<dependency>
-		    <groupId>org.springframework.retry</groupId>
-		    <artifactId>spring-retry</artifactId>
+			<groupId>org.springframework.retry</groupId>
+			<artifactId>spring-retry</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework.cloud</groupId>
-		    <artifactId>spring-cloud-starter-openfeign</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -97,9 +136,9 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-	      <groupId>org.springframework.boot</groupId>
-	      <artifactId>spring-boot-starter-jdbc</artifactId>
-	    </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -129,16 +168,16 @@
 	</dependencies>
 
 	<dependencyManagement>
-	    <dependencies>
-	      <dependency>
-	        <groupId>org.springframework.cloud</groupId>
-	        <artifactId>spring-cloud-dependencies</artifactId>
-	        <version>${spring-cloud.version}</version>
-	        <type>pom</type>
-	        <scope>import</scope>
-	      </dependency>
-	    </dependencies>
-	  </dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 
 	<build>
@@ -157,27 +196,27 @@
 			</plugin>
 			<plugin>
 				<groupId>io.github.git-commit-id</groupId>
-			 	<artifactId>git-commit-id-maven-plugin</artifactId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
 	<repositories>
-	    <!--<repository>
+		<!--<repository>
 	      <id>netflix-candidates</id>
 	      <name>Netflix Candidates</name>
-	      <url>https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates</url>
+		<url>https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates</url>
 	      <snapshots>
 	        <enabled>false</enabled>
 	      </snapshots>
 	    </repository>-->
-	    <repository>
-	      <id>spring-milestones</id>
-	      <name>Spring Milestones</name>
-	      <url>https://repo.spring.io/milestone</url>
-	      <snapshots>
-	        <enabled>false</enabled>
-	      </snapshots>
-	    </repository>
-  </repositories>
-	
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 </project>
