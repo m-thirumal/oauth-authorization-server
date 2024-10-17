@@ -145,9 +145,13 @@ public class AuthorizationServerConfig {
 			throws Exception {
 		http.anonymous(AnonymousConfigurer::disable);
 		http.cors(CorsConfigurer::disable).authorizeHttpRequests(authorize ->
-			authorize.requestMatchers("/user/**", "/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico", "/actuator/**")
+			authorize
+			.requestMatchers("/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico", "/actuator/**").permitAll()
 			//.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
-			.permitAll()
+			//.permitAll()
+			.requestMatchers("/user/**").hasAuthority("ADMIN")
+			.requestMatchers("/user/**").hasRole("ADMIN")
+			
 			);
 		http
 			.authorizeHttpRequests(authorize -> authorize

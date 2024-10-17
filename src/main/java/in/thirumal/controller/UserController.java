@@ -10,7 +10,6 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -49,12 +48,15 @@ public class UserController {
 
 	Logger logger = LoggerFactory.getLogger(UserController.class);
 	
-	@Autowired
 	private UserService userService;
-	
-	@Autowired
 	private CaptchaService captchaService;
 	
+	public UserController(UserService userService, CaptchaService captchaService) {
+		super();
+		this.userService = userService;
+		this.captchaService = captchaService;
+	}
+
 	/**
 	 * Create account without re-captcha 
 	 * WARNING - Don't use it for production
@@ -106,7 +108,7 @@ public class UserController {
 	 * @return
 	 */
 	@PatchMapping(value = "/request-otp", consumes = { MediaType.APPLICATION_JSON_VALUE })
-	public ResponseEntity<?> requestOtpToVerifyAccount(@RequestParam(name="purpose") String purpose, 
+	public ResponseEntity<?> requestOtpToVerifyAccount(@RequestParam String purpose, 
 			@RequestParam(name="recaptcha") String recaptchaResponse, HttpServletRequest request,
 			@RequestBody Map<String, Object> payload) {
 		logger.debug("Requested OTP for the ");
@@ -153,29 +155,29 @@ public class UserController {
 	}
 	
 	@GetMapping("/get-account/{loginUuid}")
-	public UserResource createAccount(@PathVariable("loginUuid") UUID loginUuid) {
+	public UserResource createAccount(@PathVariable UUID loginUuid) {
 		return userService.get(loginUuid);
 	}
 	
 	@GetMapping("/user-by-role/{roleCd}")
-	public List<UserResource> listUserByRole(@PathVariable("roleCd") Long roleCd, 
-			@RequestParam(value = "page", required = false, defaultValue = "0") int page, 
-			@RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+	public List<UserResource> listUserByRole(@PathVariable Long roleCd, 
+			@RequestParam(required = false, defaultValue = "0") int page, 
+			@RequestParam(required = false, defaultValue = "20") int size) {
 		return userService.listUserByRole(roleCd, page, size);
 	}
 	 
 	@GetMapping("/login-histories/{loginUuid}")
-	public PaginatedLoginHistory loginHistories(@PathVariable("loginUuid") UUID loginUuid,
-			@RequestParam(value = "page", required = false, defaultValue = "20") int page, 
-			@RequestParam(value = "size", required = false, defaultValue = "0") int size) {
+	public PaginatedLoginHistory loginHistories(@PathVariable UUID loginUuid,
+			@RequestParam(required = false, defaultValue = "20") int page, 
+			@RequestParam(required = false, defaultValue = "0") int size) {
 		return userService.loginHistories(loginUuid, page, size);
 	}
 	
 	@GetMapping("")
-	public ModelAndView user(@RequestParam(value = "page", defaultValue = "0", required = false) long page,
-            @RequestParam(value = "size", defaultValue = "30", required = false) long size,
-            @RequestParam(value = "sortBy", defaultValue = "rowCreatedOn", required = false) String sortBy,
-            @RequestParam(value = "asc", required = false) boolean asc, Model model) {		
+	public ModelAndView user(@RequestParam(defaultValue = "0", required = false) long page,
+            @RequestParam(defaultValue = "30", required = false) long size,
+            @RequestParam(defaultValue = "rowCreatedOn", required = false) String sortBy,
+            @RequestParam(required = false) boolean asc, Model model) {		
 		var paginatedUser = userService.list(new in.thirumal.model.Pagination(page, size, sortBy, asc));
 		ModelAndView modelAndView = new ModelAndView("user");
 		modelAndView.addObject("user", paginatedUser);

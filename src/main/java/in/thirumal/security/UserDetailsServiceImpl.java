@@ -84,7 +84,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		List<LoginUserRole> loginUserRoles = loginUserRoleRepository.findAllByLoginUserId(loginUser.getLoginUserId());
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();	     
 	    for (LoginUserRole loginUserRole : loginUserRoles) {
-	        authorities.add(new SimpleGrantedAuthority(loginUserRole.getRole()));
+	    	// Prefix roles with "ROLE_" to match Spring Security's expectations for hasRole()
+	        //authorities.add(new SimpleGrantedAuthority("ROLE_" + loginUserRole.getRole()))
+	    	 authorities.add(new SimpleGrantedAuthority(loginUserRole.getRole()));
 	    }	  
 	    boolean accountLocked = loginHistoryRepository.isLastNLoginFailed(loginUser.getLoginUserId(), 5) &&
 	    		!passwordRepository.isPasswordResetAfterNLoginAttempt(loginUser.getLoginUserId(), 5);
