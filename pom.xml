@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.4</version>
+		<version>3.4.0</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>in.thirumal</groupId>
@@ -44,7 +44,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
-		<spring-cloud.version>2023.0.3</spring-cloud.version>
+		<spring-cloud.version>2024.0.0-RC1</spring-cloud.version>
 	</properties>
 	<dependencies>
 		<!--
@@ -52,26 +52,25 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.6.0</version>
+			<version>2.7.0</version>
 		</dependency>
 		<!-- libphonenumber -->
 		<dependency>
 			<groupId>com.googlecode.libphonenumber</groupId>
 			<artifactId>libphonenumber</artifactId>
-			<version>8.13.47</version>
+			<version>8.13.50</version>
 		</dependency>
 		<!-- libphonenumber offline-->
 		<dependency>
 			<groupId>com.googlecode.libphonenumber</groupId>
 			<artifactId>geocoder</artifactId>
-			<version>2.241</version>
+			<version>2.244</version>
 		</dependency>
 		<!-- Lib phone number-->
 		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
 		<dependency>
 		    <groupId>com.google.guava</groupId>
-		    <artifactId>guava</artifactId>
-		    <version>33.3.1-jre</version>
+		    <artifactId>guava</artifactId>		    
 		</dependency>
 
 		<dependency>
