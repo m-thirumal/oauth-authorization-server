@@ -9,7 +9,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://thirumal:thirumal@localhost:8761/eureka/
+      defaultZone: http://thirumal:thirumal@127.0.0.1:8761/eureka/
 google:
   recaptcha:
     key:
@@ -18,6 +18,6 @@ google:
       threshold: 0.5
 notification: 
   email:
-    sender: no-reply@enkindletech.com
+    sender: no-reply@thirumal.com
   sms: 
     sender: ENKTPL

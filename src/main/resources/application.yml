@@ -36,7 +36,7 @@ logging:
   level:
     root: INFO
     '[org.springframework.web]': INFO
-    '[org.springframework.security]': INFO
+    '[org.springframework.security]': debug
     '[org.springframework.security.oauth2]': INFO
     '[in.thirumal]': debug
   file:
@@ -69,9 +69,9 @@ eureka:
 management:
   endpoint:
     shutdown:
-      enabled: true
+      access: read-only
     restart: 
-      enabled: true
+      access: unrestricted
     health:
       show-details: ALWAYS
   endpoints: 
