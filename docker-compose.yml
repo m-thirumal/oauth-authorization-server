@@ -5,8 +5,8 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: authorization
-      POSTGRES_DB: thirumal
+      POSTGRES_PASSWORD: Thirumal
+ #     POSTGRES_DB: authorization
     ports:
       - "5432:5432"
     volumes:
