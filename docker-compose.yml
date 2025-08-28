@@ -1,0 +1,17 @@
+# docker-compose.yml
+services:
+  authorization:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: authorization
+      POSTGRES_DB: thirumal
+    ports:
+      - "5432:5432"
+    volumes:
+      - oauth2:/var/lib/postgresql/data
+      - ./seed/ddl.sql:/docker-entrypoint-initdb.d/ddl.sql
+
+volumes:
+  oauth2:
