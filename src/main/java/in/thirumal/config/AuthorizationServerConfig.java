@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -113,25 +114,28 @@ public class AuthorizationServerConfig {
 	@Bean
 	@Order(1)
 	SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
-	    OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-	    http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-	    	.oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
-	   // Redirect to the login page when not authenticated from the
-		// authorization endpoint
-//		http.exceptionHandling(exceptions -> {
-//			exceptions.authenticationEntryPoint(
-//					new LoginUrlAuthenticationEntryPoint("/login"));
-//		});
-//		// Accept access tokens for User Info and/or Client Registration
-//		http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
 
-	    http
-	  		.exceptionHandling(exceptions ->
-	  			exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-	  		)
-	  		.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
-	    return http/*.formLogin(Customizer.withDefaults())*/.build();
+		 // Only match authorization server endpoints
+	    http.securityMatcher("/oauth2/**", "/.well-known/**");
+
+	    // Create a new OAuth2 Authorization Server configurer
+		var authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
+
+	    // Enable OpenID Connect 1.0
+	    authorizationServerConfigurer.oidc(Customizer.withDefaults());
+
+	    // Apply it to HttpSecurity
+	    http.apply(authorizationServerConfigurer);
+
+	    // Exception handling and redirect to login
+	    http.exceptionHandling(exceptions ->
+	            exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+	    )
+	    .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+
+	    return http.build();
 	}
+
 	
 	/**
 	 * This filter chain is for the application
@@ -147,10 +151,10 @@ public class AuthorizationServerConfig {
 		http.cors(CorsConfigurer::disable).authorizeHttpRequests(authorize ->
 			authorize
 			.requestMatchers("/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico", "/actuator/**").permitAll()
-			//.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
+			.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
 			//.permitAll()
-			.requestMatchers("/user/**").hasAuthority("ADMIN")
-			.requestMatchers("/user/**").hasRole("ADMIN")
+			.requestMatchers("/user/**")//.hasAuthority("ADMIN")
+			//.requestMatchers("/user/**").hasRole("ADMIN")
 			
 			);
 		http

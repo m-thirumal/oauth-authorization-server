@@ -2,14 +2,13 @@ package in.thirumal.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.servlet.error.ErrorController;
 
 /**
  * @author Thirumal
  *
  */
 //@Controller
-public class AuthorizationServerErrorController implements ErrorController {
+public class AuthorizationServerErrorController {
 
 	Logger logger = LoggerFactory.getLogger(AuthorizationServerErrorController.class);
 	/*

@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Thirumal
- #     POSTGRES_DB: authorization
+      POSTGRES_DB: authorization
     ports:
       - "5432:5432"
     volumes:

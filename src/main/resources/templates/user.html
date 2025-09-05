@@ -57,14 +57,13 @@
 							<td th:text="${userResource.firstName} + (${userResource.lastName == null } ? '': ${userResource.lastName})">Name</td>
 							<td th:text="${userResource.email}">Email</td>
 							<td th:text="${userResource.phoneNumber}">Phone Number</td>
-							<!-- <td th:text="${userResource.dateOfBirth}">Birth date</td> -->
 							<td th:text="${userResource.accountCreatedOn}">Created On</td>
 						</tr>
 					</tbody>
 				</table>
-<!-- 
+
 				<nav aria-label="Page navigation" class="paging">
-					<ul class="pagination" th:if="${employees.page.totalPages > 1}">
+					<ul class="pagination" th:if="${user.count > 1}">
 						<li class="page-item"
 							th:classappend="${!employees.paging.isPrevEnabled()? 'disabled' : ''}">
 							<a class="page-link"
@@ -87,7 +86,7 @@
 							th:href="@{'/?pageNumber=' + ${employees.paging.pageNumber + 1}}">Next</a>
 						</li>
 					</ul>
-				</nav> -->
+				</nav> 
 			</div>
 	</div>
 

@@ -17,6 +17,7 @@ google:
       secret: 6LcTncEkAAAAAOmE5T
       threshold: 0.5
 notification: 
+  enabled: true
   email:
     sender: no-reply@gamil.com
   sms: 

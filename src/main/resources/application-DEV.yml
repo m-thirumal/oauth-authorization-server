@@ -8,6 +8,7 @@ server:
 
 eureka:
   client:
+    enabled: false   # disable Eureka client for DEV profile
     service-url:
       defaultZone: http://thirumal:thirumal@127.0.0.1:8761/eureka/
 google:
@@ -17,6 +18,7 @@ google:
       secret: 6LcTncEkAAAAAOmE5T8ec
       threshold: 0.5
 notification: 
+  enabled: false
   email:
     sender: no-reply@thirumal.com
   sms: 

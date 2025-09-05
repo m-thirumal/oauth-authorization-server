@@ -68,6 +68,9 @@ public class UserService {
 	String emailSender;
 	@Value("${notification.sms.sender}")
 	String smsSender;
+    @Value("${notification.enabled:true}")
+    private boolean otpEnabled;
+
 	
 	
 	@Autowired
@@ -147,6 +150,10 @@ public class UserService {
 
 	private void sendOtp(String name, Contact contact, String otp, String template, String subject) {
 		logger.debug("Sending OTP {} to {}", otp, contact.getLoginId());
+		if (!otpEnabled) {
+			logger.debug("OTP is disabled, not sending to {}", contact.getLoginId());
+			return;
+		}
 		Message status = null ;
 		if (Contact.PHONE_NUMBER.equals(contact.getContactCd())) {
 			String message = "Dear " + name + ", Your OTP to SignUp is " + otp 

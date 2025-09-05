@@ -16,9 +16,9 @@ CREATE ROLE fdw_user WITH
 
 -- object: "authorization" | type: DATABASE --
 -- DROP DATABASE IF EXISTS "authorization";
-CREATE DATABASE "authorization";
+--CREATE DATABASE "authorization";
 -- ddl-end --
-COMMENT ON DATABASE "authorization" IS E'Created Thirumal';
+---COMMENT ON DATABASE "authorization" IS E'Created Thirumal';
 -- ddl-end --
 
 

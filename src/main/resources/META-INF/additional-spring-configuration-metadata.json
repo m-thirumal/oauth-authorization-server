@@ -48,5 +48,15 @@
     "name": "spring.session.store-type",
     "type": "java.lang.String",
     "description": "A description for 'spring.session.store-type'"
+  },
+  {
+    "name": "notification.enable",
+    "type": "java.lang.String",
+    "description": "A description for 'notification.enable'"
+  },
+  {
+    "name": "notification.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'notification.enabled'"
   }
 ]}
