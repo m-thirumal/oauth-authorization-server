@@ -28,11 +28,11 @@ import in.thirumal.exception.ResourceNotFoundException;
 public class PersistenceConfig {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Bean
-	@ConfigurationProperties(prefix = "spring.datasource")
-	@Primary
-	public DataSource dataSource() {
+
+    @Bean
+    @ConfigurationProperties(prefix = "spring.datasource")
+    @Primary
+    DataSource dataSource() {
 		logger.debug("{} : {}", this.getClass().getSimpleName(), Thread.currentThread().getStackTrace()[1].getMethodName());
 		try {
 			return DataSourceBuilder.create().build();
@@ -40,9 +40,9 @@ public class PersistenceConfig {
 			throw new ResourceNotFoundException("Data source : " + e.getMessage());
 		}
 	}
-	
-	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+
+    @Bean
+    static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 }

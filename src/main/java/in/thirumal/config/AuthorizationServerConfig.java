@@ -152,6 +152,7 @@ public class AuthorizationServerConfig {
 			authorize
 			.requestMatchers("/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico", "/actuator/**").permitAll()
 			.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
+			.requestMatchers(HttpMethod.POST, "/login").permitAll() // allow form POST
 			//.permitAll()
 			.requestMatchers("/user/**")//.hasAuthority("ADMIN")
 			//.requestMatchers("/user/**").hasRole("ADMIN")

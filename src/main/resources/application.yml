@@ -32,12 +32,15 @@ server:
     path: /error
     whitelabel:
       enabled: false
+  servlet:
+    session:
+      tracking-modes: cookie
 logging:
   level:
     root: INFO
     '[org.springframework.web]': INFO
     '[org.springframework.security]': debug
-    '[org.springframework.security.oauth2]': INFO
+    '[org.springframework.security.oauth2]': debug
     '[in.thirumal]': debug
   file:
     path: logs
