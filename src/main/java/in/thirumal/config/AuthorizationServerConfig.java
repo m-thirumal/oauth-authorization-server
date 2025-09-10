@@ -42,6 +42,7 @@ import org.springframework.security.oauth2.server.authorization.token.JwtEncodin
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -51,6 +52,9 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author Thirumal
@@ -72,25 +76,7 @@ public class AuthorizationServerConfig {
 	 */
 	@Bean
     RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-       /*
-		RegisteredClient registeredClient = RegisteredClient.withId("Thirumal")
-          .clientId("client1")
-          .clientSecret("{noop}secret")
-          .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-          .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-          .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-          .authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-          .redirectUri("http://127.0.0.1:8000/login/oauth2/code/users-client-oidc")
-          .redirectUri("http://127.0.0.1:8000/authorized") 
-          .scope(OidcScopes.OPENID)
-          .scope(OidcScopes.PROFILE)
-          .scope("read")
-          .clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-          //.tokenSettings(tokenSettings()) 
-          .build();
-       JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-       registeredClientRepository.save(registeredClient);*/
-       return new JdbcRegisteredClientRepository(jdbcTemplate);
+	    return new JdbcRegisteredClientRepository(jdbcTemplate);
     }
 	
 	@Bean
@@ -153,7 +139,7 @@ public class AuthorizationServerConfig {
 			.requestMatchers("/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico", "/actuator/**").permitAll()
 			.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
 			.requestMatchers(HttpMethod.POST, "/login").permitAll() // allow form POST
-			//.permitAll()
+			.requestMatchers("/error").permitAll()   // allow error page
 			.requestMatchers("/user/**")//.hasAuthority("ADMIN")
 			//.requestMatchers("/user/**").hasRole("ADMIN")
 			
@@ -171,6 +157,16 @@ public class AuthorizationServerConfig {
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(false));
 		http.csrf(CsrfConfigurer::disable);
+	    // ✅ prevent saving /error into SavedRequest
+	    http.requestCache(cache -> cache.requestCache(new HttpSessionRequestCache() {
+	        @Override
+	        public void saveRequest(HttpServletRequest request, HttpServletResponse response) {
+	            if (request.getRequestURI().equals("/error")) {
+	                return; // skip saving /error
+	            }
+	            super.saveRequest(request, response);
+	        }
+	    }));
 		return http.build();
 	}
 
@@ -206,12 +202,6 @@ public class AuthorizationServerConfig {
         return keyPair;
     }
 
-//    @Bean
-//    public ProviderSettings providerSettings() {
-//        return Provider.builder()
-//          .issuer("http://localhost:9000")
-//          .build();
-//    }
     
     @Bean
     TokenSettings tokenSettings() {
