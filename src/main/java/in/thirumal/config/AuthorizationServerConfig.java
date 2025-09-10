@@ -17,9 +17,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AnonymousConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
@@ -43,6 +45,7 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -60,6 +63,7 @@ import jakarta.servlet.http.HttpServletResponse;
  * @author Thirumal
  *
  */
+@EnableWebSecurity
 @Configuration(proxyBeanMethods = false)
 //@Import(OAuth2AuthorizationServerConfiguration.class)
 public class AuthorizationServerConfig {
@@ -97,30 +101,35 @@ public class AuthorizationServerConfig {
 	 * @return
 	 * @throws Exception
 	 */
-	@Bean
+	@Bean 
 	@Order(1)
-	SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
+			throws Exception {
+		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
+				OAuth2AuthorizationServerConfigurer.authorizationServer();
 
-		 // Only match authorization server endpoints
-	    http.securityMatcher("/oauth2/**", "/.well-known/**");
+		http
+			.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
+			.with(authorizationServerConfigurer, (authorizationServer) ->
+				authorizationServer
+					.oidc(Customizer.withDefaults())	// Enable OpenID Connect 1.0
+			)
+			.authorizeHttpRequests((authorize) ->
+				authorize
+					.anyRequest().authenticated()
+			)
+			// Redirect to the login page when not authenticated from the
+			// authorization endpoint
+			.exceptionHandling((exceptions) -> exceptions
+				.defaultAuthenticationEntryPointFor(
+					new LoginUrlAuthenticationEntryPoint("/login"),
+					new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
+				)
+			);
 
-	    // Create a new OAuth2 Authorization Server configurer
-		var authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
-
-	    // Enable OpenID Connect 1.0
-	    authorizationServerConfigurer.oidc(Customizer.withDefaults());
-
-	    // Apply it to HttpSecurity
-	    http.apply(authorizationServerConfigurer);
-
-	    // Exception handling and redirect to login
-	    http.exceptionHandling(exceptions ->
-	            exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
-	    )
-	    .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
-
-	    return http.build();
+		return http.build();
 	}
+
 
 	
 	/**
@@ -139,7 +148,7 @@ public class AuthorizationServerConfig {
 			.requestMatchers("/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico", "/actuator/**").permitAll()
 			.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
 			.requestMatchers(HttpMethod.POST, "/login").permitAll() // allow form POST
-			.requestMatchers("/error").permitAll()   // allow error page
+			//.requestMatchers("/error").permitAll()   // allow error page
 			.requestMatchers("/user/**")//.hasAuthority("ADMIN")
 			//.requestMatchers("/user/**").hasRole("ADMIN")
 			
