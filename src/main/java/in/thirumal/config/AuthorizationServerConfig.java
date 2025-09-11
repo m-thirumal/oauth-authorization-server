@@ -103,30 +103,27 @@ public class AuthorizationServerConfig {
 	 */
 	@Bean 
 	@Order(1)
-	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
+	SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
 			throws Exception {
 		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer =
 				OAuth2AuthorizationServerConfigurer.authorizationServer();
 
 		http
 			.securityMatcher(authorizationServerConfigurer.getEndpointsMatcher())
-			.with(authorizationServerConfigurer, (authorizationServer) ->
-				authorizationServer
+			.with(authorizationServerConfigurer, authorizationServer -> authorizationServer
 					.oidc(Customizer.withDefaults())	// Enable OpenID Connect 1.0
 			)
-			.authorizeHttpRequests((authorize) ->
-				authorize
-					.anyRequest().authenticated()
+			.authorizeHttpRequests(authorize ->
+				authorize.anyRequest().authenticated()
 			)
 			// Redirect to the login page when not authenticated from the
 			// authorization endpoint
-			.exceptionHandling((exceptions) -> exceptions
+			.exceptionHandling(exceptions -> exceptions
 				.defaultAuthenticationEntryPointFor(
 					new LoginUrlAuthenticationEntryPoint("/login"),
 					new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
 				)
 			);
-
 		return http.build();
 	}
 
@@ -145,7 +142,15 @@ public class AuthorizationServerConfig {
 		http.anonymous(AnonymousConfigurer::disable);
 		http.cors(CorsConfigurer::disable).authorizeHttpRequests(authorize ->
 			authorize
-			.requestMatchers("/client/**", "/swagger-ui/**", "/v3/api-docs/**", "/vendor/**", "/favicon.ico", "/actuator/**").permitAll()
+			.requestMatchers(
+			        "/client/**", 
+			        "/swagger-ui/**", 
+			        "/v3/api-docs/**", 
+			        "/vendor/**", 
+			        "/favicon.ico", 
+			        "/actuator/**",
+			        "/webjars/**"
+			 ).permitAll()
 			.requestMatchers(HttpMethod.POST, "/user/create-account").permitAll()
 			.requestMatchers(HttpMethod.POST, "/login").permitAll() // allow form POST
 			//.requestMatchers("/error").permitAll()   // allow error page
