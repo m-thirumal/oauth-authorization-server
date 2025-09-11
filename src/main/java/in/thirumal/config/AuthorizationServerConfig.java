@@ -23,7 +23,6 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AnonymousConfigurer;
-import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
@@ -123,7 +122,8 @@ public class AuthorizationServerConfig {
 					new LoginUrlAuthenticationEntryPoint("/login"),
 					new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
 				)
-			);
+			)
+			.cors(Customizer.withDefaults()); 
 		return http.build();
 	}
 
@@ -140,7 +140,7 @@ public class AuthorizationServerConfig {
 	SecurityFilterChain applicationSecurityFilterChain(HttpSecurity http)
 			throws Exception {
 		http.anonymous(AnonymousConfigurer::disable);
-		http.cors(CorsConfigurer::disable).authorizeHttpRequests(authorize ->
+		http.cors(Customizer.withDefaults()).authorizeHttpRequests(authorize ->
 			authorize
 			.requestMatchers(
 			        "/client/**", 
@@ -250,10 +250,11 @@ public class AuthorizationServerConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
     	CorsConfiguration corsConfiguration = new CorsConfiguration();
-    	corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+    	corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
     	corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS"));
     	corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
-    	//
+    	corsConfiguration.setAllowCredentials(true);  // important for cookies/session
+    	corsConfiguration.setMaxAge(3600L); // 1 hour
     	UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
     	urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
     	return urlBasedCorsConfigurationSource;
