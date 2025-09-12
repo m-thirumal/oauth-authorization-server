@@ -2,39 +2,21 @@
 
 `ClientId` and `ClientSecret` are credentials that the OAuth Client application will use to authenticate with the server. 
 
-There are two types of OAuth Clients: 
-
-* Public
-* Confidential
-
-By providing value for ClientSecret, we make this OAuth client a confidential client. 
-
-If the OAuth Client application is a Javascript application, then no need to configure the Client Secret value. Use PKCE instead.
-
-POST
-
-```bash
-{
-  "clientName": "client1",
-  "clientAuthenticationMethods": ["client_secret_basic", "client_secret_post"],
-  "authorizationGrantTypes": ["refresh_token"],
-  "redirectUris": ["http://127.0.0.1:8000/authorized","http://127.0.0.1:8000/login/oauth2/code/users-client-oidc"],
-  "scopes": ["openid","profile"],
-  "clientSettings": {
-    "settings": {
-      "additionalProp1": {},
-      "additionalProp2": {},
-      "additionalProp3": {}
-    },
-    "requireProofKey": true,
-    "jwkSetUrl": "string",
-    "requireAuthorizationConsent": true,
-    "tokenEndpointAuthenticationSigningAlgorithm": {
-      "name": "string"
-    }
-  },
-  "tokenSettings": null
-}
+| Type of Client                                   | Grant / Flow Type                            | Represents                        | When to Use                                                                                                 |
+| ------------------------------------------------ | -------------------------------------------- | --------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| SPA (Single Page App, public)                | Authorization Code + PKCE                | User                          | Browser-based apps where code runs client-side (React, Angular, Vue). Secure since no client secret needed. |
+| Mobile App (public)                          | Authorization Code + PKCE                | User                          | Native iOS / Android apps. Same reasons as SPA, PKCE ensures security.                                      |
+| SSR Web App (Confidential)                   | Authorization Code (with secret or PKCE) | User                          | Web apps that render on the server and need to know which user is logged in (e.g., dashboards, portals).    |
+| SSR Web App (Confidential)                   | Client Credentials                       | Client (App itself)           | Server-side apps making machine-to-machine API calls, cron jobs, background tasks. No user involved.        |
+| Backend Service / API Gateway (Confidential) | Client Credentials                       | Client                        | Service-to-service communication (e.g., API Gateway → Microservice).                                        |
+| IoT / Smart TV / Console App (Public)        | Device Code Flow                         | User                          | Devices with limited input (TVs, IoT). User logs in on a separate browser/device.                           |
+| Legacy Apps                                  | Password Grant ❌ (Deprecated)            | User                          | Directly exchanging username/password. Insecure — avoid.                                                    |
+| Any Client                                   | Refresh Token Flow (extension)           | Same as original (User or Client) | Extend sessions without re-login. Typically combined with Authorization Code or Device Code.                |
 
 
-```
+![Client Types](img/client_types.png)
+
+| Clien type         | Github repository for the Demo or to  Implemented                                  |
+|--------------------|------------------------------------------------------------------------------------|
+| PKCE               | [UI demo for authorization service](https://github.com/m-thirumal/auth-service-ui) |
+| Client Credentials | |
